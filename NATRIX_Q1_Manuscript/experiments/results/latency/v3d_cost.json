@@ -1,0 +1,90 @@
+{
+  "protocol": "timeit min of 5 repeats; per-call CPU cost",
+  "budget_ms": 0.15,
+  "worst_case_8kib": {
+    "per_feature_max_ms": {
+      "max_value_digit_ratio": 0.6947150000087277,
+      "max_value_uppercase_ratio": 0.5936300000030315,
+      "max_value_entropy": 2.0791150000150083,
+      "max_value_hex_ratio": 0.37276000000474596,
+      "max_value_keyword_score": 1.2345099999947706,
+      "path_special_char_ratio": 0.5171450000034383,
+      "path_digit_ratio": 0.5373250000047847,
+      "path_uppercase_ratio": 1.2177900000096997,
+      "path_keyword_score": 1.284235000002809
+    },
+    "note": "tail stress test; not the admission measurement"
+  },
+  "real_traffic": {
+    "sets": {
+      "all_9": {
+        "n_requests": 200,
+        "p50_ms": 0.14886250000245127,
+        "p95_ms": 0.38121945000239055,
+        "max_ms": 0.4646580000007816,
+        "within_budget": false
+      },
+      "value_5": {
+        "n_requests": 200,
+        "p50_ms": 0.12211649999926522,
+        "p95_ms": 0.3495909500004472,
+        "max_ms": 0.4663590000018303,
+        "within_budget": false
+      },
+      "path_4": {
+        "n_requests": 200,
+        "p50_ms": 0.04832150000083857,
+        "p95_ms": 0.08464450000383295,
+        "max_ms": 0.10592300000098476,
+        "within_budget": true
+      }
+    },
+    "per_feature": {
+      "max_value_digit_ratio": {
+        "p50_ms": 0.03583250000019689,
+        "p95_ms": 0.10096099999805119,
+        "within_budget": true
+      },
+      "max_value_uppercase_ratio": {
+        "p50_ms": 0.03719599999840284,
+        "p95_ms": 0.09585850000007665,
+        "within_budget": true
+      },
+      "max_value_entropy": {
+        "p50_ms": 0.06385250000221276,
+        "p95_ms": 0.18669755000041732,
+        "within_budget": false
+      },
+      "max_value_hex_ratio": {
+        "p50_ms": 0.03556099999741491,
+        "p95_ms": 0.08620885000277666,
+        "within_budget": true
+      },
+      "max_value_keyword_score": {
+        "p50_ms": 0.04390300000068237,
+        "p95_ms": 0.1345423000013852,
+        "within_budget": true
+      },
+      "path_special_char_ratio": {
+        "p50_ms": 0.028957500001070002,
+        "p95_ms": 0.06732480000187023,
+        "within_budget": true
+      },
+      "path_digit_ratio": {
+        "p50_ms": 0.02855350000118051,
+        "p95_ms": 0.06555960000173398,
+        "within_budget": true
+      },
+      "path_uppercase_ratio": {
+        "p50_ms": 0.028447000001960987,
+        "p95_ms": 0.06893585000170786,
+        "within_budget": true
+      },
+      "path_keyword_score": {
+        "p50_ms": 0.03361349999977392,
+        "p95_ms": 0.0706590999977834,
+        "within_budget": true
+      }
+    }
+  }
+}

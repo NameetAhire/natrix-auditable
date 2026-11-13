@@ -1,0 +1,188 @@
+{
+  "corpus": "wcp",
+  "subset": "path == '/'",
+  "n": 7152,
+  "labels": {
+    "clean": 170,
+    "attack": 6982
+  },
+  "metrics": [
+    {
+      "accuracy": 0.9965044742729307,
+      "fpr": 0.0,
+      "fnr": 0.003580635920939559,
+      "precision": 1.0,
+      "recall": 0.9964193640790604,
+      "f1": 0.9982064710524428,
+      "tp": 6957,
+      "tn": 170,
+      "fp": 0,
+      "fn": 25,
+      "fpr_ci95": [
+        0.0,
+        0.022098277972591136
+      ],
+      "detector": "natrix_v3",
+      "policy": "threshold_0.5",
+      "threshold": NaN
+    },
+    {
+      "accuracy": 0.9987416107382551,
+      "fpr": 0.03529411764705882,
+      "fnr": 0.00042967631051274706,
+      "precision": 0.9991410164638511,
+      "recall": 0.9995703236894873,
+      "f1": 0.9993556239707881,
+      "tp": 6979,
+      "tn": 164,
+      "fp": 6,
+      "fn": 3,
+      "fpr_ci95": [
+        0.016273926504342204,
+        0.0748527083172425
+      ],
+      "detector": "natrix_v3",
+      "policy": "fpr2_oracle",
+      "threshold": 0.02
+    },
+    {
+      "accuracy": 0.9991610738255033,
+      "fpr": 0.0,
+      "fnr": 0.0008593526210254941,
+      "precision": 1.0,
+      "recall": 0.9991406473789745,
+      "f1": 0.9995701389883936,
+      "tp": 6976,
+      "tn": 170,
+      "fp": 0,
+      "fn": 6,
+      "fpr_ci95": [
+        0.0,
+        0.022098277972591136
+      ],
+      "detector": "lexical_full",
+      "policy": "threshold_0.5",
+      "threshold": NaN
+    },
+    {
+      "accuracy": 0.9995805369127517,
+      "fpr": 0.0,
+      "fnr": 0.00042967631051274706,
+      "precision": 1.0,
+      "recall": 0.9995703236894873,
+      "f1": 0.9997851156793927,
+      "tp": 6979,
+      "tn": 170,
+      "fp": 0,
+      "fn": 3,
+      "fpr_ci95": [
+        0.0,
+        0.022098277972591136
+      ],
+      "detector": "lexical_full",
+      "policy": "fpr2_oracle",
+      "threshold": 0.09
+    },
+    {
+      "accuracy": 0.9988814317673378,
+      "fpr": 0.0,
+      "fnr": 0.0011458034947006588,
+      "precision": 1.0,
+      "recall": 0.9988541965052994,
+      "f1": 0.9994267698480941,
+      "tp": 6974,
+      "tn": 170,
+      "fp": 0,
+      "fn": 8,
+      "fpr_ci95": [
+        0.0,
+        0.022098277972591136
+      ],
+      "detector": "lexical_payload",
+      "policy": "threshold_0.5",
+      "threshold": NaN
+    },
+    {
+      "accuracy": 0.9994407158836689,
+      "fpr": 0.011764705882352941,
+      "fnr": 0.0002864508736751647,
+      "precision": 0.9997135491263248,
+      "recall": 0.9997135491263248,
+      "f1": 0.9997135491263248,
+      "tp": 6980,
+      "tn": 168,
+      "fp": 2,
+      "fn": 2,
+      "fpr_ci95": [
+        0.003232190436117468,
+        0.04187553981947152
+      ],
+      "detector": "lexical_payload",
+      "policy": "fpr2_oracle",
+      "threshold": 0.04
+    },
+    {
+      "accuracy": 0.9762304250559284,
+      "fpr": 1.0,
+      "fnr": 0.0,
+      "precision": 0.9762304250559284,
+      "recall": 1.0,
+      "f1": 0.9879722654591765,
+      "tp": 6982,
+      "tn": 0,
+      "fp": 170,
+      "fn": 0,
+      "fpr_ci95": [
+        0.9779017220274089,
+        1.0
+      ],
+      "detector": "lexical_endpoint",
+      "policy": "threshold_0.5",
+      "threshold": NaN
+    },
+    {
+      "accuracy": 0.02376957494407159,
+      "fpr": 0.0,
+      "fnr": 1.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "tn": 170,
+      "fp": 0,
+      "fn": 6982,
+      "fpr_ci95": [
+        0.0,
+        0.022098277972591136
+      ],
+      "detector": "lexical_endpoint",
+      "policy": "fpr2_oracle",
+      "threshold": 0.99
+    },
+    {
+      "accuracy": 0.8849272930648769,
+      "fpr": 0.2411764705882353,
+      "fnr": 0.11200229160698941,
+      "precision": 0.9934305399775677,
+      "recall": 0.8879977083930106,
+      "f1": 0.9377599636996142,
+      "tp": 6200,
+      "tn": 129,
+      "fp": 41,
+      "fn": 782,
+      "fpr_ci95": [
+        0.18304520214956815,
+        0.310746847624479
+      ],
+      "detector": "crs_pl1",
+      "policy": "frozen_decisions_only",
+      "threshold": NaN
+    }
+  ],
+  "notes": [
+    "All WCP malicious rows in the full corpus share path '/', so the random-split result is endpoint-confounded.",
+    "Path is constant in this subset; separation comes from method/query/body/headers.",
+    "The clean subset is small, so FPR has a wide Wilson interval.",
+    "Oracle FPR2 thresholds are upper bounds, not deployable policies."
+  ]
+}

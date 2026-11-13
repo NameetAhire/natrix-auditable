@@ -1,0 +1,124 @@
+{
+  "corpus": "csic",
+  "protocol": "P2-path-only",
+  "n": 34593,
+  "path_grouping": {
+    "n_rows": 34593,
+    "n_groups": 1648,
+    "median_group_size": 1.0,
+    "p95_group_size": 1.0,
+    "max_group_size": 3364,
+    "n_mixed_groups": 16,
+    "pct_mixed_groups": 0.9708737864077669,
+    "pct_rows_in_mixed_groups": 94.53357615702599
+  },
+  "endpoint_grouping": {
+    "n_rows": 34593,
+    "n_groups": 1734,
+    "median_group_size": 1.0,
+    "p95_group_size": 30.0,
+    "max_group_size": 2923,
+    "n_mixed_groups": 16,
+    "pct_mixed_groups": 0.922722029988466,
+    "pct_rows_in_mixed_groups": 81.74486167721794
+  },
+  "train_test_path_overlap": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "detectors": [
+    {
+      "view": "natrix",
+      "metrics": {
+        "accuracy": 0.7372300754487903,
+        "fpr": 0.27698497854077253,
+        "fnr": 0.2461605967529618,
+        "precision": 0.6996334865320845,
+        "recall": 0.7538394032470381,
+        "f1": 0.7257256653189307,
+        "tp": 12026,
+        "tn": 13477,
+        "fp": 5163,
+        "fn": 3927,
+        "threshold_mean": 0.9680000000000002,
+        "thresholds": [
+          0.88,
+          0.99,
+          0.99,
+          0.99,
+          0.99
+        ]
+      }
+    },
+    {
+      "view": "lexical_full",
+      "metrics": {
+        "accuracy": 0.5723701326858035,
+        "fpr": 0.42956008583690986,
+        "fnr": 0.425374537704507,
+        "precision": 0.5337719809013626,
+        "recall": 0.574625462295493,
+        "f1": 0.5534458296857547,
+        "tp": 9167,
+        "tn": 10633,
+        "fp": 8007,
+        "fn": 6786,
+        "threshold_mean": 0.85,
+        "thresholds": [
+          0.29,
+          0.99,
+          0.99,
+          0.99,
+          0.99
+        ]
+      }
+    },
+    {
+      "view": "lexical_payload",
+      "metrics": {
+        "accuracy": 0.5627439077269968,
+        "fpr": 0.42956008583690986,
+        "fnr": 0.44624835454146555,
+        "precision": 0.5245531738020307,
+        "recall": 0.5537516454585344,
+        "f1": 0.5387570897115326,
+        "tp": 8834,
+        "tn": 10633,
+        "fp": 8007,
+        "fn": 7119,
+        "threshold_mean": 0.8480000000000001,
+        "thresholds": [
+          0.28,
+          0.99,
+          0.99,
+          0.99,
+          0.99
+        ]
+      }
+    }
+  ],
+  "split_quality": {
+    "test_sizes": [
+      14087,
+      668,
+      9933,
+      6775,
+      3130
+    ],
+    "test_attack_prevalence": [
+      0.4316,
+      0.982,
+      0.4654,
+      0.4245,
+      0.5489
+    ],
+    "max_min_test_size_ratio": 21.088,
+    "prevalence_range": 0.5575,
+    "balanced": false
+  },
+  "ranking_identifiable": false,
+  "note": "The path-only grouping is degenerate on this corpus: a small number of normalized paths carry most requests, so a 5-fold group-disjoint split cannot balance the folds. The detector numbers are reported for completeness but are not used to rank detectors."
+}

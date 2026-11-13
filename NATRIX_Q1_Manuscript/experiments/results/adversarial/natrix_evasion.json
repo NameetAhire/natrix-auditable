@@ -1,0 +1,72 @@
+{
+  "corpus": "CSIC 2010",
+  "attacks": 15953,
+  "mutated": 14350,
+  "coverage": 0.8995173321632295,
+  "operators": [
+    "case",
+    "sql_comment",
+    "percent_encode",
+    "double_encode",
+    "plus_space",
+    "traversal_encode",
+    "dilution"
+  ],
+  "budget": 3,
+  "threshold_policy": "leave-one-fold-out on original OOF, FPR<=2%",
+  "thresholds": [
+    0.51,
+    0.51,
+    0.51,
+    0.51,
+    0.51
+  ],
+  "natrix": {
+    "recall_original": 0.9260327211182849,
+    "recall_mutated": 0.8247351595311226,
+    "delta": -0.1012975615871623,
+    "originally_blocked": 14773,
+    "evaded": 2639,
+    "evasion_rate_among_blocked": 0.1786367020916537,
+    "rescue": 1023
+  },
+  "per_operator": [
+    {
+      "operator": "case",
+      "n": 621,
+      "recall_original": 0.9790660225442834,
+      "recall_mutated": 0.9726247987117552,
+      "delta": -0.006441223832528209,
+      "evaded": 16
+    },
+    {
+      "operator": "sql_comment",
+      "n": 72,
+      "recall_original": 1.0,
+      "recall_mutated": 1.0,
+      "delta": 0.0,
+      "evaded": 0
+    },
+    {
+      "operator": "double_encode",
+      "n": 12602,
+      "recall_original": 0.9212823361371211,
+      "recall_mutated": 0.8927154419933344,
+      "delta": -0.02856689414378666,
+      "evaded": 1325
+    },
+    {
+      "operator": "dilution",
+      "n": 14338,
+      "recall_original": 0.9181894266982843,
+      "recall_mutated": 0.8054819361138235,
+      "delta": -0.11270749058446083,
+      "evaded": 2639
+    }
+  ],
+  "notes": [
+    "Mutations are deterministic and bounded; this is not an adversarial search.",
+    "Per-operator results overlap because a payload may receive up to three operators.",
+    "A mutated payload is not guaranteed to remain exploitable; the test measures detector stability under common transformations."
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "base_spec": "artifacts\\formal\\Cppp.tla",
+  "config": "artifacts\\formal\\Cppp_small.cfg",
+  "java": "tools\\jre17\\jdk-17.0.20.1+1-jre\\bin\\java.exe",
+  "mutants": [
+    {
+      "mutant": "no_quorum",
+      "expected_invariant": "NoPromotionWithoutQuorum",
+      "killed": true,
+      "violated": [
+        "NoPromotionWithoutQuorum"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    },
+    {
+      "mutant": "no_canary",
+      "expected_invariant": "NoPromotionWithoutCanary",
+      "killed": true,
+      "violated": [
+        "NoPromotionWithoutCanary"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    },
+    {
+      "mutant": "no_trust",
+      "expected_invariant": "NoPromotionWithoutTrust",
+      "killed": true,
+      "violated": [
+        "NoPromotionWithoutTrust"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    },
+    {
+      "mutant": "no_audit",
+      "expected_invariant": "ActiveImpliesAudited",
+      "killed": true,
+      "violated": [
+        "ActiveImpliesAudited"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    },
+    {
+      "mutant": "direct_promote",
+      "expected_invariant": "NoDirectPromotion",
+      "killed": true,
+      "violated": [
+        "NoDirectPromotion"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    },
+    {
+      "mutant": "retired_active",
+      "expected_invariant": "RetiredNotActive",
+      "killed": true,
+      "violated": [
+        "RetiredNotActive"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    }
+  ],
+  "killed": 6,
+  "total": 6,
+  "all_expected": true
+}

@@ -1,0 +1,40 @@
+{
+  "gate_joblib": "Ai-Agent\\models\\csic_binary_22d\\threat_classifier.joblib",
+  "gate_onnx": "artifacts\\models\\gate_22d.onnx",
+  "threat_joblib": "Ai-Agent\\models\\v2.0\\threat_classifier.joblib",
+  "threat_onnx": "artifacts\\models\\threat_16d.onnx",
+  "records_checked": 79593,
+  "gate_max_abs_probability_diff": 1.7881393432617188e-07,
+  "gate_label_disagreements": 3,
+  "gate_non_tie_disagreements": 0,
+  "gate_per_corpus": {
+    "csic": {
+      "records": 34593,
+      "max_abs_diff": 1.7881393432617188e-07,
+      "label_disagreements": 0,
+      "non_tie_disagreements": 0
+    },
+    "srbh": {
+      "records": 20000,
+      "max_abs_diff": 1.7881393432617188e-07,
+      "label_disagreements": 0,
+      "non_tie_disagreements": 0
+    },
+    "wcp": {
+      "records": 20000,
+      "max_abs_diff": 1.7881393432617188e-07,
+      "label_disagreements": 3,
+      "non_tie_disagreements": 0
+    },
+    "random": {
+      "records": 5000,
+      "max_abs_diff": 1.7881393432617188e-07,
+      "label_disagreements": 0,
+      "non_tie_disagreements": 0
+    }
+  },
+  "threat_label_mismatches": 1022,
+  "threat_non_tie_mismatches": 0,
+  "threat_max_abs_probability_diff": 1.263618468749783e-07,
+  "pass": true
+}

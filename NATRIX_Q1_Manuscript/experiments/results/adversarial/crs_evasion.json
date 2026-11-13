@@ -1,0 +1,103 @@
+{
+  "corpus": "CSIC 2010",
+  "detector": "ModSecurity CRS 4.25.2 PL1",
+  "mutated_attacks": 15953,
+  "status_counts_clean": {
+    "200": 11672,
+    "403": 4281
+  },
+  "status_counts_mutated": {
+    "200": 11798,
+    "403": 4155
+  },
+  "primary": {
+    "treatment": "decisions_only",
+    "n": 15953,
+    "recall_original": 0.26835078041747634,
+    "recall_mutated": 0.2604525794521407,
+    "delta": -0.007898200965335667,
+    "originally_blocked": 4281,
+    "evaded": 126,
+    "evasion_rate_among_blocked": 0.02943237561317449,
+    "rescue": 0
+  },
+  "treatments": {
+    "all_non403_allow": {
+      "treatment": "all_non403_allow",
+      "n": 15953,
+      "recall_original": 0.26835078041747634,
+      "recall_mutated": 0.2604525794521407,
+      "delta": -0.007898200965335667,
+      "originally_blocked": 4281,
+      "evaded": 126,
+      "evasion_rate_among_blocked": 0.02943237561317449,
+      "rescue": 0
+    },
+    "decisions_only": {
+      "treatment": "decisions_only",
+      "n": 15953,
+      "recall_original": 0.26835078041747634,
+      "recall_mutated": 0.2604525794521407,
+      "delta": -0.007898200965335667,
+      "originally_blocked": 4281,
+      "evaded": 126,
+      "evasion_rate_among_blocked": 0.02943237561317449,
+      "rescue": 0
+    },
+    "edge_reject_as_block": {
+      "treatment": "edge_reject_as_block",
+      "n": 15953,
+      "recall_original": 0.26835078041747634,
+      "recall_mutated": 0.2604525794521407,
+      "delta": -0.007898200965335667,
+      "originally_blocked": 4281,
+      "evaded": 126,
+      "evasion_rate_among_blocked": 0.02943237561317449,
+      "rescue": 0
+    }
+  },
+  "per_operator": [
+    {
+      "operator": "case",
+      "n": 621,
+      "recall_original": 0.7938808373590982,
+      "recall_mutated": 0.748792270531401,
+      "delta": -0.04508856682769724,
+      "evaded": 28,
+      "evasion_rate_among_blocked": 0.056795131845841784
+    },
+    {
+      "operator": "dilution",
+      "n": 14338,
+      "recall_original": 0.2205328497698424,
+      "recall_mutated": 0.21209373692286232,
+      "delta": -0.008439112846980068,
+      "evaded": 121,
+      "evasion_rate_among_blocked": 0.038266919671094246
+    },
+    {
+      "operator": "double_encode",
+      "n": 12602,
+      "recall_original": 0.2423424853197905,
+      "recall_mutated": 0.2341691794953182,
+      "delta": -0.008173305824472288,
+      "evaded": 103,
+      "evasion_rate_among_blocked": 0.03372626064178127
+    },
+    {
+      "operator": "sql_comment",
+      "n": 72,
+      "recall_original": 0.6111111111111112,
+      "recall_mutated": 0.0,
+      "delta": -0.6111111111111112,
+      "evaded": 44,
+      "evasion_rate_among_blocked": 1.0
+    }
+  ],
+  "notes": [
+    "Mutations are deterministic and bounded, not an adversarial search.",
+    "A mutated payload is not guaranteed to remain exploitable.",
+    "Operator groups overlap; a payload may receive up to three operators.",
+    "Primary treatment keeps only rows where both clean and mutated requests reached ModSecurity."
+  ]
+}

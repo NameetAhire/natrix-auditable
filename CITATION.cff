@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite the manuscript and the repository."
+title: "NATRIX: An Auditable Feature-Admission and Promotion Protocol for Inline HTTP Attack Detection"
+abstract: >-
+  Reproducibility package for an evaluation of NATRIX, a role-based inline HTTP
+  attack-detection architecture. The package contains the feature-admission
+  gates, the CPPP promotion protocol and TLA+ model, the P1/P2 evaluation
+  protocol, lexical and character-CNN baselines, CRS replay results, the v3-D
+  positive control, and the manuscript build pipeline. All reported results are
+  from public labelled HTTP corpora; no production or shadow-mode traffic is
+  included.
+type: software
+authors:
+  - family-names: Ahire
+    given-names: Nameet Sudam
+    affiliation: "Department of Computer Engineering, Sardar Patel Institute of Technology, Mumbai 400058, India"
+  - family-names: Ambawade
+    given-names: D. D.
+    affiliation: "Department of Computer Engineering, Sardar Patel Institute of Technology, Mumbai 400058, India"
+version: "1.0.0"
+date-released: "2026-11-12"
+keywords:
+  - web application firewall
+  - HTTP attack detection
+  - feature selection
+  - feature admission
+  - TLA+
+  - formal verification
+  - endpoint-disjoint evaluation
+  - reproducibility
+repository-code: "https://github.com/NameetAhire/natrix-auditable"
+url: "https://github.com/NameetAhire/natrix-auditable"
+license: "MIT"
+license-url: "https://github.com/NameetAhire/natrix-auditable/blob/main/LICENSE.md"

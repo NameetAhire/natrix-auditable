@@ -1,0 +1,98 @@
+{
+  "sidecar": {
+    "host": "127.0.0.1",
+    "port": 7951,
+    "fsync": false,
+    "quorum": 2,
+    "tau": 2,
+    "max_trust": 4,
+    "agents": [
+      "agent-a",
+      "agent-b",
+      "agent-c",
+      "policy"
+    ]
+  },
+  "cycles": 100,
+  "parallel_rules": 32,
+  "concurrent_validation_seconds": 0.5921867000001839,
+  "latency": {
+    "validate": {
+      "n": 264,
+      "p50_ms": 2.7049,
+      "p95_ms": 42.699115,
+      "p99_ms": 526.099322,
+      "mean_ms": 22.965751515151517,
+      "max_ms": 529.7258
+    },
+    "canary_start": {
+      "n": 100,
+      "p50_ms": 2.45915,
+      "p95_ms": 3.5591349999999995,
+      "p99_ms": 4.311936000000004,
+      "mean_ms": 2.542076,
+      "max_ms": 5.0184
+    },
+    "canary_pass": {
+      "n": 100,
+      "p50_ms": 2.5142,
+      "p95_ms": 3.5032649999999994,
+      "p99_ms": 4.033944000000002,
+      "mean_ms": 2.503544,
+      "max_ms": 4.4145
+    },
+    "promote": {
+      "n": 100,
+      "p50_ms": 2.4159,
+      "p95_ms": 3.625985,
+      "p99_ms": 3.7836480000000017,
+      "mean_ms": 2.481923,
+      "max_ms": 4.1646
+    },
+    "retire": {
+      "n": 100,
+      "p50_ms": 2.28295,
+      "p95_ms": 3.326515,
+      "p99_ms": 3.467724000000001,
+      "mean_ms": 2.38767,
+      "max_ms": 3.6879
+    },
+    "tick": {
+      "n": 4,
+      "p50_ms": 2.2905,
+      "p95_ms": 3.4488399999999997,
+      "p99_ms": 3.5921679999999996,
+      "mean_ms": 2.51605,
+      "max_ms": 3.628
+    }
+  },
+  "cycle_latency": {
+    "n": 100,
+    "p50_ms": 14.1272,
+    "p95_ms": 18.76791,
+    "p99_ms": 20.21715400000001,
+    "mean_ms": 14.457129,
+    "max_ms": 22.4896
+  },
+  "completeness": {
+    "chain_ok": true,
+    "records": 700,
+    "seq_expected": 700,
+    "count_errors": {},
+    "promotions": 108,
+    "retirements": 108,
+    "every_promotion_retired": true,
+    "auto_retired": 8,
+    "no_active_below_tau": true,
+    "invariants": {
+      "ActiveImpliesAudited": true,
+      "NoPromotionWithoutCanary": true,
+      "NoPromotionWithoutQuorum": true,
+      "NoPromotionWithoutTrust": true,
+      "RetiredNotActive": true,
+      "TrustBounded": true
+    }
+  },
+  "audit_head": "59fa0d35d4e3a10e7d962337c84573f0b7833a5b69158801ab99abfcb46f2edc",
+  "audit_path": "D:\\Mtech\\MAJOR_PROJECT\\NATRIX_Q1_Manuscript\\experiments\\results\\cppp\\audit.jsonl"
+}

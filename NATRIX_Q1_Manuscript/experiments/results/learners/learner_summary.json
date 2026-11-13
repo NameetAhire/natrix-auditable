@@ -1,0 +1,219 @@
+{
+  "seeds": [
+    42,
+    123,
+    2026
+  ],
+  "protocol": "outer 5-fold x 3 seeds; inner 5-fold threshold; test scored once",
+  "learners": {
+    "hgb": "HistGradientBoostingClassifier(max_iter=300, lr=0.08, leaves=31, l2=1.0)",
+    "logreg": "StandardScaler + LogisticRegression(C=1.0, lbfgs, max_iter=3000)"
+  },
+  "v4_definition": {
+    "v3_features": [
+      "payload_length",
+      "shannon_entropy",
+      "special_char_ratio",
+      "digit_ratio",
+      "uppercase_ratio",
+      "token_count",
+      "sql_keyword_score",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "hex_encoding_ratio",
+      "null_byte_score",
+      "param_pollution_count",
+      "html_tag_density",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "quote_count",
+      "angle_count",
+      "double_escape_count",
+      "max_value_special_ratio",
+      "max_value_length"
+    ],
+    "retained_core": [
+      "uppercase_ratio",
+      "hex_encoding_ratio",
+      "digit_ratio",
+      "payload_length",
+      "max_value_special_ratio",
+      "shannon_entropy",
+      "special_char_ratio",
+      "sql_keyword_score",
+      "max_value_length",
+      "double_escape_count",
+      "quote_count",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "null_byte_score",
+      "angle_count",
+      "token_count"
+    ],
+    "accepted_candidates": [],
+    "v4_features": [
+      "uppercase_ratio",
+      "hex_encoding_ratio",
+      "digit_ratio",
+      "payload_length",
+      "max_value_special_ratio",
+      "shannon_entropy",
+      "special_char_ratio",
+      "sql_keyword_score",
+      "max_value_length",
+      "double_escape_count",
+      "quote_count",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "null_byte_score",
+      "angle_count",
+      "token_count"
+    ],
+    "n_features": 20,
+    "screening": {
+      "outer_folds": 5,
+      "inner_folds": 3,
+      "trees": 100,
+      "rule": "mean delta F1 > SE across outer folds and positive in >=4/5 folds"
+    },
+    "candidate_pool_decision": {
+      "adopted": false,
+      "reason": "candidate extraction exceeds the pre-registered 0.15 ms worst-case budget; the pool is rejected regardless of accuracy",
+      "worst_case_added_p95_ms": 3.799159999999999,
+      "worst_case_combined_p95_ms": 10.91818,
+      "budget_ms": 0.15,
+      "screening_accepted_raw": [
+        "url_depth",
+        "semicolon_count",
+        "backslash_count",
+        "brace_count",
+        "dollar_count",
+        "longest_token_length",
+        "nonascii_ratio",
+        "max_param_name_entropy",
+        "param_name_digit_ratio",
+        "empty_value_ratio",
+        "ldap_filter_score",
+        "crlf_sequence_count"
+      ],
+      "screening_rejected": [
+        "query_param_count",
+        "body_param_count",
+        "body_to_url_ratio",
+        "percent_ratio",
+        "punctuation_diversity",
+        "duplicate_value_count",
+        "xpath_score",
+        "ssi_directive_score",
+        "nosql_operator_score",
+        "template_expression_score",
+        "log4shell_score",
+        "absolute_uri_in_target"
+      ],
+      "degenerate_on_csic": [
+        "backslash_count",
+        "brace_count",
+        "nonascii_ratio",
+        "ldap_filter_score",
+        "crlf_sequence_count"
+      ],
+      "note": "Five raw-accepted candidates are exactly constant on CSIC; their +0.046 pp screening delta is an artefact of the random feature order in the forest, not signal. The cost budget is the binding rejection criterion, and the degenerate candidates are recorded so the screening table is not over-interpreted."
+    }
+  },
+  "per_learner": [
+    {
+      "learner": "hgb",
+      "features": "v3",
+      "policy": "f1",
+      "accuracy_mean": 0.9022730995673499,
+      "accuracy_std": 0.0026426864342762252
+    },
+    {
+      "learner": "hgb",
+      "features": "v3",
+      "policy": "fpr2",
+      "accuracy_mean": 0.8912400389288777,
+      "accuracy_std": 0.0003249157401802879
+    },
+    {
+      "learner": "hgb",
+      "features": "v4",
+      "policy": "f1",
+      "accuracy_mean": 0.9027645284691509,
+      "accuracy_std": 0.001794211774572202
+    },
+    {
+      "learner": "hgb",
+      "features": "v4",
+      "policy": "fpr2",
+      "accuracy_mean": 0.8912400389288777,
+      "accuracy_std": 0.0003249157401802879
+    },
+    {
+      "learner": "logreg",
+      "features": "v3",
+      "policy": "f1",
+      "accuracy_mean": 0.754825157305428,
+      "accuracy_std": 0.0006282551696471657
+    },
+    {
+      "learner": "logreg",
+      "features": "v3",
+      "policy": "fpr2",
+      "accuracy_mean": 0.7644321105425953,
+      "accuracy_std": 0.00017583795942238966
+    },
+    {
+      "learner": "logreg",
+      "features": "v4",
+      "policy": "f1",
+      "accuracy_mean": 0.754825157305428,
+      "accuracy_std": 0.0006282551696471657
+    },
+    {
+      "learner": "logreg",
+      "features": "v4",
+      "policy": "fpr2",
+      "accuracy_mean": 0.7644321105425953,
+      "accuracy_std": 0.00017583795942238966
+    }
+  ],
+  "paired_v4_vs_v3_seed42_f1": [
+    {
+      "learner": "hgb",
+      "policy": "f1",
+      "delta_accuracy": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "mcnemar": {
+        "n_a_only": 0,
+        "n_b_only": 0,
+        "statistic": 0.0,
+        "p_value": 1.0
+      }
+    },
+    {
+      "learner": "logreg",
+      "policy": "f1",
+      "delta_accuracy": 0.0,
+      "ci_lo": 0.0,
+      "ci_hi": 0.0,
+      "mcnemar": {
+        "n_a_only": 0,
+        "n_b_only": 0,
+        "statistic": 0.0,
+        "p_value": 1.0
+      }
+    }
+  ]
+}

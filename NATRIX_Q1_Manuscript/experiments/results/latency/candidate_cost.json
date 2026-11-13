@@ -1,0 +1,1521 @@
+{
+  "protocol": "5 warmup batches + 60 timed batches of 10 calls; perf_counter_ns; per-call batch mean",
+  "python_version": "3.11.8 (tags/v3.11.8:db85d51, Feb  6 2024, 22:03:32) [MSC v.1937 64 bit (AMD64)]",
+  "per_payload": [
+    {
+      "payload": "worst_delimiters[0]",
+      "chars": 8192,
+      "v3_p50_ms": 4.654075,
+      "v3_p95_ms": 4.78352,
+      "candidates_p50_ms": 2.186605,
+      "candidates_p95_ms": 2.278464,
+      "combined_p50_ms": 6.935585,
+      "combined_p95_ms": 7.2648934999999994,
+      "added_p95_ms": 2.278464
+    },
+    {
+      "payload": "worst_long_run[0]",
+      "chars": 8192,
+      "v3_p50_ms": 0.766005,
+      "v3_p95_ms": 0.8336889999999998,
+      "candidates_p50_ms": 0.924005,
+      "candidates_p95_ms": 1.0103715,
+      "combined_p50_ms": 1.698565,
+      "combined_p95_ms": 1.8046915,
+      "added_p95_ms": 1.0103715
+    },
+    {
+      "payload": "worst_body[0]",
+      "chars": 5179,
+      "v3_p50_ms": 0.52722,
+      "v3_p95_ms": 0.5747995,
+      "candidates_p50_ms": 0.6208199999999999,
+      "candidates_p95_ms": 0.6613505,
+      "combined_p50_ms": 1.1451850000000001,
+      "combined_p95_ms": 1.2080625,
+      "added_p95_ms": 0.6613505
+    },
+    {
+      "payload": "typical[0]",
+      "chars": 46,
+      "v3_p50_ms": 0.04196,
+      "v3_p95_ms": 0.058040999999999995,
+      "candidates_p50_ms": 0.032275,
+      "candidates_p95_ms": 0.033565,
+      "combined_p50_ms": 0.07830500000000001,
+      "combined_p95_ms": 0.0837505,
+      "added_p95_ms": 0.033565
+    },
+    {
+      "payload": "typical[1]",
+      "chars": 34,
+      "v3_p50_ms": 0.038065,
+      "v3_p95_ms": 0.0432415,
+      "candidates_p50_ms": 0.031700000000000006,
+      "candidates_p95_ms": 0.0351125,
+      "combined_p50_ms": 0.07542000000000001,
+      "combined_p95_ms": 0.078371,
+      "added_p95_ms": 0.0351125
+    },
+    {
+      "payload": "typical[2]",
+      "chars": 41,
+      "v3_p50_ms": 0.04054,
+      "v3_p95_ms": 0.0630705,
+      "candidates_p50_ms": 0.030655,
+      "candidates_p95_ms": 0.033739,
+      "combined_p50_ms": 0.07552,
+      "combined_p95_ms": 0.09605449999999999,
+      "added_p95_ms": 0.033739
+    },
+    {
+      "payload": "typical[3]",
+      "chars": 34,
+      "v3_p50_ms": 0.035455,
+      "v3_p95_ms": 0.036933499999999994,
+      "candidates_p50_ms": 0.026225,
+      "candidates_p95_ms": 0.027853499999999996,
+      "combined_p50_ms": 0.066635,
+      "combined_p95_ms": 0.07368249999999998,
+      "added_p95_ms": 0.027853499999999996
+    },
+    {
+      "payload": "typical[4]",
+      "chars": 48,
+      "v3_p50_ms": 0.043410000000000004,
+      "v3_p95_ms": 0.0453425,
+      "candidates_p50_ms": 0.036165,
+      "candidates_p95_ms": 0.0380185,
+      "combined_p50_ms": 0.08465500000000001,
+      "combined_p95_ms": 0.08604550000000001,
+      "added_p95_ms": 0.0380185
+    }
+  ],
+  "per_candidate": [
+    {
+      "feature": "max_param_name_entropy",
+      "worst_p95_ms": 0.47954649999999993,
+      "typical_p95_ms": 0.0059605,
+      "within_budget": false,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.37527,
+          "p95_ms": 0.47954649999999993
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.0005,
+          "p95_ms": 0.00052
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00049,
+          "p95_ms": 0.00052
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.0056099999999999995,
+          "p95_ms": 0.0059605
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.005865,
+          "p95_ms": 0.006444999999999999
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00451,
+          "p95_ms": 0.004691
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.0033,
+          "p95_ms": 0.003373499999999999
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.007285,
+          "p95_ms": 0.007651
+        }
+      ]
+    },
+    {
+      "feature": "punctuation_diversity",
+      "worst_p95_ms": 0.47194400000000003,
+      "typical_p95_ms": 0.0019,
+      "within_budget": false,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.425225,
+          "p95_ms": 0.47194400000000003
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.21822999999999998,
+          "p95_ms": 0.2612615
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.183025,
+          "p95_ms": 0.1890705
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00204,
+          "p95_ms": 0.0022105000000000002
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.0015699999999999998,
+          "p95_ms": 0.0016164999999999994
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.0018700000000000001,
+          "p95_ms": 0.0019
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00166,
+          "p95_ms": 0.0017100000000000001
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.002195,
+          "p95_ms": 0.0048805
+        }
+      ]
+    },
+    {
+      "feature": "longest_token_length",
+      "worst_p95_ms": 0.35054099999999994,
+      "typical_p95_ms": 0.0019099999999999998,
+      "within_budget": false,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.30923,
+          "p95_ms": 0.35054099999999994
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.33581,
+          "p95_ms": 0.34045699999999995
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.20035,
+          "p95_ms": 0.22095899999999996
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00209,
+          "p95_ms": 0.00211
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.0016099999999999999,
+          "p95_ms": 0.00177
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.0018700000000000001,
+          "p95_ms": 0.0019099999999999998
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00163,
+          "p95_ms": 0.001651
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00216,
+          "p95_ms": 0.00218
+        }
+      ]
+    },
+    {
+      "feature": "nonascii_ratio",
+      "worst_p95_ms": 0.2568635,
+      "typical_p95_ms": 0.0014939999999999997,
+      "within_budget": false,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.23122,
+          "p95_ms": 0.2568635
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.22682,
+          "p95_ms": 0.24791249999999998
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.14055499999999999,
+          "p95_ms": 0.15868149999999998
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.0016099999999999999,
+          "p95_ms": 0.00163
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00128,
+          "p95_ms": 0.0013105
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00148,
+          "p95_ms": 0.0014939999999999997
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00128,
+          "p95_ms": 0.0013325
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00166,
+          "p95_ms": 0.0017125
+        }
+      ]
+    },
+    {
+      "feature": "param_name_digit_ratio",
+      "worst_p95_ms": 0.11741799999999993,
+      "typical_p95_ms": 0.00184,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.09156500000000001,
+          "p95_ms": 0.11741799999999993
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00057,
+          "p95_ms": 0.0005805
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00057,
+          "p95_ms": 0.0005805
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.0018100000000000002,
+          "p95_ms": 0.00184
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.0019199999999999998,
+          "p95_ms": 0.0027410000000000004
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.0015400000000000001,
+          "p95_ms": 0.0016634999999999998
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00125,
+          "p95_ms": 0.001282
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00223,
+          "p95_ms": 0.0022574999999999995
+        }
+      ]
+    },
+    {
+      "feature": "ssi_directive_score",
+      "worst_p95_ms": 0.018156,
+      "typical_p95_ms": 0.0010659999999999997,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.006985,
+          "p95_ms": 0.0072925
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00996,
+          "p95_ms": 0.018156
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00456,
+          "p95_ms": 0.0048905
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.0011415
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00102,
+          "p95_ms": 0.0010405
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.0010500000000000002,
+          "p95_ms": 0.0010605
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00102,
+          "p95_ms": 0.0010659999999999997
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00106,
+          "p95_ms": 0.0010805
+        }
+      ]
+    },
+    {
+      "feature": "ldap_filter_score",
+      "worst_p95_ms": 0.013908999999999996,
+      "typical_p95_ms": 0.0011029999999999996,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00892,
+          "p95_ms": 0.0094685
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.012039999999999999,
+          "p95_ms": 0.013908999999999996
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00655,
+          "p95_ms": 0.006972499999999999
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00106,
+          "p95_ms": 0.001091
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.00116
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00106,
+          "p95_ms": 0.0011135
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.00106
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00106,
+          "p95_ms": 0.0011029999999999996
+        }
+      ]
+    },
+    {
+      "feature": "template_expression_score",
+      "worst_p95_ms": 0.0128045,
+      "typical_p95_ms": 0.0009609999999999998,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.012280000000000001,
+          "p95_ms": 0.0128045
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.006529999999999999,
+          "p95_ms": 0.0069619999999999994
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00605,
+          "p95_ms": 0.0063915
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.0009,
+          "p95_ms": 0.00121
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00088,
+          "p95_ms": 0.0009509999999999999
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00088,
+          "p95_ms": 0.0012629999999999998
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00088,
+          "p95_ms": 0.0009609999999999998
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00089,
+          "p95_ms": 0.0009
+        }
+      ]
+    },
+    {
+      "feature": "brace_count",
+      "worst_p95_ms": 0.012570000000000001,
+      "typical_p95_ms": 0.00067,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.01221,
+          "p95_ms": 0.012570000000000001
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00788,
+          "p95_ms": 0.008254
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00704,
+          "p95_ms": 0.007718999999999999
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00065,
+          "p95_ms": 0.0006939999999999997
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00066,
+          "p95_ms": 0.00067
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00066,
+          "p95_ms": 0.00067
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00066,
+          "p95_ms": 0.00067
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00069,
+          "p95_ms": 0.0007005
+        }
+      ]
+    },
+    {
+      "feature": "semicolon_count",
+      "worst_p95_ms": 0.011651,
+      "typical_p95_ms": 0.0003919999999999999,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.01129,
+          "p95_ms": 0.011651
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00446,
+          "p95_ms": 0.0047515
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.0031899999999999997,
+          "p95_ms": 0.0032274999999999986
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.0004105
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00037
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00045,
+          "p95_ms": 0.00054
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00035999999999999997
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.0003919999999999999
+        }
+      ]
+    },
+    {
+      "feature": "log4shell_score",
+      "worst_p95_ms": 0.0111535,
+      "typical_p95_ms": 0.00089,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.006750000000000001,
+          "p95_ms": 0.00733
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00872,
+          "p95_ms": 0.010163499999999999
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.0033799999999999998,
+          "p95_ms": 0.0111535
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00088,
+          "p95_ms": 0.00089
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.0008699999999999999,
+          "p95_ms": 0.00104
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00088,
+          "p95_ms": 0.00089
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00088,
+          "p95_ms": 0.00089
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.0008699999999999999,
+          "p95_ms": 0.0011834999999999999
+        }
+      ]
+    },
+    {
+      "feature": "xpath_score",
+      "worst_p95_ms": 0.011071,
+      "typical_p95_ms": 0.0010500000000000002,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00633,
+          "p95_ms": 0.0066805
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00941,
+          "p95_ms": 0.011071
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00507,
+          "p95_ms": 0.006595
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.0010500000000000002
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00099,
+          "p95_ms": 0.0010505000000000002
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.0010500000000000002
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.0010500000000000002
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.00107
+        }
+      ]
+    },
+    {
+      "feature": "nosql_operator_score",
+      "worst_p95_ms": 0.010864,
+      "typical_p95_ms": 0.0010815,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.010345,
+          "p95_ms": 0.010864
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00589,
+          "p95_ms": 0.007133
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00769,
+          "p95_ms": 0.0080515
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00107,
+          "p95_ms": 0.0010905
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00103,
+          "p95_ms": 0.0010500000000000002
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00106,
+          "p95_ms": 0.0013425
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00104,
+          "p95_ms": 0.0010705
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00106,
+          "p95_ms": 0.0010815
+        }
+      ]
+    },
+    {
+      "feature": "crlf_sequence_count",
+      "worst_p95_ms": 0.007812,
+      "typical_p95_ms": 0.0003805,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00475,
+          "p95_ms": 0.0049515
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00689,
+          "p95_ms": 0.007812
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00258,
+          "p95_ms": 0.0027994999999999986
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00038,
+          "p95_ms": 0.00039
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00037,
+          "p95_ms": 0.00038
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00038,
+          "p95_ms": 0.0003805
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00037,
+          "p95_ms": 0.00038
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00037,
+          "p95_ms": 0.00043099999999999996
+        }
+      ]
+    },
+    {
+      "feature": "query_param_count",
+      "worst_p95_ms": 0.0066820000000000004,
+      "typical_p95_ms": 0.00035999999999999997,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00635,
+          "p95_ms": 0.0066820000000000004
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00029,
+          "p95_ms": 0.00030000000000000003
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00029,
+          "p95_ms": 0.00030000000000000003
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.0003604999999999999
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00035999999999999997
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00035999999999999997
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00032,
+          "p95_ms": 0.00033
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00038,
+          "p95_ms": 0.00039
+        }
+      ]
+    },
+    {
+      "feature": "backslash_count",
+      "worst_p95_ms": 0.0061415,
+      "typical_p95_ms": 0.00037,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00524,
+          "p95_ms": 0.0061415
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.004455000000000001,
+          "p95_ms": 0.004487499999999999
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.0032099999999999997,
+          "p95_ms": 0.003211
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.00037
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.0003914999999999999
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.0003604999999999999
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.00037
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.00037049999999999995
+        }
+      ]
+    },
+    {
+      "feature": "dollar_count",
+      "worst_p95_ms": 0.0060515,
+      "typical_p95_ms": 0.00037,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00571,
+          "p95_ms": 0.0060515
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00395,
+          "p95_ms": 0.004021499999999999
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00352,
+          "p95_ms": 0.0035410000000000003
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.00037
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00041099999999999996
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00035999999999999997,
+          "p95_ms": 0.00037
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00035999999999999997
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00035,
+          "p95_ms": 0.00037
+        }
+      ]
+    },
+    {
+      "feature": "percent_ratio",
+      "worst_p95_ms": 0.0035905000000000004,
+      "typical_p95_ms": 0.00026,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.0034200000000000003,
+          "p95_ms": 0.0035905000000000004
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00229,
+          "p95_ms": 0.0023205
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00153,
+          "p95_ms": 0.00156
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00023999999999999998,
+          "p95_ms": 0.00027
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00023999999999999998,
+          "p95_ms": 0.00026
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00023999999999999998,
+          "p95_ms": 0.00026
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00023999999999999998,
+          "p95_ms": 0.00026
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00023999999999999998,
+          "p95_ms": 0.00026049999999999994
+        }
+      ]
+    },
+    {
+      "feature": "empty_value_ratio",
+      "worst_p95_ms": 0.0029755,
+      "typical_p95_ms": 0.00044,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00284,
+          "p95_ms": 0.0029755
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.000425,
+          "p95_ms": 0.00044
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.000425,
+          "p95_ms": 0.00044
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00041999999999999996,
+          "p95_ms": 0.00044
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00041000000000000005,
+          "p95_ms": 0.00043
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00044,
+          "p95_ms": 0.00046
+        }
+      ]
+    },
+    {
+      "feature": "absolute_uri_in_target",
+      "worst_p95_ms": 0.0026274999999999996,
+      "typical_p95_ms": 0.00018049999999999997,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00225,
+          "p95_ms": 0.0022805
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00222,
+          "p95_ms": 0.0026274999999999996
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00114,
+          "p95_ms": 0.0012705
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00017999999999999998
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00017999999999999998
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00018049999999999997
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00018049999999999997
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00019
+        }
+      ]
+    },
+    {
+      "feature": "url_depth",
+      "worst_p95_ms": 0.002461,
+      "typical_p95_ms": 0.00023999999999999998,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00032,
+          "p95_ms": 0.00035999999999999997
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00228,
+          "p95_ms": 0.002461
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00152,
+          "p95_ms": 0.00155
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00023,
+          "p95_ms": 0.00023999999999999998
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00022,
+          "p95_ms": 0.00029149999999999993
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00022,
+          "p95_ms": 0.00023999999999999998
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00023,
+          "p95_ms": 0.00025
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00020999999999999998,
+          "p95_ms": 0.00023
+        }
+      ]
+    },
+    {
+      "feature": "duplicate_value_count",
+      "worst_p95_ms": 0.00243,
+      "typical_p95_ms": 0.00032249999999999987,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00238,
+          "p95_ms": 0.00243
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00030000000000000003,
+          "p95_ms": 0.00032
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00030000000000000003,
+          "p95_ms": 0.0003624999999999998
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00030000000000000003,
+          "p95_ms": 0.00032249999999999987
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00029,
+          "p95_ms": 0.00030000000000000003
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00031,
+          "p95_ms": 0.00037049999999999995
+        }
+      ]
+    },
+    {
+      "feature": "body_to_url_ratio",
+      "worst_p95_ms": 0.00022099999999999995,
+      "typical_p95_ms": 0.00018049999999999997,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.00019,
+          "p95_ms": 0.00020999999999999998
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.00019,
+          "p95_ms": 0.00022099999999999995
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.00019,
+          "p95_ms": 0.00020049999999999997
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00018049999999999997
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00025
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00022,
+          "p95_ms": 0.00027
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00018049999999999997
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.00016999999999999999,
+          "p95_ms": 0.00017999999999999998
+        }
+      ]
+    },
+    {
+      "feature": "body_param_count",
+      "worst_p95_ms": 0.00011999999999999999,
+      "typical_p95_ms": 0.00011999999999999999,
+      "within_budget": true,
+      "measurements": [
+        {
+          "payload": "worst_delimiters[0]",
+          "chars": 8192,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "worst_long_run[0]",
+          "chars": 8192,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "worst_body[0]",
+          "chars": 5179,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "typical[0]",
+          "chars": 46,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "typical[1]",
+          "chars": 34,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00013
+        },
+        {
+          "payload": "typical[2]",
+          "chars": 41,
+          "p50_ms": 0.00011999999999999999,
+          "p95_ms": 0.00014
+        },
+        {
+          "payload": "typical[3]",
+          "chars": 34,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        },
+        {
+          "payload": "typical[4]",
+          "chars": 48,
+          "p50_ms": 0.0001,
+          "p95_ms": 0.00011999999999999999
+        }
+      ]
+    }
+  ],
+  "subset_costs": {
+    "all_24": {
+      "n_features": 24,
+      "features": [
+        "url_depth",
+        "query_param_count",
+        "body_param_count",
+        "body_to_url_ratio",
+        "semicolon_count",
+        "backslash_count",
+        "brace_count",
+        "dollar_count",
+        "percent_ratio",
+        "longest_token_length",
+        "punctuation_diversity",
+        "nonascii_ratio",
+        "max_param_name_entropy",
+        "param_name_digit_ratio",
+        "duplicate_value_count",
+        "empty_value_ratio",
+        "ldap_filter_score",
+        "xpath_score",
+        "ssi_directive_score",
+        "nosql_operator_score",
+        "template_expression_score",
+        "log4shell_score",
+        "crlf_sequence_count",
+        "absolute_uri_in_target"
+      ],
+      "worst_p95_ms": 2.3270125
+    },
+    "accepted_12": {
+      "n_features": 12,
+      "features": [
+        "param_name_digit_ratio",
+        "max_param_name_entropy",
+        "longest_token_length",
+        "url_depth",
+        "dollar_count",
+        "empty_value_ratio",
+        "backslash_count",
+        "brace_count",
+        "crlf_sequence_count",
+        "ldap_filter_score",
+        "nonascii_ratio",
+        "semicolon_count"
+      ],
+      "worst_p95_ms": 1.714417
+    },
+    "accepted_cheap": {
+      "n_features": 9,
+      "features": [
+        "param_name_digit_ratio",
+        "url_depth",
+        "dollar_count",
+        "empty_value_ratio",
+        "backslash_count",
+        "brace_count",
+        "crlf_sequence_count",
+        "ldap_filter_score",
+        "semicolon_count"
+      ],
+      "worst_p95_ms": 0.725103
+    }
+  },
+  "overall": {
+    "v3_p50_ms": 0.043455,
+    "v3_p95_ms": 4.6648380000000005,
+    "candidates_p50_ms": 0.035655,
+    "candidates_p95_ms": 2.193245,
+    "combined_p50_ms": 0.08386,
+    "combined_p95_ms": 6.969657
+  },
+  "worst_case": {
+    "v3_p95_ms": 4.78352,
+    "candidates_p95_ms": 2.278464,
+    "combined_p95_ms": 7.2648934999999994,
+    "added_p95_ms": 2.278464
+  },
+  "budget_ms": 0.15,
+  "pass": false
+}

@@ -1,0 +1,60 @@
+\documentclass[preprint,11pt]{elsarticle}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{needspace}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{etoolbox}
+\AtBeginEnvironment{longtable}{\footnotesize}
+\AtBeginEnvironment{thebibliography}{\small}
+\renewcommand{\arraystretch}{0.93}
+
+% Technical identifiers and numeric intervals give TeX few breakpoints.
+% A small emergency stretch keeps those lines inside the margin without
+% switching the whole manuscript to ragged-right.
+\setlength{\emergencystretch}{2em}
+
+% Pandoc emits \tightlist for compact lists; elsarticle does not define it.
+\providecommand{\tightlist}{}
+
+\graphicspath{{../}{./}}
+\journal{Computers \& Security}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{$title$}
+
+\author[spit]{Ahire Nameet Sudam}
+\author[spit]{D. D. Ambawade}
+\address[spit]{Department of Computer Engineering, Sardar Patel Institute of Technology, Mumbai 400058, India}
+
+\begin{abstract}
+$abstract$
+\end{abstract}
+
+\begin{keyword}
+Web application firewall \sep role-based security architecture \sep feature admission \sep
+formal verification \sep TLA+ \sep endpoint-disjoint evaluation \sep
+adversarial robustness \sep inline latency
+\end{keyword}
+
+\end{frontmatter}
+
+$body$
+
+\bibliographystyle{elsarticle-num}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{Formal and exhaustive verification evidence. TLC explores every
+reachable interleaving of the CPPP transition relation; the Python reference
+implementation is checked by property tests and bounded breadth-first
+enumeration. No simulation is used.}
+\label{tab:formal}
+\small
+\begin{tabular}{llr}
+\toprule
+Check & Configuration & Result \\
+\midrule
+TLC, one rule & 3 agents, $K=2$, $\tau=2$ & 431 generated / 146 distinct \\
+TLC, two rules & 3 agents, $K=2$, $\tau=2$ & 104{,}245 / 21{,}316 distinct \\
+TLC invariant violations & both runs & 0 \\
+Python property tests & 9 tests & 9 passed \\
+Exhaustive BFS, depth 9 & CPPP reference & 11{,}874 states \\
+BFS transitions & CPPP reference & 51{,}505 \\
+Trust decay, discrete & 81{,}484 rational cases & 0 violations \\
+Trust decay, symbolic & 9 identities & 9/9 pass \\
+\bottomrule
+\end{tabular}
+\end{table}

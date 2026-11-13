@@ -1,0 +1,15 @@
+corpus,detector,family,n,recall
+wcp,natrix_v3,cmdexe,241,0.991701244813278
+wcp,natrix_v3,log4shell,16,0.75
+wcp,natrix_v3,shellshock,7,1.0
+wcp,natrix_v3,sqli,74,0.9459459459459459
+wcp,natrix_v3,traversal,2637,0.9958285930982177
+wcp,natrix_v3,xss,4002,0.9980009995002499
+wcp,natrix_v3,xxe,5,1.0
+wcp,lexical_full,cmdexe,241,1.0
+wcp,lexical_full,log4shell,16,1.0
+wcp,lexical_full,shellshock,7,1.0
+wcp,lexical_full,sqli,74,0.972972972972973
+wcp,lexical_full,traversal,2637,0.9988623435722411
+wcp,lexical_full,xss,4002,0.9997501249375312
+wcp,lexical_full,xxe,5,1.0

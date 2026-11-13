@@ -1,0 +1,36 @@
+# Python dependencies for the NATRIX reproducibility package.
+# Versions match the reference environment used for the reported results.
+# Install with:  pip install -r requirements.txt
+#
+# PyTorch is CPU-only in the reference run. If pip selects a CUDA wheel on
+# your platform and you do not have a GPU, install the CPU wheel first:
+#   pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
+
+numpy==2.0.2
+pandas==2.3.3
+scipy==1.16.2
+scikit-learn==1.7.2
+lightgbm==4.7.0
+xgboost==3.2.0
+torch==2.9.1
+onnx==1.23.2
+onnxruntime==1.31.1
+shap==0.51.0
+matplotlib==3.10.7
+python-docx==1.2.0
+pypandoc==1.17
+pypdf==6.14.2
+pyarrow==22.0.0
+statsmodels==0.14.5
+pytest==9.2.0
+hypothesis==6.170.13
+requests==2.32.3
+joblib==1.5.2
+tqdm==4.67.1
+
+# Non-Python tools (not installable from this file):
+#   Pandoc 3.10        - fetched by pypandoc, or install separately
+#   Tectonic 0.17.0    - https://tectonic-typesetting.github.io/
+#   Node.js 22         - latency benchmark
+#   Java 17 + TLA+     - artifacts/formal/mutation_test.py
+#   Docker             - CRS replay (owasp/modsecurity-crs 4.25.2 nginx image)

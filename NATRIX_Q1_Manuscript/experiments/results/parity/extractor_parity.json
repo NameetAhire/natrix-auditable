@@ -1,0 +1,150 @@
+{
+  "cases": 2000,
+  "features": [
+    "payload_length",
+    "shannon_entropy",
+    "special_char_ratio",
+    "digit_ratio",
+    "uppercase_ratio",
+    "token_count",
+    "sql_keyword_score",
+    "xss_keyword_score",
+    "path_traversal_score",
+    "user_agent_anomaly",
+    "command_injection_score",
+    "hex_encoding_ratio",
+    "null_byte_score",
+    "param_pollution_count",
+    "html_tag_density",
+    "request_method_risk",
+    "suspicious_extension_flag",
+    "quote_count",
+    "angle_count",
+    "double_escape_count",
+    "max_value_special_ratio",
+    "max_value_length"
+  ],
+  "max_abs_delta": 0.0,
+  "mean_abs_delta": 0.0,
+  "exact_mismatch_count": 0,
+  "per_feature": {
+    "payload_length": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "shannon_entropy": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "special_char_ratio": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "digit_ratio": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "uppercase_ratio": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "token_count": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "sql_keyword_score": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "xss_keyword_score": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "path_traversal_score": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "user_agent_anomaly": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "command_injection_score": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "hex_encoding_ratio": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "null_byte_score": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "param_pollution_count": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "html_tag_density": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "request_method_risk": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "suspicious_extension_flag": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "quote_count": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "angle_count": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "double_escape_count": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "max_value_special_ratio": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    },
+    "max_value_length": {
+      "max_abs_delta": 0.0,
+      "mean_abs_delta": 0.0,
+      "mismatch_count": 0
+    }
+  },
+  "tolerance": 1e-09,
+  "sources": {
+    "anomalous_test": 518,
+    "normal_train": 197,
+    "normal_test": 144,
+    "ecml_train": 472,
+    "ecml_test": 669
+  }
+}

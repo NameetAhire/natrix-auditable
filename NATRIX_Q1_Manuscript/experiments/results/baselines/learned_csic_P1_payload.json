@@ -1,0 +1,29 @@
+{
+  "corpus": "csic",
+  "protocol": "P1",
+  "view": "payload",
+  "learner": "char-CNN (emb32, conv64 k3+k5, max-pool, 5 epochs)",
+  "elapsed_seconds": 862.6,
+  "n": 34593,
+  "auc": 0.9866682077637395,
+  "fpr2_crossfit": {
+    "accuracy": 0.9658312375336051,
+    "fpr": 0.010246781115879828,
+    "fnr": 0.062119977433711525,
+    "precision": 0.9873952352669438,
+    "recall": 0.9378800225662884,
+    "f1": 0.9620009001478814,
+    "tp": 14962,
+    "tn": 18449,
+    "fp": 191,
+    "fn": 991,
+    "threshold_mean": 0.508,
+    "thresholds": [
+      0.54,
+      0.54,
+      0.46,
+      0.46,
+      0.54
+    ]
+  }
+}

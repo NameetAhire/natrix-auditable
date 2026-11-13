@@ -1,0 +1,154 @@
+{
+  "corpus": "CSIC 2010",
+  "attacks": 15953,
+  "variant": "v3-D (22 + 9 per-parameter/path maxima)",
+  "extra_features": [
+    "max_value_digit_ratio",
+    "max_value_uppercase_ratio",
+    "max_value_entropy",
+    "max_value_hex_ratio",
+    "max_value_keyword_score",
+    "path_special_char_ratio",
+    "path_digit_ratio",
+    "path_uppercase_ratio",
+    "path_keyword_score"
+  ],
+  "bounded_suite": {
+    "v3": {
+      "clean": {
+        "accuracy": 0.9554823230133264,
+        "fpr": 0.019313304721030045,
+        "fnr": 0.07396727888171503,
+        "precision": 0.9762109297561621,
+        "recall": 0.9260327211182849,
+        "f1": 0.9504600141542816,
+        "tp": 14773,
+        "tn": 18280,
+        "fp": 360,
+        "fn": 1180
+      },
+      "thresholds": [
+        0.51,
+        0.51,
+        0.51,
+        0.51,
+        0.51
+      ],
+      "bounded": {
+        "recall_original": 0.9260327211182849,
+        "recall_mutated": 0.8247351595311226,
+        "delta": -0.1012975615871623,
+        "evaded": 2639
+      },
+      "per_operator": [
+        {
+          "operator": "case",
+          "n": 621,
+          "recall_original": 0.9790660225442834,
+          "recall_mutated": 0.9726247987117552,
+          "delta": -0.006441223832528209,
+          "evaded": 16
+        },
+        {
+          "operator": "sql_comment",
+          "n": 72,
+          "recall_original": 1.0,
+          "recall_mutated": 1.0,
+          "delta": 0.0,
+          "evaded": 0
+        },
+        {
+          "operator": "double_encode",
+          "n": 12602,
+          "recall_original": 0.9212823361371211,
+          "recall_mutated": 0.8927154419933344,
+          "delta": -0.02856689414378666,
+          "evaded": 1325
+        },
+        {
+          "operator": "dilution",
+          "n": 14338,
+          "recall_original": 0.9181894266982843,
+          "recall_mutated": 0.8054819361138235,
+          "delta": -0.11270749058446083,
+          "evaded": 2639
+        }
+      ]
+    },
+    "v3-D": {
+      "clean": {
+        "accuracy": 0.9678547683057266,
+        "fpr": 0.020815450643776823,
+        "fnr": 0.04538331348335736,
+        "precision": 0.9751552795031055,
+        "recall": 0.9546166865166427,
+        "f1": 0.9647766867279062,
+        "tp": 15229,
+        "tn": 18252,
+        "fp": 388,
+        "fn": 724
+      },
+      "thresholds": [
+        0.48,
+        0.47,
+        0.47,
+        0.47,
+        0.47
+      ],
+      "bounded": {
+        "recall_original": 0.9546166865166427,
+        "recall_mutated": 0.8550742806995549,
+        "delta": -0.09954240581708773,
+        "evaded": 2222
+      },
+      "per_operator": [
+        {
+          "operator": "case",
+          "n": 621,
+          "recall_original": 0.9935587761674718,
+          "recall_mutated": 0.964573268921095,
+          "delta": -0.02898550724637683,
+          "evaded": 22
+        },
+        {
+          "operator": "sql_comment",
+          "n": 72,
+          "recall_original": 1.0,
+          "recall_mutated": 0.8611111111111112,
+          "delta": -0.13888888888888884,
+          "evaded": 10
+        },
+        {
+          "operator": "double_encode",
+          "n": 12602,
+          "recall_original": 0.948262180606253,
+          "recall_mutated": 0.9445326138708141,
+          "delta": -0.003729566735438894,
+          "evaded": 678
+        },
+        {
+          "operator": "dilution",
+          "n": 14338,
+          "recall_original": 0.9498535360580276,
+          "recall_mutated": 0.839168642767471,
+          "delta": -0.11068489329055653,
+          "evaded": 2221
+        }
+      ]
+    }
+  },
+  "targeted_dilution": {
+    "v3": {
+      "recall_original": 0.9182578397212544,
+      "recall_mutated": 0.5850871080139373,
+      "delta": -0.33317073170731715,
+      "evaded": 5197
+    },
+    "v3-D": {
+      "recall_original": 0.9498954703832753,
+      "recall_mutated": 0.6655052264808362,
+      "delta": -0.28439024390243905,
+      "evaded": 4387
+    }
+  }
+}

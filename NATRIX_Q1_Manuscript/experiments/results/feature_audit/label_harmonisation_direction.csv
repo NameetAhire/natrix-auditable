@@ -1,0 +1,89 @@
+comparison,feature,left_corpus,right_corpus,delta_left,delta_right,same,basis
+csic_vs_ecml,payload_length,csic,ecml,0.025994794526518206,0.2764200600498363,True,overall binary
+csic_vs_ecml,shannon_entropy,csic,ecml,0.11503061972010586,0.018107774131033816,True,overall binary
+csic_vs_ecml,special_char_ratio,csic,ecml,0.17871174485458763,0.6945978760642073,True,overall binary
+csic_vs_ecml,digit_ratio,csic,ecml,0.1736961699993731,0.18340141973581692,True,overall binary
+csic_vs_ecml,uppercase_ratio,csic,ecml,0.2979190145193136,-0.24316471341038526,False,overall binary
+csic_vs_ecml,token_count,csic,ecml,-0.04149323159312668,-0.0011254910900591053,False,overall binary
+csic_vs_ecml,sql_keyword_score,csic,ecml,0.04213000689525481,0.14613710543636405,True,overall binary
+csic_vs_ecml,xss_keyword_score,csic,ecml,0.030464489437723286,0.07421034714933805,True,overall binary
+csic_vs_ecml,path_traversal_score,csic,ecml,0.00839967404249986,0.14639990429172145,False,overall binary
+csic_vs_ecml,user_agent_anomaly,csic,ecml,0.0,-2.856653145177912e-05,True,overall binary
+csic_vs_ecml,command_injection_score,csic,ecml,0.00839967404249986,0.07150318147219004,False,overall binary
+csic_vs_ecml,hex_encoding_ratio,csic,ecml,0.3860901752976622,0.5372000273149733,True,overall binary
+csic_vs_ecml,null_byte_score,csic,ecml,0.0,0.00233444333812427,True,overall binary
+csic_vs_ecml,param_pollution_count,csic,ecml,0.0,0.0003490032322339687,True,overall binary
+csic_vs_ecml,html_tag_density,csic,ecml,0.0,0.01789547810523784,False,overall binary
+csic_vs_ecml,request_method_risk,csic,ecml,-0.03319649539190905,-0.01663949033526746,True,overall binary
+csic_vs_ecml,suspicious_extension_flag,csic,ecml,0.06249608224158476,0.008338848444738645,False,overall binary
+csic_vs_ecml,quote_count,csic,ecml,0.18079654048144111,0.4457296608659278,True,overall binary
+csic_vs_ecml,angle_count,csic,ecml,0.05578887983451386,0.2426195199287573,True,overall binary
+csic_vs_ecml,double_escape_count,csic,ecml,0.1254936375603335,0.026838804564579988,True,overall binary
+csic_vs_ecml,max_value_special_ratio,csic,ecml,0.33799844311979754,0.36153594431556835,True,overall binary
+csic_vs_ecml,max_value_length,csic,ecml,0.09896115170932651,0.5919991270854466,True,overall binary
+csic_vs_srbh,payload_length,csic,srbh,0.025994794526518206,0.4179716595252445,True,overall binary
+csic_vs_srbh,shannon_entropy,csic,srbh,0.11503061972010586,0.23441838720572483,True,overall binary
+csic_vs_srbh,special_char_ratio,csic,srbh,0.17871174485458763,0.2234134752241479,True,overall binary
+csic_vs_srbh,digit_ratio,csic,srbh,0.1736961699993731,0.11271628358348451,True,overall binary
+csic_vs_srbh,uppercase_ratio,csic,srbh,0.2979190145193136,0.47962955688393283,True,overall binary
+csic_vs_srbh,token_count,csic,srbh,-0.04149323159312668,0.053026144190700286,False,overall binary
+csic_vs_srbh,sql_keyword_score,csic,srbh,0.04213000689525481,0.3605697792668783,True,overall binary
+csic_vs_srbh,xss_keyword_score,csic,srbh,0.030464489437723286,-0.011777382544559623,False,overall binary
+csic_vs_srbh,path_traversal_score,csic,srbh,0.00839967404249986,-0.12635076357970154,False,overall binary
+csic_vs_srbh,user_agent_anomaly,csic,srbh,0.0,0.008183818428804557,True,overall binary
+csic_vs_srbh,command_injection_score,csic,srbh,0.00839967404249986,-0.10120005831481926,False,overall binary
+csic_vs_srbh,hex_encoding_ratio,csic,srbh,0.3860901752976622,0.41723859337082425,True,overall binary
+csic_vs_srbh,null_byte_score,csic,srbh,0.0,-0.010518391284223383,False,overall binary
+csic_vs_srbh,param_pollution_count,csic,srbh,0.0,3.672689878064794e-05,True,overall binary
+csic_vs_srbh,html_tag_density,csic,srbh,0.0,5.008213470092393e-05,True,overall binary
+csic_vs_srbh,request_method_risk,csic,srbh,-0.03319649539190905,0.06163664334085883,False,overall binary
+csic_vs_srbh,suspicious_extension_flag,csic,srbh,0.06249608224158476,-0.003875280326043451,False,overall binary
+csic_vs_srbh,quote_count,csic,srbh,0.18079654048144111,0.21546223018170707,True,overall binary
+csic_vs_srbh,angle_count,csic,srbh,0.05578887983451386,-0.02025917097090002,False,overall binary
+csic_vs_srbh,double_escape_count,csic,srbh,0.1254936375603335,0.10623156966735592,True,overall binary
+csic_vs_srbh,max_value_special_ratio,csic,srbh,0.33799844311979754,0.030165700157726683,True,overall binary
+csic_vs_srbh,max_value_length,csic,srbh,0.09896115170932651,0.027970313918692424,True,overall binary
+ecml_vs_srbh,payload_length,ecml,srbh,0.2764200600498363,0.4179716595252445,True,overall binary
+ecml_vs_srbh_balanced,payload_length,ecml,srbh,0.09576651368602003,0.6174105005486533,True,family-balanced
+ecml_vs_srbh,shannon_entropy,ecml,srbh,0.018107774131033816,0.23441838720572483,True,overall binary
+ecml_vs_srbh_balanced,shannon_entropy,ecml,srbh,-0.08289216371825829,0.04495185779975982,False,family-balanced
+ecml_vs_srbh,special_char_ratio,ecml,srbh,0.6945978760642073,0.2234134752241479,True,overall binary
+ecml_vs_srbh_balanced,special_char_ratio,ecml,srbh,0.6824749181159818,0.40262975753890545,True,family-balanced
+ecml_vs_srbh,digit_ratio,ecml,srbh,0.18340141973581692,0.11271628358348451,True,overall binary
+ecml_vs_srbh_balanced,digit_ratio,ecml,srbh,0.023965568732177995,-0.002603022726737884,False,family-balanced
+ecml_vs_srbh,uppercase_ratio,ecml,srbh,-0.24316471341038526,0.47962955688393283,False,overall binary
+ecml_vs_srbh_balanced,uppercase_ratio,ecml,srbh,-0.20610012825455673,0.5763293187312822,False,family-balanced
+ecml_vs_srbh,token_count,ecml,srbh,-0.0011254910900591053,0.053026144190700286,False,overall binary
+ecml_vs_srbh_balanced,token_count,ecml,srbh,-0.024483783361053058,0.2110415958227573,False,family-balanced
+ecml_vs_srbh,sql_keyword_score,ecml,srbh,0.14613710543636405,0.3605697792668783,True,overall binary
+ecml_vs_srbh_balanced,sql_keyword_score,ecml,srbh,0.12081044759706987,0.1528957597222924,True,family-balanced
+ecml_vs_srbh,xss_keyword_score,ecml,srbh,0.07421034714933805,-0.011777382544559623,False,overall binary
+ecml_vs_srbh_balanced,xss_keyword_score,ecml,srbh,-0.00011426612580700546,-0.012677463357544827,False,family-balanced
+ecml_vs_srbh,path_traversal_score,ecml,srbh,0.14639990429172145,-0.12635076357970154,False,overall binary
+ecml_vs_srbh_balanced,path_traversal_score,ecml,srbh,0.2867396664036499,0.26508728732104997,True,family-balanced
+ecml_vs_srbh,user_agent_anomaly,ecml,srbh,-2.856653145177912e-05,0.008183818428804557,True,overall binary
+ecml_vs_srbh_balanced,user_agent_anomaly,ecml,srbh,-2.856653145177912e-05,0.00043970662901364016,True,family-balanced
+ecml_vs_srbh,command_injection_score,ecml,srbh,0.07150318147219004,-0.10120005831481926,False,overall binary
+ecml_vs_srbh_balanced,command_injection_score,ecml,srbh,0.1566773243760684,-0.030858882871293902,False,family-balanced
+ecml_vs_srbh,hex_encoding_ratio,ecml,srbh,0.5372000273149733,0.41723859337082425,True,overall binary
+ecml_vs_srbh_balanced,hex_encoding_ratio,ecml,srbh,0.4660488777937277,0.524440297363087,True,family-balanced
+ecml_vs_srbh,null_byte_score,ecml,srbh,0.00233444333812427,-0.010518391284223383,False,overall binary
+ecml_vs_srbh_balanced,null_byte_score,ecml,srbh,0.004675245225516915,-0.011174239695706781,False,family-balanced
+ecml_vs_srbh,param_pollution_count,ecml,srbh,0.0003490032322339687,3.672689878064794e-05,True,overall binary
+ecml_vs_srbh_balanced,param_pollution_count,ecml,srbh,0.0007634583924824486,1.570729970571764e-05,True,family-balanced
+ecml_vs_srbh,html_tag_density,ecml,srbh,0.01789547810523784,5.008213470092393e-05,False,overall binary
+ecml_vs_srbh_balanced,html_tag_density,ecml,srbh,-0.0003890316042986323,0.0,True,family-balanced
+ecml_vs_srbh,request_method_risk,ecml,srbh,-0.01663949033526746,0.06163664334085883,False,overall binary
+ecml_vs_srbh_balanced,request_method_risk,ecml,srbh,-0.03507659408047318,0.20021953947857787,False,family-balanced
+ecml_vs_srbh,suspicious_extension_flag,ecml,srbh,0.008338848444738645,-0.003875280326043451,True,overall binary
+ecml_vs_srbh_balanced,suspicious_extension_flag,ecml,srbh,0.01830065359477125,-0.008843219935217491,False,family-balanced
+ecml_vs_srbh,quote_count,ecml,srbh,0.4457296608659278,0.21546223018170707,True,overall binary
+ecml_vs_srbh_balanced,quote_count,ecml,srbh,0.2800069658689048,0.11809669722495382,True,family-balanced
+ecml_vs_srbh,angle_count,ecml,srbh,0.2426195199287573,-0.02025917097090002,False,overall binary
+ecml_vs_srbh_balanced,angle_count,ecml,srbh,0.02571491247375764,-0.030984955249419688,False,family-balanced
+ecml_vs_srbh,double_escape_count,ecml,srbh,0.026838804564579988,0.10623156966735592,True,overall binary
+ecml_vs_srbh_balanced,double_escape_count,ecml,srbh,0.05695676097401218,0.04677036797200299,True,family-balanced
+ecml_vs_srbh,max_value_special_ratio,ecml,srbh,0.36153594431556835,0.030165700157726683,True,overall binary
+ecml_vs_srbh_balanced,max_value_special_ratio,ecml,srbh,0.23518659268024664,0.2725476299123307,True,family-balanced
+ecml_vs_srbh,max_value_length,ecml,srbh,0.5919991270854466,0.027970313918692424,True,overall binary
+ecml_vs_srbh_balanced,max_value_length,ecml,srbh,0.4023784675042101,0.33043035967259354,True,family-balanced

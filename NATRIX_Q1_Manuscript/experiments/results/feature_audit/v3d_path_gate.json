@@ -1,0 +1,42 @@
+{
+  "candidate_set": "v3-D path block (four features)",
+  "corpus": "CSIC 2010 unique",
+  "n": 34593,
+  "full_26d": {
+    "accuracy": 0.9557135836729974,
+    "fpr": 0.01915236051502146,
+    "fnr": 0.07365385820848744,
+    "precision": 0.976412289395441,
+    "recall": 0.9263461417915125,
+    "f1": 0.9507205352547605,
+    "tp": 14778,
+    "tn": 18283,
+    "fp": 357,
+    "fn": 1175
+  },
+  "thresholds": [
+    0.51,
+    0.51,
+    0.51,
+    0.51,
+    0.51
+  ],
+  "gate_c": {
+    "n_requests": 200,
+    "p50_ms": 0.04832150000083857,
+    "p95_ms": 0.08464450000383295,
+    "max_ms": 0.10592300000098476,
+    "within_budget": true
+  },
+  "gate_c_pass": true,
+  "admitted": [
+    "path_special_char_ratio",
+    "path_digit_ratio",
+    "path_uppercase_ratio",
+    "path_keyword_score"
+  ],
+  "dropped": [],
+  "n_admitted": 4,
+  "n_dropped": 0,
+  "note": "The four path features are a post-freeze positive-control block, not part of the pre-registered v3 contract. They are reported to show that the gate can admit, not to change v4."
+}

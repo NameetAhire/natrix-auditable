@@ -1,0 +1,30 @@
+{
+  "discrete": {
+    "model": "discrete",
+    "cases": 81484,
+    "violations": []
+  },
+  "continuous": {
+    "model": "continuous",
+    "available": true,
+    "checks": {
+      "initial_value": true,
+      "limit_at_infinity": true,
+      "monotone_decreasing": true,
+      "bounded_above_identity": true,
+      "half_life_identity": true,
+      "recovery_nondecreasing": true,
+      "recovery_upper_bound": true,
+      "recovery_contracts_gap": true,
+      "contraction_identity": true
+    },
+    "all_pass": true
+  },
+  "pass": true,
+  "grid": {
+    "trust_points": 17,
+    "rho_values": 4,
+    "alpha_values": 4,
+    "steps": 200
+  }
+}

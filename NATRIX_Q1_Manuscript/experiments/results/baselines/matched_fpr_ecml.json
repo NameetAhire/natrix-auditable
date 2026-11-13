@@ -1,0 +1,129 @@
+{
+  "details": {
+    "corpus": "ecml",
+    "natrix_v3": {
+      "roc_auc": 0.9087238765119703,
+      "n": 50116,
+      "labels": {
+        "clean": 35006,
+        "attack": 15110
+      }
+    },
+    "lexical_full": {
+      "roc_auc": 0.9167413514778765,
+      "n": 50116,
+      "labels": {
+        "clean": 35006,
+        "attack": 15110
+      }
+    },
+    "crs_pl1": {
+      "status": "missing",
+      "path": "D:\\Mtech\\MAJOR_PROJECT\\NATRIX_Q1_Manuscript\\experiments\\results\\baselines\\crs_pl1_ecml_requests.parquet"
+    }
+  },
+  "metrics": [
+    {
+      "accuracy": 0.9200255407454705,
+      "fpr": 0.015025995543621093,
+      "fnr": 0.23044341495698212,
+      "precision": 0.9567220668092808,
+      "recall": 0.7695565850430178,
+      "f1": 0.8529929577464789,
+      "tp": 11628,
+      "tn": 34480,
+      "fp": 526,
+      "fn": 3482,
+      "detector": "natrix_v3",
+      "policy": "threshold_0.5"
+    },
+    {
+      "accuracy": 0.9195865591826962,
+      "fpr": 0.016654287836370907,
+      "fnr": 0.22812706816677697,
+      "precision": 0.9523926179977136,
+      "recall": 0.771872931833223,
+      "f1": 0.8526831408100599,
+      "tp": 11663,
+      "tn": 34423,
+      "fp": 583,
+      "fn": 3447,
+      "detector": "natrix_v3",
+      "policy": "fpr2_crossfit",
+      "threshold_mean": 0.48200000000000004,
+      "thresholds": [
+        0.48,
+        0.47,
+        0.48,
+        0.5,
+        0.48
+      ]
+    },
+    {
+      "accuracy": 0.9198060499640833,
+      "fpr": 0.016597154773467404,
+      "fnr": 0.22753143613500992,
+      "precision": 0.9525830408879458,
+      "recall": 0.7724685638649901,
+      "f1": 0.8531228300990388,
+      "tp": 11672,
+      "tn": 34425,
+      "fp": 581,
+      "fn": 3438,
+      "detector": "natrix_v3",
+      "policy": "fpr2_oracle",
+      "threshold": 0.48
+    },
+    {
+      "accuracy": 0.9352901269055791,
+      "fpr": 0.0005141975661315203,
+      "fnr": 0.21343481138318995,
+      "precision": 0.9984877761908763,
+      "recall": 0.78656518861681,
+      "f1": 0.879946692333321,
+      "tp": 11885,
+      "tn": 34988,
+      "fp": 18,
+      "fn": 3225,
+      "detector": "lexical_full",
+      "policy": "threshold_0.5"
+    },
+    {
+      "accuracy": 0.9393008220927448,
+      "fpr": 0.004256413186310918,
+      "fnr": 0.1914626075446724,
+      "precision": 0.9879508329289989,
+      "recall": 0.8085373924553276,
+      "f1": 0.889285194351434,
+      "tp": 12217,
+      "tn": 34857,
+      "fp": 149,
+      "fn": 2893,
+      "detector": "lexical_full",
+      "policy": "fpr2_crossfit",
+      "threshold_mean": 0.34,
+      "thresholds": [
+        0.34,
+        0.34,
+        0.34,
+        0.34,
+        0.34
+      ]
+    },
+    {
+      "accuracy": 0.9393008220927448,
+      "fpr": 0.004256413186310918,
+      "fnr": 0.1914626075446724,
+      "precision": 0.9879508329289989,
+      "recall": 0.8085373924553276,
+      "f1": 0.889285194351434,
+      "tp": 12217,
+      "tn": 34857,
+      "fp": 149,
+      "fn": 2893,
+      "detector": "lexical_full",
+      "policy": "fpr2_oracle",
+      "threshold": 0.34
+    }
+  ]
+}

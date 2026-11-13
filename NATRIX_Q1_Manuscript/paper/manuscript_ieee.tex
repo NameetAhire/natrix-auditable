@@ -1,0 +1,304 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\feat}[1]{\texttt{#1}}
+
+\begin{document}
+
+\title{NATRIX: An Auditable Feature-Admission and Promotion Protocol for Inline HTTP Attack Detection}
+
+\author{
+\IEEEauthorblockN{Ahire Nameet Sudam}
+\IEEEauthorblockA{Department of Computer Engineering\\
+Sardar Patel Institute of Technology, Mumbai 400058, India}
+\and
+\IEEEauthorblockN{D. D. Ambawade}
+\IEEEauthorblockA{Department of Computer Engineering\\
+Sardar Patel Institute of Technology, Mumbai 400058, India}
+}
+
+\maketitle
+
+\begin{abstract}
+Web application firewalls must decide inline, yet the evidence behind their feature sets, promotion rules, and latency budgets is rarely auditable. NATRIX is a role-based HTTP attack-detection architecture that separates a five-role synchronous decision path from four asynchronous governance roles; this paper evaluates its feature-admission gate and promotion protocol, not the full orchestration. The detector contract is request-level: method, path, query, body, and user agent. A three-gate mechanism combines provenance and safety constraints, a frozen four-condition statistical drop rule, and a measured extraction-cost budget; applied to 34,593 deduplicated CSIC 2010 requests, it reduces a 22-dimensional contract to 20 dimensions with a written evidence row for every decision, and rejects all 12 statistically accepted candidates because their measured cost exceeds the budget. The promotion protocol is model-checked in TLA+, mutation-tested (6/6 guards killed), and verified on 81,484 exact-rational trust-decay cases. The central evaluation finding is a protocol inversion: under a deployment-like split the lexical full-request baseline beats NATRIX on all three corpora, while under an endpoint-disjoint split the full-request baseline collapses on CSIC and the payload-only view wins; on SR-BH the payload view collapses and the path carries the signal. The ranking is therefore protocol- and view-dependent, and a single-protocol headline is not evidence of payload detection. Inline p95 is 3.78\,ms over 9,700 requests. No live-traffic claim is made.
+\end{abstract}
+
+\begin{IEEEkeywords}
+web application firewall, HTTP attack detection, feature selection, formal verification, TLA+, evaluation protocol, trust.
+\end{IEEEkeywords}
+
+\section{Introduction}
+A web application firewall (WAF) sits on the request path and must return a verdict in milliseconds. Modern deployments combine signature rules such as the OWASP Core Rule Set (CRS) with learned detectors, yet three questions are usually left unanswered. Why is each feature in the detector contract? What evidence permits a candidate rule to become active policy? Does the reported accuracy survive a protocol that removes endpoint identity? A feature set assembled by trial and error cannot be audited, a promotion path guarded only by a hit counter can entrench a false positive, and a headline computed on a random split can be an endpoint prior rather than a payload signal.
+
+This paper presents NATRIX as an answer to those questions and evaluates it as an \emph{auditable feature-admission and promotion protocol}, not as a state-of-the-art classifier. The architecture separates five synchronous roles that produce a per-request verdict from four asynchronous governance roles that change future policy. Only the gate and CPPP are evaluated here; the role decomposition is a design framework, not a claim of detection gain. The detector contract is request-level---method, path, query, body, and user agent---and the paper uses that term deliberately: a payload-only contract is a different object, evaluated here as a diagnostic view.
+
+The contributions are four. (i) A three-gate admission mechanism: Gate A checks provenance, observability, determinism, and a pre-registered safety list; Gate B applies a frozen four-condition statistical rule (C1--C4); Gate C applies a measured extraction-cost budget. Thresholds are fixed before the outcome is inspected, so it is a decision procedure, not a search. On CSIC 2010 it reduces a 22-dimensional contract to 20 dimensions, and a 24-candidate screen accepts 12 candidates statistically while admitting none because the accepted block costs 1.71\,ms p95 against a 0.15\,ms budget (2.33\,ms for all 24). (ii) CPPP, a promotion protocol with quorum, canary, trust, and audit guards; a \feat{SeedTrust} action decouples trust from votes so the quorum invariant is falsifiable, and the protocol is model-checked, mutation-tested, and verified on exact-rational trust decay. (iii) An evaluation protocol that reports every in-distribution result under a deployment-like split (P1) and an endpoint-disjoint split (P2), with lexical views, a generic control, cross-fitted stackers, a nested threshold check, a frozen CRS replay, an SR-BH scale curve, and a dilution test. (iv) A protocol inversion: under P1 the lexical full-request baseline is stronger than NATRIX on all three corpora, but under P2 it collapses on CSIC while the payload view stays at 96.03\%, and on SR-BH the payload view collapses while the path carries the signal. The ranking is protocol- and view-dependent. Inline p95 is 3.78\,ms and p99 is 5.69\,ms.
+
+The inversion is the organising result: a paper reporting only P1 would declare the full-request lexical model best on every corpus, while a paper reporting only P2 would declare NATRIX best on none. The gate and the formal protocol are the constructive contributions; the inversion shows the evaluation protocol is doing real work. The paper does not claim that NATRIX is the best detector, that it generalises across populations, that the shipped proxy already enforces CPPP, or that any result is validated on live traffic.
+
+\section{Related Work}
+Signature WAFs such as ModSecurity with CRS remain the operational baseline~\cite{ristic2010modsecurity,owasp_crs}. Their rules are interpretable, but the operating point is a configuration choice. Learned HTTP detection ranges from n-gram and classical models to transformer representations~\cite{kruegel2003anomaly,robertson2006behavior,garcia2009anomaly,torrano2010anomaly,sureda2022new,luo2026wadbert}. WADBERT reports F1 99.64 on CSIC and 99.59 on SR-BH~\cite{luo2026wadbert}, but no code or model was released and its protocol is not reproduced here; we cite it with a caveat and do not place it in a matched-FPR table.
+
+Sommer and Paxson argued that machine-learning intrusion detection is often evaluated in ways that do not transfer to deployment~\cite{sommer2010outside}. Arp et al. documented data snooping and inappropriate baselines~\cite{arp2022dos}; Pendlebury et al. showed that test-set transitivity can inflate Android malware detection~\cite{pendlebury2019tesseract}; drift explains why a fixed boundary degrades~\cite{gama2014survey}. Our P1/P2 protocol follows this line: the endpoint view tests whether a headline is an endpoint prior, and the payload view tests whether the signal survives without the path.
+
+Feature selection is grouped into filter, wrapper, and embedded methods~\cite{guyon2003introduction}. Permutation importance~\cite{breiman2001random} and SHAP~\cite{lundberg2017unified} are descriptive tools, not decision rules; Rudin argues that post-hoc explanation is not a substitute for an interpretable model~\cite{rudin2019stop}. Pre-registration guards against adapting the analysis to the data~\cite{nosek2018preregistration}. Our C1--C4 thresholds and cost budget are frozen before the v4 outcome is inspected. CPPP is closer to a finite-state security protocol: TLA+ and TLC~\cite{lamport2002specifying,clarke2009model} check the specification, and zero-trust principles~\cite{nist2020zero} motivate separating evidence producers from the policy owner.
+
+\section{Architecture and Threat Model}
+\subsection{Roles and the Synchronous/Asynchronous Split}
+Fig.~\ref{fig:arch} shows the architecture. Telemetry Ingestion parses the request and computes the active contract; Zero-Trust Verifier checks identity and context and may veto independently of the model; Threat Intelligence supplies signature evidence; ML Engine runs the binary gate and typing model and has no promotion authority; Remediation Orchestrator fuses evidence and emits the only inline block. Four roles are asynchronous: Risk Scoring aggregates session risk, Adaptive Memory stores incident summaries and drift indicators, Policy Agent owns the candidate lifecycle and is the only role allowed to promote or retire, and Containment executes post-decision side effects. The split keeps governance off the latency path and makes the authority graph acyclic: evidence producers cannot change policy, and the policy owner cannot fabricate evidence.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.62\textwidth]{../figures/architecture.png}
+\caption{NATRIX architecture. The synchronous path contains five roles and produces the per-request verdict. The asynchronous band contains four governance roles. Only the Policy Agent may promote a candidate, and promotion requires quorum, canary evidence, trust, and an audit record.}
+\label{fig:arch}
+\end{figure*}
+
+\subsection{Request Path, Verdict, and Contract Scope}
+The inline path is HTTP request $\rightarrow$ Telemetry Ingestion $\rightarrow$ Zero-Trust Verifier $\rightarrow$ Threat Intelligence $\rightarrow$ ML Engine $\rightarrow$ Orchestrator. The verdict is allow, block, or challenge; policy is a function of the evidence tuple, not a hard-coded threshold on the model alone. The headline accuracy numbers are gate numbers; the orchestration logic is specified and unit-tested but is not the object of the accuracy claim.
+
+The contract is computed from method, path, query, body, and user agent, and does not use response bodies, logs, DNS, or external reputation. The path is included deliberately: a WAF sees it, and endpoint structure is real evidence. The paper therefore says \emph{request contract}, not \emph{payload contract}. The lexical baseline has a separate payload view that excludes the path; that view is a diagnostic, not a description of NATRIX.
+
+\subsection{Threat Model and Shipped Runtime}
+The adversary controls method, path, query, headers, body, encoding, and user agent, and may attempt SQL injection, XSS, traversal, command injection, XXE, Log4Shell-style lookups, and obfuscation. The base threat model assumes that agent processes, model artifacts, and the audit log are not compromised, and that votes carry authenticated agent identity. CPPP addresses unauthorised promotion by a single agent and promotion without canary or quorum; it does not address Byzantine collusion among a majority of agents, Sybil identities, model poisoning, or supply-chain compromise. The evaluation is not an adaptive-evasion study.
+
+The current proxy implements the inline path and a simplified promotion path: a new signature is inserted with \feat{hitCount = 1}, the next observation increments the count, and the candidate becomes active when \feat{hitCount >= 2} or the source contains \feat{PCAP} or \feat{Dataset}. There is no canary, independent quorum, trust value, or automatic decay---exactly the transition CPPP forbids. The formal results are about the specified protocol and its reference implementation, not the shipped proxy; replacing the shortcut is the deployment step.
+
+\section{CPPP and Trust Decay}
+\subsection{Lifecycle, SeedTrust, and Invariants}
+CPPP is a finite-state protocol for candidate rules and models. A candidate is observed, canary, promoted, retired, or rejected. Allowed transitions are observed$\rightarrow$canary, canary$\rightarrow$promoted or rejected, promoted$\rightarrow$retired, and observed$\rightarrow$rejected by policy. There is no observed$\rightarrow$promoted transition, no path in which one agent both supplies the only vote and promotes, and no promotion without an audit record. Quorum counts independent agent identities, not messages, so repeated votes from one agent do not count twice. The canary is the only source of live promotion evidence and cannot be skipped; the Policy Agent cannot satisfy the quorum alone.
+
+An earlier model coupled trust to votes: an agent gained trust by voting, and quorum was counted over agents already above the floor. The invariant was close to true by construction, and a mutant that removed the quorum guard could survive. The revision adds a \feat{SeedTrust} action that sets trust independently of any vote. Votes are recorded separately, and the promotion guard checks both. TLC checks seven safety invariants: \feat{TypeOK}; \feat{NoPromotionWithoutCanary}; \feat{NoPromotionWithoutQuorum}; \feat{NoPromotionWithoutTrust}; \feat{ActiveImpliesAudited}; \feat{RetiredNotActive}; and \feat{NoDirectPromotion}. These are safety, not liveness, properties.
+
+\subsection{Trust Decay}
+Trust is a scalar in $[0,1]$. Without evidence it decays as $T(t)=T_0e^{-\lambda t}$; positive evidence raises trust towards 1 with gain $\alpha\in(0,1]$: $E(T)=T+\alpha(1-T)$. The implementation uses an exact rational discrete model. One scheduler tick applies decay with factor $\rho\in(0,1)$, then reinforcement:
+\begin{equation}
+\operatorname{tick}(T)=\rho T+\alpha(1-\rho T).
+\end{equation}
+Under stationary evidence the fixed point and closed form are
+\begin{equation}
+T^\ast=\frac{\alpha}{1-(1-\alpha)\rho},\qquad
+T_n=T^\ast+(T_0-T^\ast)\bigl((1-\alpha)\rho\bigr)^n.
+\end{equation}
+The contraction factor $(1-\alpha)\rho$ is strictly below 1, so the iteration converges geometrically. A promoted rule whose trust falls below the floor $\tau$ is retired atomically on the tick that would cross it.
+
+\subsection{Verification and Sensitivity}
+TLC checks the one-rule and two-rule configurations (459 and 114,901 states; depth 11 and 18) with no error, and breadth-first enumeration of the executable reference to depth 9 covers 13,278 states and 62,263 transitions with no invariant violation. The mutation test removes one guard at a time; all six mutants are killed, including \feat{no\_quorum}, \feat{no\_canary}, \feat{no\_trust}, \feat{no\_audit}, \feat{direct\_promote}, and \feat{retired\_active}. Trust decay is checked on 81,484 exact-rational cases with zero violations, and nine symbolic identities are proved with SymPy. A sidecar over 700 audit records verified the hash chain and all six runtime invariants. Promotion and retirement cost 3.63 and 3.33\,ms p95 without fsync (34.18 and 34.44\,ms with fsync); validation is 42.70\,ms p95 and should be batched or moved off the critical path.
+
+For five agents with no compromise, raising $K$ from 2 to 4 reduces the promotion probability at weak honest validation ($p=0.2$) from 0.263 to 0.007; with two compromised agents, $K=2$ is already saturated. A slow decay ($\rho=0.95$) gives a half-life of 14 ticks; a fast decay ($\rho=0.50$) gives 1 tick. The paper reports the trade-off rather than an optimum.
+
+\section{Three-Gate Feature Admission}
+\subsection{Contract Versions and Gate A}
+The runtime has four feature contracts. v1 is a 10-dimensional prototype set; v2 is a 16-dimensional threat-typing set; v3 is the 22-dimensional request contract used by the binary gate; v4 is the 20-dimensional contract produced by the admission mechanism. The versions share extraction code and differ only in the feature mask; the ONNX export preserves the input order expected by the service. The 22 v3 features cover shape (length, entropy, ratios, token count), lexical counts and maxima, evasion signals, signature scores, structural counts, and request-method risk.
+
+Gate A requires a feature to be computable from the request fields the inline proxy already has, deterministic, bounded in cost, and independent of response bodies, logs, DNS, and external reputation. It must not be on the pre-registered safety list. That list is a design exception, not a statistical one: seven features are retained because the runtime uses them as direct policy signals (\feat{sql\_keyword\_score}, \feat{xss\_keyword\_score}, \feat{path\_traversal\_score}, \feat{command\_injection\_score}, \feat{null\_byte\_score}, \feat{request\_method\_risk}, and \feat{user\_agent\_anomaly}). Removing one from the model contract would not remove the policy rule; it would only make the audit misleading.
+
+\subsection{Gate B: The Frozen Four-Condition Rule}
+A feature is dropped only if all four conditions hold. \textbf{C1 (univariate):} the Benjamini--Hochberg adjusted $p$-value is at least 0.05 and the absolute Cliff's delta is below 0.10, or the feature is near-constant (zero fraction at least 0.99 in both classes). \textbf{C2 (importance):} permutation importance is in the bottom quartile and its 95\% bootstrap interval contains zero. \textbf{C3 (ablation):} leave-one-feature-out ablation shows no degradation larger than the practical-equivalence margin (accuracy change at most 0.2 percentage points and FPR change at most 0.10 points, with the interval excluding a harmful drop). \textbf{C4 (safety):} the feature is not on the safety list. The conjunction is conservative: a feature weak univariately but important in the model is retained, a feature important but redundant in ablation is retained, and a statistically droppable safety signal is retained.
+
+\subsection{Gate C, Decision Rule, and Outcome}
+Gate C requires added p95 extraction cost on the 8\,KiB worst case to be at most 0.15\,ms. A feature that fails Gate C is not admitted even if Gate B accepts it:
+\begin{equation}
+\operatorname{admit}(f)=\mathrm{Gate\,A}(f)\land\mathrm{Gate\,B}(f)\land\mathrm{Gate\,C}(f).
+\end{equation}
+A feature is \emph{dropped} only if Gate A passes, Gate B fails, and it is not on the safety list. A feature that passes Gate B but fails Gate C is \emph{not admitted} but is not called statistically useless. The distinction is recorded in the evidence table, and there is no post-hoc rescue.
+
+Applied to the 22-dimensional v3 contract on CSIC 2010, the rule drops exactly two features: \feat{param\_pollution\_count} and \feat{html\_tag\_density}. Both are exactly zero in both classes, so C1 holds by the near-constant clause, and their importance and ablation are null. The retained contract is 20-dimensional. Table~\ref{tab:evidence} gives the four-condition row for every feature. \feat{token\_count} is the conservative case: its permutation importance is $-0.00054$ with a 95\% interval of $[-0.00082,-0.00026]$, strictly below zero, so C2 fails and it is retained even though a human might drop it. \feat{special\_char\_ratio} is the opposite anomaly: it is strongly associated univariately and ranks seventh in permutation importance, so C1 and C2 fail, yet leave-one-out ablation shows that removing it \emph{improves} accuracy by 1.52 points (95\% CI [1.37, 1.68]) and lowers FPR by 0.24 points. C3 is written to catch a harmful drop, not a beneficial removal, so the frozen rule retains it. A post-hoc designer would drop it and report the gain; we do not, because that decision would be made after inspecting the outcome. The 1.52 points are an honest bound on what the rule leaves on the table.
+
+\begin{table}[t]
+\caption{Gate B evidence for all 22 v3 features on CSIC 2010. Y means the drop condition is met; a feature is dropped only when C1--C4 are all Y. $^{\dagger}$Safety-retained policy signal. The rule drops two constant features and retains \feat{token\_count} because C2 requires an interval containing zero, not a negative one.}
+\label{tab:evidence}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Feature & C1 & C2 & C3 & C4 & Decision\\
+\midrule
+\feat{param\_pollution\_count} & Y & Y & Y & Y & drop\\
+\feat{html\_tag\_density} & Y & Y & Y & Y & drop\\
+\midrule
+\feat{sql\_keyword\_score}$^{\dagger}$ & N & N & Y & N & retain\\
+\feat{request\_method\_risk}$^{\dagger}$ & N & N & N & N & retain\\
+\feat{xss\_keyword\_score}$^{\dagger}$ & N & Y & Y & N & retain\\
+\feat{path\_traversal\_score}$^{\dagger}$ & Y & Y & Y & N & retain\\
+\feat{user\_agent\_anomaly}$^{\dagger}$ & Y & Y & Y & N & retain\\
+\feat{command\_injection\_score}$^{\dagger}$ & Y & Y & Y & N & retain\\
+\feat{null\_byte\_score}$^{\dagger}$ & Y & Y & Y & N & retain\\
+\midrule
+\feat{uppercase\_ratio} & N & N & N & Y & retain\\
+\feat{hex\_encoding\_ratio} & N & N & N & Y & retain\\
+\feat{digit\_ratio} & N & N & N & Y & retain\\
+\feat{payload\_length} & N & N & N & Y & retain\\
+\feat{max\_value\_special\_ratio} & N & N & N & Y & retain\\
+\feat{shannon\_entropy} & N & N & N & Y & retain\\
+\feat{special\_char\_ratio} & N & N & Y & Y & retain\\
+\feat{max\_value\_length} & N & N & N & Y & retain\\
+\feat{double\_escape\_count} & N & N & N & Y & retain\\
+\feat{quote\_count} & N & N & Y & Y & retain\\
+\feat{suspicious\_extension\_flag} & N & N & Y & Y & retain\\
+\feat{angle\_count} & N & Y & Y & Y & retain\\
+\feat{token\_count} & Y & N & Y & Y & retain\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+v4 is statistically equivalent to v3 on CSIC: both reach 95.55\% at the cross-fitted point, v3 has 1.94\% FPR and v4 1.96\%, the paired difference is $-0.01$ points $[-0.07,+0.06]$, and McNemar $p=0.8624$; the nested policy gives 94.67/1.26 and 94.59/1.24. The dropped features are constant zero on every CSIC request, so removing them cannot change a tree partition. v4's value is a smaller, justified contract, not an accuracy gain.
+
+The same mechanism screened 24 pre-registered candidates drawn from the literature, runtime capability, and error analysis. Twelve pass the statistical screen (mean delta F1 above its standard error and positive in at least four of five folds). None is admitted: the accepted block costs 1.71\,ms p95 against the 0.15\,ms budget, and the full 24-candidate pass costs 2.33\,ms. Five accepted candidates (\feat{backslash\_count}, \feat{brace\_count}, \feat{nonascii\_ratio}, \feat{ldap\_filter\_score}, \feat{crlf\_sequence\_count}) are constant on CSIC, so their identical $+0.046$-point gain is an RNG artefact; the rest require a second body pass or full Unicode normalisation. The paper answers ``why is this feature here?'' for all 22 features and ``why is this candidate not here?'' for all 24. That negative adoption decision is a designed outcome, not a failure to find a better model.
+
+\section{Evaluation Protocol}
+\label{sec:protocol}
+Four labelled HTTP corpora are used. CSIC 2010~\cite{csic2010dataset} is the primary benchmark: 97,065 raw requests deduplicate to 34,593 unique requests (18,640 clean, 15,953 attack) on (method, path, query, body, user agent), with no label conflicts. ECML/PKDD 2007~\cite{raissi2007web} contains 50,116 requests (35,006 clean, 15,110 attack) with seven attack classes. SR-BH 2020~\cite{srbh2020dataset} parses to 907,815 rows; deduplication removes 485,237 duplicates and 524 conflicts, leaving 422,054 unique requests (122,546 clean, 299,508 attack) and 338,640 endpoint groups. OpenAppSec WCP 2024~\cite{openappsec2024} provides 137,820 legitimate requests from 692 site files and 73,924 malicious payloads; every malicious row has path \texttt{/}, so a random split leaks the endpoint. WCP is diagnostic only.
+
+\textbf{P1 (deployment-like).} Stratified five-fold over unique requests. No identical request crosses the split, but the same endpoint may appear in training and test. This matches WAF operation, where the endpoint is known and the question is whether a request to it is malicious. \textbf{P2 (endpoint-disjoint).} Stratified group five-fold. A group is defined by (method, normalised path, query keys, body keys) and assigned wholly to one fold. P2 is the generalisation bound, never the headline. It is often misread as path-free; it is not. The path string remains a feature; what P2 removes is the identity of the endpoint as a memorisable training item. P2 folds are built once per corpus and reused by every score-based detector, which makes the comparison paired.
+
+The primary learner is the shipped gate: a Random Forest with 200 trees, unlimited depth, \feat{min\_samples\_leaf=1}, \feat{max\_features=None}, no class weighting, and \feat{random\_state=42}. It is pinned to the deployed artifact and not tuned on test folds. The lexical baseline is a hashed character 2--4 gram representation ($2^{18}$ dimensions, L2-normalised) with an L2-regularised logistic-loss SGD classifier at $\alpha=10^{-5}$, 30 epochs, and averaging; it has endpoint, payload, and full views. An independent character-level CNN (32-dimensional byte embedding, two convolutions, max-pooling, five epochs) is trained on the same folds and calibrated with the same policy. The generic control is a 17-feature LightGBM over request-shape descriptors with no security keywords and no NATRIX feature. CRS is the official \texttt{owasp/modsecurity-crs} 4.25.2 nginx image at PL1--PL3, with anomaly threshold 5, request-body inspection on, and response-body inspection off.
+
+All score-based detectors use leave-one-fold-out thresholds at FPR $\le 2\%$, the deployment policy; a fully nested inner-five-fold policy is reported as a stricter check. Confidence intervals are percentile bootstrap with 2,000 resamples~\cite{efron1993introduction}; paired comparisons use McNemar's test~\cite{mcnemar1947note} and a paired bootstrap, read descriptively across the table~\cite{demsar2006statistical}. The feature audit uses Benjamini--Hochberg correction across the 22 tests~\cite{benjamini1995controlling}. The latency path is the real Node proxy, HTTP \texttt{/predict}, ONNX inference, threat typing, and verdict; it excludes synchronous SQLite writes, disk logging, and containment. The input is 10,000 real requests (5,000 CSIC, 3,000 ECML, 2,000 WCP); after 300 warm-up requests, 9,700 are measured with zero failures.
+
+\section{Results}
+\subsection{Matched Operating Points}
+Table~\ref{tab:detectors} reports the cross-fitted FPR $\le 2\%$ point under both protocols. Under P1, NATRIX reaches 95.55/1.93 on CSIC, 91.96/1.67 on ECML, and 90.79/1.96 on the SR-BH 20k sample. The lexical full-request baseline is stronger on every corpus at the same policy: 96.57/1.96, 93.93/0.43, and 95.41/1.98. The lexical payload view is also stronger on CSIC and ECML but collapses on SR-BH (36.20\% accuracy, 10.91\% recall). CRS PL1 is not competitive (Table~\ref{tab:detectors}).
+
+\begin{table*}[t]
+\caption{Matched operating points at the cross-fitted FPR $\le 2\%$ policy. P1 is deployment-like; P2 is endpoint-disjoint. CRS is a frozen PL1 replay and is not tuned to 2\%. SR-BH rows use the shared 20k sample. Values are percentages.}
+\label{tab:detectors}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+ & & \multicolumn{3}{c}{P1 (deployment-like)} & \multicolumn{3}{c}{P2 (endpoint-disjoint)}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+Corpus & Detector & Acc & FPR & Rec & Acc & FPR & Rec\\
+\midrule
+CSIC & NATRIX & 95.55 & 1.93 & 92.60 & 78.85 & 6.50 & 61.73\\
+CSIC & Lex-full & 96.57 & 1.96 & 94.84 & 69.53 & 21.57 & 59.13\\
+CSIC & Lex-payload & 96.90 & 1.88 & 95.47 & 96.03 & 2.43 & 94.24\\
+CSIC & CRS PL1 & 66.24 & 0.03 & 26.84 & -- & -- & --\\
+ECML & NATRIX & 91.96 & 1.67 & 77.19 & 91.60 & 1.75 & 76.21\\
+ECML & Lex-full & 93.93 & 0.43 & 80.85 & 93.76 & 0.51 & 80.47\\
+ECML & Lex-payload & 92.66 & 0.54 & 76.90 & 92.70 & 0.44 & 76.81\\
+SR-BH & NATRIX 20k & 90.79 & 1.96 & 87.82 & 90.62 & 1.88 & 87.56\\
+SR-BH & Lex-full & 95.41 & 1.98 & 94.34 & 94.75 & 2.01 & 93.43\\
+SR-BH & Lex-payload & 36.20 & 2.00 & 10.91 & 36.27 & 1.88 & 10.97\\
+SR-BH & CRS PL1 & 44.29 & 25.80 & 32.00 & -- & -- & --\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Under P2, NATRIX falls to 78.85/6.50 on CSIC, lexical full to 69.53/21.57, while lexical payload stays at 96.03/2.43 with 94.24\% recall. The full-request lexical model was using endpoint identity; on unseen endpoints that prior becomes a false-positive generator. On SR-BH, lexical full stays at 94.75/2.01 with 93.43\% recall and lexical payload collapses to 36.27/1.88 with 10.97\% recall. The path is the signal on SR-BH and generalises to unseen groups. An independent char-CNN reproduces the inversion. On CSIC P2 its full view falls to 85.45/21.63 while its payload view holds at 96.03/1.57; on SR-BH P1 its full view reaches 95.34/2.36 while its payload view falls to 36.05/1.95 with 10.67\% recall. The collapse is a property of the protocol and the view, not of the hashed n-gram learner. Neither protocol alone is universal.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.78\textwidth]{../figures/revision_protocol_sensitivity.png}
+\caption{Matched operating points for NATRIX, lexical full-request, and lexical payload under P1 and P2. Panel (a) is accuracy and panel (b) is realised FPR. The CSIC P2 panel shows the endpoint-disjoint collapse of the full-request lexical model; the SR-BH P2 panel shows the opposite payload collapse.}
+\label{fig:protocol}
+\end{figure*}
+
+\subsection{View Ablation}
+\label{sec:views}
+Table~\ref{tab:views} reports five views of the same contract. On SR-BH P1, full reaches 90.79/1.96 with 87.82\% recall; removing every path-derived feature drops recall to 12.74\%, while a path-only model retains 85.53\%. Query-only and body-only models reach 11.10\% and 9.58\% recall. P2 gives 90.62/1.88, 12.49\%, and 85.31\%. Path morphology, not endpoint memorisation, carries the SR-BH signal, so SR-BH is not evidence for payload detection.
+
+On CSIC P2 the pattern inverts. Full reaches 78.85/6.50 with 61.73\% recall; no-path reaches 75.07/4.26 with 50.92\%, only 3.78 points below full at a lower FPR. A path-only model has high recall (74.64\%) but flags 99.92\% of clean requests, so accuracy collapses to 34.47\%. The path adds recall at a false-positive cost, and payload carries substantial signal: on CSIC P2 lexical payload beats NATRIX full, while on SR-BH P2 NATRIX full beats lexical payload.
+
+\begin{table}[t]
+\caption{View ablation on the 22-D contract at the cross-fitted FPR $\le 2\%$ policy. Values are percentages.}
+\label{tab:views}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Protocol & View & Acc & FPR & Rec\\
+\midrule
+SR-BH P1 & full & 90.79 & 1.96 & 87.82\\
+SR-BH P1 & no-path & 37.52 & 1.93 & 12.74\\
+SR-BH P1 & path-only & 89.16 & 1.98 & 85.53\\
+SR-BH P2 & full & 90.62 & 1.88 & 87.56\\
+SR-BH P2 & no-path & 37.29 & 2.08 & 12.49\\
+SR-BH P2 & path-only & 89.05 & 1.83 & 85.31\\
+CSIC P2 & full & 78.85 & 6.50 & 61.73\\
+CSIC P2 & no-path & 75.07 & 4.26 & 50.92\\
+CSIC P2 & path-only & 34.47 & 99.92 & 74.64\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{CRS Paranoia Levels}
+\label{sec:crs}
+Table~\ref{tab:crs} reports the same 34,593 CSIC requests replayed through CRS at PL1--PL3. At PL1, CRS reaches 66.24\% accuracy at 0.03\% FPR with 26.84\% recall: it blocks 4,281 of 15,953 attacks and only 6 of 18,640 clean requests. PL2 gives 63.82/16.07/40.35 and PL3 gives 51.91/71.21/78.92. The paranoia level is a recall/FPR dial: PL2 still exceeds the 2\% budget eightfold and PL3 flags seven in ten legitimate requests. It is not a substitute for a learned payload model.
+
+\begin{table}[t]
+\caption{ModSecurity CRS 4.25.2 paranoia levels on the 34,593 CSIC requests. Transport failures (49 at PL2, 6 at PL3) and edge rejections are excluded from decision metrics.}
+\label{tab:crs}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+PL & Acc & FPR & Rec & F1 & p95 (ms)\\
+\midrule
+PL1 & 66.24 & 0.03 & 26.84 & 0.4230 & 317.7\\
+PL2 & 63.82 & 16.07 & 40.35 & 0.5072 & 1729.8\\
+PL3 & 51.91 & 71.21 & 78.92 & 0.6021 & 1877.0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{SR-BH Scale}
+The SR-BH full-versus-20k gap is a sample-size effect. The full corpus reaches 95.70/1.95 with 94.74\% recall; the shared 20k sample reaches 90.79/1.96 with 87.82\% recall: a 4.91-point accuracy and 6.92-point recall gap at nearly the same FPR. Attack prevalence (70.96\% vs 70.97\%) and the SQL-injection share (63.77\% vs 63.30\%) are matched, so the prior is not the explanation. The nested curve is monotonic: 10k 87.86, 20k 90.31, 50k 93.43, 100k 94.09, 200k 95.00, full 95.70. Under P2 the 20k sample reaches 90.62/1.88 with 87.56\% recall and the full corpus 94.01/2.77 with 92.70\%, so scale does not remove the endpoint-disjoint penalty. No full-scale ranking is claimed because the lexical baseline is replayed only on the sample.
+
+\subsection{Dilution and the v3-D Variant}
+The bounded mutation suite applies the full mutation set to all 15,953 CSIC attacks. v3 reaches 92.60\% clean recall; under mutation it falls to 82.47\% ($-10.13$ points) and 2,639 attacks that v3 originally blocked are evaded (17.86\%). v3-D adds nine per-parameter and per-path maxima to stop an ignored appended parameter from diluting an aggregate ratio. It reaches 96.79\% accuracy at 2.08\% FPR with 95.46\% clean recall; mutated recall is 85.51\% ($-9.95$ points) and 2,222 attacks are evaded. On the targeted subset (14,350 attacks with a query or body), v3 falls from 91.83\% to 58.51\% ($-33.32$ points, 5,197 evaded) and v3-D from 94.99\% to 66.55\% ($-28.44$ points, 4,387 evaded). The targeted loss is 4.88 points smaller, but a 28-point loss remains: the fix is partial.
+
+\subsection{Controls, Fusion, Latency, and Parity}
+The generic 17-feature control is weaker than NATRIX at the same budget everywhere, including CSIC P2 (67.65/30.80 with 65.84\% recall) and SR-BH P2 (71.96/2.00 with 61.30\% recall). The NATRIX+lexical stacker improves on the lexical base on CSIC P1 (98.45/1.24 with 98.08\% recall; nested 98.24/1.32 with 97.72\% recall) and on SR-BH P2 full by 1.46 points. It does not improve on CSIC P2 full ($-1.98$ points) or CSIC P2 payload ($-0.14$), because the full stack inherits both base scores' endpoint failure. The SR-BH P2 payload ``gain'' (+55.18 points over lexical payload) is the NATRIX path signal re-entering the stack, not a payload-fusion effect. Gate-plus-CRS OR fusion is redundant on CSIC ($+14$ attacks for $+6$ false positives, $p=0.115$) and over budget elsewhere (ECML 1.67\%$\to$21.19\%, SR-BH 1.96\%$\to$27.16\%, WCP 0.11\%$\to$6.71\% FPR). These are negative results for naive score fusion.
+
+\begin{table}[t]
+\caption{Generic control and cross-fitted stackers at the FPR $\le 2\%$ policy. Cells are accuracy/FPR (\%). The lexical base is in Table~\ref{tab:detectors}. N = NATRIX, G = generic 17-feature LightGBM, Lex = hashed character n-gram.}
+\label{tab:controls}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Corpus & View & Generic & N+Lex & G+Lex & N+G+Lex\\
+\midrule
+CSIC P1 & full & 86.90/1.97 & 98.45/1.24 & 96.97/1.96 & 98.44/1.24\\
+CSIC P2 & full & 67.65/30.80 & 67.55/21.35 & 64.04/21.68 & 72.71/21.07\\
+CSIC P2 & payload & 67.65/30.80 & 95.89/2.70 & 96.19/2.09 & 96.33/1.85\\
+ECML P2 & full & 90.74/1.90 & 94.02/0.35 & 93.79/0.57 & 93.91/0.51\\
+ECML P2 & payload & 90.74/1.90 & 93.54/0.40 & 93.59/0.69 & 93.63/0.74\\
+SR-BH P2 & full & 71.96/2.00 & 96.21/2.00 & 93.61/2.53 & 96.19/2.01\\
+SR-BH P2 & payload & 71.96/2.00 & 91.46/1.95 & 72.74/1.00 & 91.64/2.00\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Over 9,700 measured requests, the p50 is 2.86\,ms, the p95 is 3.78\,ms, and the p99 is 5.69\,ms; the worst request is 32.68\,ms. The HTTP hop dominates: its p95 is 3.61\,ms, extraction is 0.20\,ms, and ONNX scoring is 0.004\,ms. Per-corpus p95 values are 3.86\,ms (CSIC), 3.54\,ms (ECML), and 3.85\,ms (WCP); the 8\,KiB adversarial extraction worst case is 6.68\,ms p95. A p95 is not a hard bound. ONNX parity over 79,593 records gives a maximum absolute probability difference of $1.79\times10^{-7}$ for the gate and $1.26\times10^{-7}$ for the typing model; all label disagreements are exact ties.
+
+\section{Discussion and Limitations}
+\label{sec:discussion}
+The evidence supports five claims, none state-of-the-art: the three-gate mechanism is a reusable decision procedure (22$\rightarrow$20 with every row justified, 0/24 candidates admitted on cost); inline p95 is 3.78\,ms over 9,700 requests and the HTTP hop dominates; CPPP's control flow is model-checked, mutation-tested, and implemented; the comparison protocol is itself a contribution, since NATRIX is competitive under P1 but does not beat the lexical baseline and P2 changes the ranking by corpus; and the dilution fix is a measured partial improvement.
+
+It does not support universal generalisation: ECML misses the 95\% target, P2 fails on CSIC, and the 20k sample understates full SR-BH by 4.91 points. Transfer is severe (AUC 0.435 and 0.486, below chance; ten features reverse direction). It does not show that NATRIX is best, that v4 improves accuracy, that the detector is adversarially robust, that gate+CRS fusion helps at 2\%, that the proxy enforces CPPP, or that the results hold on live traffic.
+
+\textbf{Limitations.} CSIC and ECML are old; SR-BH is attack-dominant; WCP is site-clustered with all malicious paths \texttt{/}; none is a probability sample. Labels use different ontologies. P1 inflates performance; P2 is the bound and fails on CSIC. The nested policy misses 95\% by 0.33--0.41 points; the cross-fitted policy is not fully nested. The forest is pinned; the secondary learners and generic control are fixed references. TLC covers three agents and two rules; BFS is bounded at depth 9; Byzantine faults, Sybil identities, poisoning, and supply chain are out of scope. Latency is a single-workstation component measurement excluding writes, logging, and containment. The mutation study is bounded, not adaptive. CRS is a frozen configuration; the lexical baseline is not a reproduction of a named system. Baselines are replayed only on 20k SR-BH, so no full-scale ranking is claimed. All evidence is offline.
+
+\textbf{Implications.} Preserve the inline/async split; calibrate per deployment (0.5 gives 2.07/7.56/1.50\% FPR on CSIC/SR-BH/ECML); treat feature direction as non-portable; fix transport before the forest for a hard latency bound; require a complementary learned second agent; and make endpoint-only and payload-only baselines mandatory in WAF papers.
+
+\section{Conclusion}
+NATRIX separates the decision path from the governance path and makes promotion a modelled protocol rather than an operator convention. The positive results are concrete: a 20-dimensional contract with a written justification for every decision; a 24-candidate screen that admits none because cost exceeds budget; a model-checked promotion protocol with six of six mutants killed and 81,484 exact-rational decay cases; and an inline p95 of 3.78\,ms with a p99 of 5.69\,ms. The negative results are equally concrete: a lexical full-request baseline is stronger than NATRIX under P1 on every corpus, and a char-CNN is comparable on CSIC; P2 fails on CSIC; SR-BH is carried by path morphology; transfer AUCs are below chance; CRS fusion is negative at 2\%; v4 is not an accuracy gain; and the targeted dilution attack still removes 28.44 points with v3-D. The conclusion is not that the detector is universal or state of the art, but that the architecture and the evidence standard are reusable. Future work includes a shadow-mode canary with a labelled observation window, adaptive adversarial evaluation, and a dilution-invariant maximum-over-parameters contract. A reproducibility package containing the feature extractor, experiment scripts, ONNX artifacts, formal models, and manuscript build is available at \url{https://github.com/NameetAhire/natrix-auditable}.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

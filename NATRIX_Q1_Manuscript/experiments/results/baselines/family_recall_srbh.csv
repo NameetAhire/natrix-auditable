@@ -1,0 +1,34 @@
+corpus,detector,family,n,recall
+srbh,natrix_v3,126 - Path Traversal,586,0.8856655290102389
+srbh,natrix_v3,153 - Input Data Manipulation,45,0.6
+srbh,natrix_v3,16 - Dictionary-based Password Attack,67,0.9104477611940298
+srbh,natrix_v3,194 - Fake the Source of Data,2202,0.8319709355131698
+srbh,natrix_v3,242 - Code Injection,597,0.9179229480737019
+srbh,natrix_v3,272 - Protocol Manipulation,211,0.4218009478672986
+srbh,natrix_v3,274 - HTTP Verb Tampering,201,0.9303482587064676
+srbh,natrix_v3,310 - Scanning for Vulnerable Software,110,0.9727272727272728
+srbh,natrix_v3,34 - HTTP Response Splitting,879,0.7792946530147895
+srbh,natrix_v3,66 - SQL Injection,8984,0.9128450578806767
+srbh,natrix_v3,88 - OS Command Injection,311,0.7813504823151125
+srbh,lexical_full,126 - Path Traversal,586,0.9539249146757679
+srbh,lexical_full,153 - Input Data Manipulation,45,0.8
+srbh,lexical_full,16 - Dictionary-based Password Attack,67,0.9701492537313433
+srbh,lexical_full,194 - Fake the Source of Data,2202,0.9573115349682108
+srbh,lexical_full,242 - Code Injection,597,0.9731993299832495
+srbh,lexical_full,272 - Protocol Manipulation,211,0.5213270142180095
+srbh,lexical_full,274 - HTTP Verb Tampering,201,0.13930348258706468
+srbh,lexical_full,310 - Scanning for Vulnerable Software,110,0.6
+srbh,lexical_full,34 - HTTP Response Splitting,879,0.9954493742889647
+srbh,lexical_full,66 - SQL Injection,8984,0.9715048975957258
+srbh,lexical_full,88 - OS Command Injection,311,0.7588424437299035
+srbh,lexical_payload,126 - Path Traversal,586,0.07679180887372014
+srbh,lexical_payload,153 - Input Data Manipulation,45,0.7555555555555555
+srbh,lexical_payload,16 - Dictionary-based Password Attack,67,0.9850746268656716
+srbh,lexical_payload,194 - Fake the Source of Data,2202,0.11035422343324251
+srbh,lexical_payload,242 - Code Injection,597,0.18760469011725292
+srbh,lexical_payload,272 - Protocol Manipulation,211,0.3127962085308057
+srbh,lexical_payload,274 - HTTP Verb Tampering,201,0.01990049751243781
+srbh,lexical_payload,310 - Scanning for Vulnerable Software,110,0.01818181818181818
+srbh,lexical_payload,34 - HTTP Response Splitting,879,0.080773606370876
+srbh,lexical_payload,66 - SQL Injection,8984,0.0671193232413179
+srbh,lexical_payload,88 - OS Command Injection,311,0.9646302250803859

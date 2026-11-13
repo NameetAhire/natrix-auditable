@@ -1,0 +1,191 @@
+{
+  "v1": {
+    "count": 10,
+    "features": [
+      "payload_length",
+      "shannon_entropy",
+      "special_char_ratio",
+      "digit_ratio",
+      "uppercase_ratio",
+      "token_count",
+      "sql_keyword_score",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly"
+    ]
+  },
+  "v2": {
+    "count": 16,
+    "features": [
+      "payload_length",
+      "shannon_entropy",
+      "special_char_ratio",
+      "digit_ratio",
+      "uppercase_ratio",
+      "token_count",
+      "sql_keyword_score",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "hex_encoding_ratio",
+      "null_byte_score",
+      "param_pollution_count",
+      "html_tag_density",
+      "request_method_risk"
+    ],
+    "groups": {
+      "shape": [
+        "payload_length",
+        "shannon_entropy",
+        "special_char_ratio",
+        "digit_ratio",
+        "uppercase_ratio",
+        "token_count"
+      ],
+      "signature": [
+        "sql_keyword_score",
+        "xss_keyword_score",
+        "path_traversal_score",
+        "user_agent_anomaly"
+      ],
+      "evasion": [
+        "command_injection_score",
+        "hex_encoding_ratio",
+        "null_byte_score"
+      ],
+      "structural": [
+        "param_pollution_count",
+        "html_tag_density"
+      ],
+      "behavioral": [
+        "request_method_risk"
+      ],
+      "lexical": [
+        "suspicious_extension_flag",
+        "quote_count",
+        "angle_count",
+        "double_escape_count",
+        "max_value_special_ratio",
+        "max_value_length"
+      ]
+    },
+    "descriptions": {
+      "payload_length": "Total characters in URL path + query string + request body.",
+      "shannon_entropy": "Shannon entropy of the payload; high values indicate encoded or random content.",
+      "special_char_ratio": "Fraction of non-alphanumeric, non-whitespace characters.",
+      "digit_ratio": "Fraction of numeric characters (hex/ASCII encoding signal).",
+      "uppercase_ratio": "Fraction of uppercase ASCII letters (keyword-style SQL signal).",
+      "token_count": "Number of whitespace-delimited lexical tokens.",
+      "sql_keyword_score": "Number of distinct SQL-injection keywords present.",
+      "xss_keyword_score": "Number of distinct XSS/script-injection keywords present.",
+      "path_traversal_score": "Number of distinct directory-traversal patterns present.",
+      "user_agent_anomaly": "1 when the User-Agent names a known attack scanner, else 0.",
+      "command_injection_score": "Number of shell/RCE command-injection patterns present.",
+      "hex_encoding_ratio": "Fraction of payload characters consumed by %XX, \\xXX or \\uXXXX escapes.",
+      "null_byte_score": "1 when a literal or encoded null byte is present, else 0.",
+      "param_pollution_count": "Number of duplicated parameter keys (HTTP parameter pollution).",
+      "html_tag_density": "Opening HTML/XML/SVG tags per whitespace token.",
+      "request_method_risk": "Risk weight of the HTTP verb (GET 0.1 ... TRACE 1.0).",
+      "suspicious_extension_flag": "1 when the path ends in a backup/config/source extension, else 0.",
+      "quote_count": "Total single/double quote characters, raw or percent-encoded.",
+      "angle_count": "Total angle-bracket characters, raw or percent-encoded.",
+      "double_escape_count": "Number of %25XX double-encoded sequences (evasion signal).",
+      "max_value_special_ratio": "Highest non-alphanumeric, non-space ratio among parameter values.",
+      "max_value_length": "Length of the longest query or form parameter value."
+    }
+  },
+  "v3": {
+    "count": 22,
+    "features": [
+      "payload_length",
+      "shannon_entropy",
+      "special_char_ratio",
+      "digit_ratio",
+      "uppercase_ratio",
+      "token_count",
+      "sql_keyword_score",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "hex_encoding_ratio",
+      "null_byte_score",
+      "param_pollution_count",
+      "html_tag_density",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "quote_count",
+      "angle_count",
+      "double_escape_count",
+      "max_value_special_ratio",
+      "max_value_length"
+    ],
+    "groups": {
+      "shape": [
+        "payload_length",
+        "shannon_entropy",
+        "special_char_ratio",
+        "digit_ratio",
+        "uppercase_ratio",
+        "token_count"
+      ],
+      "signature": [
+        "sql_keyword_score",
+        "xss_keyword_score",
+        "path_traversal_score",
+        "user_agent_anomaly"
+      ],
+      "evasion": [
+        "command_injection_score",
+        "hex_encoding_ratio",
+        "null_byte_score"
+      ],
+      "structural": [
+        "param_pollution_count",
+        "html_tag_density"
+      ],
+      "behavioral": [
+        "request_method_risk"
+      ],
+      "lexical": [
+        "suspicious_extension_flag",
+        "quote_count",
+        "angle_count",
+        "double_escape_count",
+        "max_value_special_ratio",
+        "max_value_length"
+      ]
+    },
+    "descriptions": {
+      "payload_length": "Total characters in URL path + query string + request body.",
+      "shannon_entropy": "Shannon entropy of the payload; high values indicate encoded or random content.",
+      "special_char_ratio": "Fraction of non-alphanumeric, non-whitespace characters.",
+      "digit_ratio": "Fraction of numeric characters (hex/ASCII encoding signal).",
+      "uppercase_ratio": "Fraction of uppercase ASCII letters (keyword-style SQL signal).",
+      "token_count": "Number of whitespace-delimited lexical tokens.",
+      "sql_keyword_score": "Number of distinct SQL-injection keywords present.",
+      "xss_keyword_score": "Number of distinct XSS/script-injection keywords present.",
+      "path_traversal_score": "Number of distinct directory-traversal patterns present.",
+      "user_agent_anomaly": "1 when the User-Agent names a known attack scanner, else 0.",
+      "command_injection_score": "Number of shell/RCE command-injection patterns present.",
+      "hex_encoding_ratio": "Fraction of payload characters consumed by %XX, \\xXX or \\uXXXX escapes.",
+      "null_byte_score": "1 when a literal or encoded null byte is present, else 0.",
+      "param_pollution_count": "Number of duplicated parameter keys (HTTP parameter pollution).",
+      "html_tag_density": "Opening HTML/XML/SVG tags per whitespace token.",
+      "request_method_risk": "Risk weight of the HTTP verb (GET 0.1 ... TRACE 1.0).",
+      "suspicious_extension_flag": "1 when the path ends in a backup/config/source extension, else 0.",
+      "quote_count": "Total single/double quote characters, raw or percent-encoded.",
+      "angle_count": "Total angle-bracket characters, raw or percent-encoded.",
+      "double_escape_count": "Number of %25XX double-encoded sequences (evasion signal).",
+      "max_value_special_ratio": "Highest non-alphanumeric, non-space ratio among parameter values.",
+      "max_value_length": "Length of the longest query or form parameter value."
+    }
+  },
+  "default_version": "v3",
+  "supported_versions": [
+    "v1",
+    "v2",
+    "v3"
+  ]
+}

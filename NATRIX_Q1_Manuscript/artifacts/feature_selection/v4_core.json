@@ -1,0 +1,44 @@
+{
+  "retained_core": [
+    "uppercase_ratio",
+    "hex_encoding_ratio",
+    "digit_ratio",
+    "payload_length",
+    "max_value_special_ratio",
+    "shannon_entropy",
+    "special_char_ratio",
+    "sql_keyword_score",
+    "max_value_length",
+    "double_escape_count",
+    "quote_count",
+    "request_method_risk",
+    "suspicious_extension_flag",
+    "xss_keyword_score",
+    "path_traversal_score",
+    "user_agent_anomaly",
+    "command_injection_score",
+    "null_byte_score",
+    "angle_count",
+    "token_count"
+  ],
+  "dropped": [
+    "param_pollution_count",
+    "html_tag_density"
+  ],
+  "n_retained": 20,
+  "n_dropped": 2,
+  "criteria": {
+    "univariate": "BH p>=0.05 and |Cliff delta|<0.10, or zero in >=99% of both classes",
+    "importance": "permutation importance in bottom quartile and 95% CI contains 0",
+    "ablation": "delta accuracy >= -0.002, CI lower >= -0.002, delta FPR <= 0.001",
+    "safety": [
+      "command_injection_score",
+      "null_byte_score",
+      "path_traversal_score",
+      "request_method_risk",
+      "sql_keyword_score",
+      "user_agent_anomaly",
+      "xss_keyword_score"
+    ]
+  }
+}

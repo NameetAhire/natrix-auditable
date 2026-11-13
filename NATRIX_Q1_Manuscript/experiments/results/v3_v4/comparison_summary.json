@@ -1,0 +1,207 @@
+{
+  "seeds": [
+    42,
+    123,
+    2026
+  ],
+  "n_records": 34593,
+  "v3_features": 22,
+  "v4_features": 20,
+  "v4_definition": {
+    "v3_features": [
+      "payload_length",
+      "shannon_entropy",
+      "special_char_ratio",
+      "digit_ratio",
+      "uppercase_ratio",
+      "token_count",
+      "sql_keyword_score",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "hex_encoding_ratio",
+      "null_byte_score",
+      "param_pollution_count",
+      "html_tag_density",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "quote_count",
+      "angle_count",
+      "double_escape_count",
+      "max_value_special_ratio",
+      "max_value_length"
+    ],
+    "retained_core": [
+      "uppercase_ratio",
+      "hex_encoding_ratio",
+      "digit_ratio",
+      "payload_length",
+      "max_value_special_ratio",
+      "shannon_entropy",
+      "special_char_ratio",
+      "sql_keyword_score",
+      "max_value_length",
+      "double_escape_count",
+      "quote_count",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "null_byte_score",
+      "angle_count",
+      "token_count"
+    ],
+    "accepted_candidates": [],
+    "v4_features": [
+      "uppercase_ratio",
+      "hex_encoding_ratio",
+      "digit_ratio",
+      "payload_length",
+      "max_value_special_ratio",
+      "shannon_entropy",
+      "special_char_ratio",
+      "sql_keyword_score",
+      "max_value_length",
+      "double_escape_count",
+      "quote_count",
+      "request_method_risk",
+      "suspicious_extension_flag",
+      "xss_keyword_score",
+      "path_traversal_score",
+      "user_agent_anomaly",
+      "command_injection_score",
+      "null_byte_score",
+      "angle_count",
+      "token_count"
+    ],
+    "n_features": 20,
+    "screening": {
+      "outer_folds": 5,
+      "inner_folds": 3,
+      "trees": 100,
+      "rule": "mean delta F1 > SE across outer folds and positive in >=4/5 folds"
+    },
+    "candidate_pool_decision": {
+      "adopted": false,
+      "reason": "candidate extraction exceeds the pre-registered 0.15 ms worst-case budget; the pool is rejected regardless of accuracy",
+      "worst_case_added_p95_ms": 3.799159999999999,
+      "worst_case_combined_p95_ms": 10.91818,
+      "budget_ms": 0.15,
+      "screening_accepted_raw": [
+        "url_depth",
+        "semicolon_count",
+        "backslash_count",
+        "brace_count",
+        "dollar_count",
+        "longest_token_length",
+        "nonascii_ratio",
+        "max_param_name_entropy",
+        "param_name_digit_ratio",
+        "empty_value_ratio",
+        "ldap_filter_score",
+        "crlf_sequence_count"
+      ],
+      "screening_rejected": [
+        "query_param_count",
+        "body_param_count",
+        "body_to_url_ratio",
+        "percent_ratio",
+        "punctuation_diversity",
+        "duplicate_value_count",
+        "xpath_score",
+        "ssi_directive_score",
+        "nosql_operator_score",
+        "template_expression_score",
+        "log4shell_score",
+        "absolute_uri_in_target"
+      ],
+      "degenerate_on_csic": [
+        "backslash_count",
+        "brace_count",
+        "nonascii_ratio",
+        "ldap_filter_score",
+        "crlf_sequence_count"
+      ],
+      "note": "Five raw-accepted candidates are exactly constant on CSIC; their +0.046 pp screening delta is an artefact of the random feature order in the forest, not signal. The cost budget is the binding rejection criterion, and the degenerate candidates are recorded so the screening table is not over-interpreted."
+    }
+  },
+  "decision_rule": "fold-specific threshold selected by inner CV; test fold scored once",
+  "mcnemar_v4_vs_v3": {
+    "n_a_only": 90,
+    "n_b_only": 70,
+    "statistic": 70.0,
+    "p_value": 0.13282253314752568
+  },
+  "accuracy_delta_v4_minus_v3": {
+    "mean": 0.0005781516491775163,
+    "ci_lo": -8.67227473766441e-05,
+    "ci_hi": 0.0013008412106495504
+  },
+  "mcnemar_v4_vs_v3_fpr2": {
+    "n_a_only": 83,
+    "n_b_only": 91,
+    "statistic": 83.0,
+    "p_value": 0.5957764574073563
+  },
+  "accuracy_delta_v4_minus_v3_fpr2": {
+    "mean": -0.00023126065967105092,
+    "ci_lo": -0.0009828578036018582,
+    "ci_hi": 0.0004625213193419936
+  },
+  "non_inferiority_margin": 0.005,
+  "non_inferior_accuracy": true,
+  "non_inferior_accuracy_fpr2": true,
+  "per_seed": [
+    {
+      "features": "v3",
+      "policy": "f1",
+      "accuracy": 0.9586814288054423,
+      "fpr": 0.03108011444921316,
+      "fnr": 0.053281514448693036,
+      "f1": 0.9548186894014442
+    },
+    {
+      "features": "v3",
+      "policy": "fpr1",
+      "accuracy": 0.9217471742838147,
+      "fpr": 0.005972818311874105,
+      "fnr": 0.16270711882822456,
+      "f1": 0.9079923689727559
+    },
+    {
+      "features": "v3",
+      "policy": "fpr2",
+      "accuracy": 0.9466847820850076,
+      "fpr": 0.012571530758226037,
+      "fnr": 0.10092145677928915,
+      "f1": 0.9395885611671707
+    },
+    {
+      "features": "v4",
+      "policy": "f1",
+      "accuracy": 0.9591343142639648,
+      "fpr": 0.03031115879828326,
+      "fnr": 0.053197935602499004,
+      "f1": 0.9552965883608587
+    },
+    {
+      "features": "v4",
+      "policy": "fpr1",
+      "accuracy": 0.9216315439539792,
+      "fpr": 0.005829756795422031,
+      "fnr": 0.16312501305919472,
+      "f1": 0.9078276376722836
+    },
+    {
+      "features": "v4",
+      "policy": "fpr2",
+      "accuracy": 0.9459331849410767,
+      "fpr": 0.012410586552217454,
+      "fnr": 0.10273929668400927,
+      "f1": 0.9386737633127501
+    }
+  ]
+}

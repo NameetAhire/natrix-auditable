@@ -1,0 +1,43 @@
+\begin{table*}[t]
+\centering
+\caption{Four-condition feature-drop evidence on CSIC 2010.
+C1: BH-adjusted $p\ge0.05$ and $|\delta|<0.10$, or zero in $\ge99\%$
+of both classes. C2: permutation importance in the bottom quartile with a
+95\% CI containing zero. C3: leave-one-out ablation within 0.2~pp accuracy
+and 0.10~pp FPR. C4: not a safety-retained policy feature.
+A feature is dropped only when all four columns are `Y'.
+\texttt{token\_count} is retained even though its permutation CI is
+entirely negative (C2 = N): the frozen rule requires a CI containing zero,
+so a strictly harmful estimate does not satisfy C2. This conservative
+limitation is discussed in the text.}
+\label{tab:drop-evidence}
+\scriptsize
+\begin{tabular}{lrrrrrccccr}
+\toprule
+Feature & $p_{\mathrm{BH}}$ & Cliff $\delta$ & Perm. imp. & $\Delta$Acc & $\Delta$FPR & C1 & C2 & C3 & C4 & Decision \\
+\midrule
+param\_pollution\_count & 1 & +0.000 & +0.00000 & -0.01\% & -0.02\% & Y & Y & Y & Y & dropped \\
+html\_tag\_density & 1 & +0.000 & +0.00000 & -0.01\% & -0.02\% & Y & Y & Y & Y & dropped \\
+uppercase\_ratio & $<10^{-300}$ & +0.298 & +0.27162 & -1.08\% & +0.14\% & N & N & N & Y & retained \\
+hex\_encoding\_ratio & $<10^{-300}$ & +0.386 & +0.20694 & -0.72\% & +0.42\% & N & N & N & Y & retained \\
+digit\_ratio & $7.10\times10^{-171}$ & +0.174 & +0.13752 & -0.88\% & +0.50\% & N & N & N & Y & retained \\
+payload\_length & $3.85\times10^{-5}$ & +0.026 & +0.10898 & -0.31\% & +0.02\% & N & N & N & Y & retained \\
+max\_value\_special\_ratio & $<10^{-300}$ & +0.338 & +0.10433 & -0.79\% & +0.49\% & N & N & N & Y & retained \\
+shannon\_entropy & $6.90\times10^{-76}$ & +0.115 & +0.09379 & -1.50\% & +1.13\% & N & N & N & Y & retained \\
+special\_char\_ratio & $1.03\times10^{-180}$ & +0.179 & +0.08315 & +1.52\% & -0.24\% & N & N & Y & Y & retained \\
+sql\_keyword\_score & $9.30\times10^{-21}$ & +0.042 & +0.07580 & -0.07\% & +0.06\% & N & N & Y & N & retained \\
+max\_value\_length & $7.15\times10^{-57}$ & +0.099 & +0.05469 & -0.72\% & +0.46\% & N & N & N & Y & retained \\
+double\_escape\_count & $<10^{-300}$ & +0.125 & +0.02348 & -0.16\% & +0.15\% & N & N & N & Y & retained \\
+quote\_count & $<10^{-300}$ & +0.181 & +0.00890 & -0.06\% & +0.08\% & N & N & Y & Y & retained \\
+request\_method\_risk & $1.14\times10^{-9}$ & -0.033 & +0.00887 & -0.70\% & +0.14\% & N & N & N & N & retained \\
+suspicious\_extension\_flag & $2.88\times10^{-262}$ & +0.062 & +0.00003 & +0.01\% & -0.03\% & N & N & Y & Y & retained \\
+xss\_keyword\_score & $6.27\times10^{-127}$ & +0.030 & +0.00000 & +0.02\% & -0.05\% & N & Y & Y & N & retained \\
+path\_traversal\_score & $7.35\times10^{-36}$ & +0.008 & +0.00000 & -0.03\% & +0.02\% & Y & Y & Y & N & retained \\
+user\_agent\_anomaly & 1 & +0.000 & +0.00000 & -0.01\% & +0.02\% & Y & Y & Y & N & retained \\
+command\_injection\_score & $7.35\times10^{-36}$ & +0.008 & +0.00000 & -0.01\% & +0.02\% & Y & Y & Y & N & retained \\
+null\_byte\_score & 1 & +0.000 & +0.00000 & -0.01\% & -0.02\% & Y & Y & Y & N & retained \\
+angle\_count & $1.43\times10^{-233}$ & +0.056 & +0.00000 & -0.05\% & +0.07\% & N & Y & Y & Y & retained \\
+token\_count & 1 & -0.041 & -0.00054 & +0.03\% & +0.02\% & Y & N & Y & Y & retained \\
+\bottomrule
+\end{tabular}
+\end{table*}

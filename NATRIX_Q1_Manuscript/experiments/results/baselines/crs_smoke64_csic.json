@@ -1,0 +1,32 @@
+{
+  "corpus": "csic",
+  "engine": "ModSecurity CRS 4.25.2 (nginx image)",
+  "paranoia_level": 1,
+  "anomaly_inbound": 5,
+  "limit": 1000,
+  "workers": 64,
+  "elapsed_seconds": 35.2,
+  "throughput_rps": 28.4,
+  "status_counts": {
+    "0": 10,
+    "200": 862,
+    "403": 128
+  },
+  "errors": 10,
+  "accuracy": 0.667,
+  "fpr": 0.0,
+  "fnr": 0.7223427331887202,
+  "precision": 1.0,
+  "recall": 0.27765726681127983,
+  "f1": 0.434634974533107,
+  "tp": 128,
+  "tn": 539,
+  "fp": 0,
+  "fn": 333,
+  "n": 1000,
+  "latency_ms": {
+    "p50": 181.1734000002616,
+    "p95": 297.53551999999667,
+    "p99": 527.4293699997361
+  }
+}

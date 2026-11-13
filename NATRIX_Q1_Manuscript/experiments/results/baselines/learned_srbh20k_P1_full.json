@@ -1,0 +1,29 @@
+{
+  "corpus": "srbh20k",
+  "protocol": "P1",
+  "view": "full",
+  "learner": "char-CNN (emb32, conv64 k3+k5, max-pool, 5 epochs)",
+  "elapsed_seconds": 351.4,
+  "n": 20000,
+  "auc": 0.9916312915249104,
+  "fpr2_crossfit": {
+    "accuracy": 0.95345,
+    "fpr": 0.023592216290683657,
+    "fnr": 0.05594307052772494,
+    "precision": 0.989878841607565,
+    "recall": 0.944056929472275,
+    "f1": 0.9664250423744095,
+    "tp": 13399,
+    "tn": 5670,
+    "fp": 137,
+    "fn": 794,
+    "threshold_mean": 0.71,
+    "thresholds": [
+      0.74,
+      0.7,
+      0.74,
+      0.74,
+      0.63
+    ]
+  }
+}

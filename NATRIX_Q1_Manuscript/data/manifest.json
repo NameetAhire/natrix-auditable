@@ -1,0 +1,113 @@
+{
+  "generated": "2026-10-30",
+  "files": [
+    {
+      "id": "csic_2010_normal_train",
+      "dataset": "CSIC 2010",
+      "path": "data/raw/csic/mirror/cisc_normalTraffic_train.txt",
+      "source": "https://github.com/msudol/Web-Application-Attack-Datasets",
+      "original": "http://www.isi.csic.es/dataset/ (unreachable; IMPACT record https://www.impactcybertrust.org/dataset_view?idDataset=940)",
+      "license": "Public research dataset; cite the original authors",
+      "citation": "Torrano-Gimenez, C., Perez-Villegas, A., Alvarez, G. HTTP dataset CSIC 2010 (2010).",
+      "notes": "Byte-identical to the published mirror archive.",
+      "present": true,
+      "bytes": 21958776,
+      "sha256": "0b89114ffe3a795bce8bd96e5b4374b4aeeeb0fd1b7506ded614e4bc5a592af6",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "csic_2010_normal_test",
+      "dataset": "CSIC 2010",
+      "path": "data/raw/csic/mirror/cisc_normalTraffic_test.txt",
+      "source": "https://github.com/msudol/Web-Application-Attack-Datasets",
+      "original": "http://www.isi.csic.es/dataset/",
+      "license": "Public research dataset; cite the original authors",
+      "citation": "Torrano-Gimenez, C., Perez-Villegas, A., Alvarez, G. HTTP dataset CSIC 2010 (2010).",
+      "present": true,
+      "bytes": 21960992,
+      "sha256": "14e7a5f603ffa19065a0f0cd1efad1dc44f4f9224b4095530fa131cc457fbcde",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "csic_2010_anomalous_test",
+      "dataset": "CSIC 2010",
+      "path": "data/raw/csic/mirror/cisc_anomalousTraffic_test.txt",
+      "source": "https://github.com/msudol/Web-Application-Attack-Datasets",
+      "original": "http://www.isi.csic.es/dataset/",
+      "license": "Public research dataset; cite the original authors",
+      "citation": "Torrano-Gimenez, C., Perez-Villegas, A., Alvarez, G. HTTP dataset CSIC 2010 (2010).",
+      "present": true,
+      "bytes": 16990871,
+      "sha256": "ed99cdd202819482bbebe6bb52e2f332615e8cf3cd97f699e4b27a75cf298e81",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "csic_2010_archive",
+      "dataset": "CSIC 2010",
+      "path": "data/raw/csic/csic_2010_mirror.tar.gz",
+      "source": "https://raw.githubusercontent.com/msudol/Web-Application-Attack-Datasets/master/OriginalDataSets/csic_2010/dataset_cisc_train_test.tar.gz",
+      "license": "Public research dataset",
+      "citation": "Torrano-Gimenez, C., Perez-Villegas, A., Alvarez, G. HTTP dataset CSIC 2010 (2010).",
+      "present": true,
+      "bytes": 5932054,
+      "sha256": "d9e4694ebd19cca5ae641e7341869fc5feffdda3c87da2b9b31d400f4889ca39",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "srbh_2020",
+      "dataset": "SR-BH 2020",
+      "path": "data/raw/srbh/srbh_2020.csv",
+      "source": "https://dataverse.harvard.edu/api/access/datafile/6319496",
+      "original": "https://doi.org/10.7910/DVN/OGOIXX",
+      "license": "CC0 1.0",
+      "citation": "Sureda Riera, T., Bermejo Higuera, J.-R., Bermejo Higuera, J., Martinez Herraiz, J.-J., Sicilia Montalvo, J.-A. A new multi-label dataset for Web attacks CAPEC classification using machine learning techniques. Computers & Security 120 (2022) 102788. https://doi.org/10.1016/j.cose.2022.102788",
+      "notes": "907,815 parsed rows; 422,054 unique after exact deduplication.",
+      "present": true,
+      "bytes": 436437661,
+      "sha256": "9c73c90ce6564ae48b14f7179cd864d037a6a130ef69c68c1626ec5d7ce4a910",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "ecml_pkdd_2007_archive",
+      "dataset": "ECML/PKDD 2007",
+      "path": "data/raw/ecml/ecml_pkdd_train_test.tar.gz",
+      "source": "https://raw.githubusercontent.com/msudol/Web-Application-Attack-Datasets/master/OriginalDataSets/ecml_pkdd/dataset_ecml_pkdd_train_test.tar.gz",
+      "original": "ECML/PKDD 2007 Discovery Challenge",
+      "license": "Public research dataset",
+      "citation": "ECML/PKDD 2007 Discovery Challenge on web attack detection.",
+      "notes": "xml_train.txt (24,504 Valid) + xml_test.txt (10,502 Valid + 15,110 attack) reconstitute the official 50,116-record training set.",
+      "present": true,
+      "bytes": 33462529,
+      "sha256": "9da5870467736b854a561d28142aa1bfff79b1b4cc7079e2bc0422c7f48bf495",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "openappsec_legitimate",
+      "dataset": "OpenAppSec WAF Comparison Project",
+      "path": "data/raw/openappsec/legitimate.zip",
+      "source": "https://downloads.openappsec.io/waf-comparison-project/legitimate.zip",
+      "original": "https://github.com/openappsec/waf-comparison-project",
+      "license": "Apache 2.0",
+      "citation": "OpenAppSec WAF Comparison Project, Legitimate Requests Dataset (2024).",
+      "notes": "692 site files; deterministic stratified sample of 200 requests per site.",
+      "present": true,
+      "bytes": 1203983791,
+      "sha256": "58faee18c54229759287a574f6f8cb1e3b951fa135e403ea9a679d2b18efd778",
+      "retrieved": "2026-10-30"
+    },
+    {
+      "id": "openappsec_malicious",
+      "dataset": "OpenAppSec WAF Comparison Project",
+      "path": "data/raw/openappsec/malicious.zip",
+      "source": "https://downloads.openappsec.io/waf-comparison-project/malicious.zip",
+      "original": "https://github.com/openappsec/waf-comparison-project",
+      "license": "Mixed, mostly MIT (MGM WAF Payload Collection)",
+      "citation": "OpenAppSec WAF Comparison Project, Malicious Requests Dataset (2024).",
+      "notes": "73,924 payloads across 7 attack families.",
+      "present": true,
+      "bytes": 452537,
+      "sha256": "131314e5c13b07ec686e6b16b8010008063d977b5ff8eb552819c138c00b7b2b",
+      "retrieved": "2026-10-30"
+    }
+  ]
+}

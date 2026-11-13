@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.hypothesis/
+.venv/
+venv/
+
+# Downloaded corpora and derived request caches (not redistributed)
+NATRIX_Q1_Manuscript/data/raw/
+NATRIX_Q1_Manuscript/data/processed/
+*.parquet
+
+# Local build and packaging outputs
+NATRIX_Q1_Manuscript/submission/dist/
+NATRIX_Q1_Manuscript/paper/build/
+*.zip
+
+# Local toolchains and generated model-checker state
+NATRIX_Q1_Manuscript/tools/
+NATRIX_Q1_Manuscript/states/

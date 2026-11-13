@@ -1,0 +1,393 @@
+{
+  "quorum": {
+    "agents": 5,
+    "rows": [
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 0,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.26272
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 0,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.66304
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 0,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.91296
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 0,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.99328
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 0,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.05792
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 0,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.31744
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 0,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.68256
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 0,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.94208
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 0,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.00672
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 0,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.08704
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 0,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.33696
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 0,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.73728
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 1,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.5904
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 1,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.8704
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 1,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.9744
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 1,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.9984
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 1,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.1808
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 1,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.5248
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 1,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.8208
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 1,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.9728
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 1,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.0272
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 1,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.1792
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 1,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.4752
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 1,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.8192
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 2,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 1.0
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 2,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 1.0
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 2,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 1.0
+      },
+      {
+        "agents": 5,
+        "quorum": 2,
+        "compromised": 2,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 1.0
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 2,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.488
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 2,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.784
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 2,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.936
+      },
+      {
+        "agents": 5,
+        "quorum": 3,
+        "compromised": 2,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.992
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 2,
+        "honest_validate_p": 0.2,
+        "promotion_probability": 0.104
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 2,
+        "honest_validate_p": 0.4,
+        "promotion_probability": 0.352
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 2,
+        "honest_validate_p": 0.6,
+        "promotion_probability": 0.648
+      },
+      {
+        "agents": 5,
+        "quorum": 4,
+        "compromised": 2,
+        "honest_validate_p": 0.8,
+        "promotion_probability": 0.896
+      }
+    ],
+    "note": "Exact binomial tail; compromised agents vote automatically."
+  },
+  "trust_decay": {
+    "rows": [
+      {
+        "rho": 0.5,
+        "alpha": 0.1,
+        "half_life_ticks": 1,
+        "fixed_point": 0.181818,
+        "settle_1pct_ticks": 4,
+        "retire_from_075_at_tau_050": 1
+      },
+      {
+        "rho": 0.5,
+        "alpha": 0.25,
+        "half_life_ticks": 1,
+        "fixed_point": 0.4,
+        "settle_1pct_ticks": 4,
+        "retire_from_075_at_tau_050": 1
+      },
+      {
+        "rho": 0.5,
+        "alpha": 0.5,
+        "half_life_ticks": 1,
+        "fixed_point": 0.666667,
+        "settle_1pct_ticks": 4,
+        "retire_from_075_at_tau_050": 1
+      },
+      {
+        "rho": 0.5,
+        "alpha": 1.0,
+        "half_life_ticks": 1,
+        "fixed_point": 1.0,
+        "settle_1pct_ticks": 1,
+        "retire_from_075_at_tau_050": 1
+      },
+      {
+        "rho": 0.75,
+        "alpha": 0.1,
+        "half_life_ticks": 3,
+        "fixed_point": 0.307692,
+        "settle_1pct_ticks": 9,
+        "retire_from_075_at_tau_050": 2
+      },
+      {
+        "rho": 0.75,
+        "alpha": 0.25,
+        "half_life_ticks": 3,
+        "fixed_point": 0.571429,
+        "settle_1pct_ticks": 8,
+        "retire_from_075_at_tau_050": 2
+      },
+      {
+        "rho": 0.75,
+        "alpha": 0.5,
+        "half_life_ticks": 3,
+        "fixed_point": 0.8,
+        "settle_1pct_ticks": 5,
+        "retire_from_075_at_tau_050": 2
+      },
+      {
+        "rho": 0.75,
+        "alpha": 1.0,
+        "half_life_ticks": 3,
+        "fixed_point": 1.0,
+        "settle_1pct_ticks": 1,
+        "retire_from_075_at_tau_050": 2
+      },
+      {
+        "rho": 0.9,
+        "alpha": 0.1,
+        "half_life_ticks": 7,
+        "fixed_point": 0.526316,
+        "settle_1pct_ticks": 19,
+        "retire_from_075_at_tau_050": 4
+      },
+      {
+        "rho": 0.9,
+        "alpha": 0.25,
+        "half_life_ticks": 7,
+        "fixed_point": 0.769231,
+        "settle_1pct_ticks": 12,
+        "retire_from_075_at_tau_050": 4
+      },
+      {
+        "rho": 0.9,
+        "alpha": 0.5,
+        "half_life_ticks": 7,
+        "fixed_point": 0.909091,
+        "settle_1pct_ticks": 6,
+        "retire_from_075_at_tau_050": 4
+      },
+      {
+        "rho": 0.9,
+        "alpha": 1.0,
+        "half_life_ticks": 7,
+        "fixed_point": 1.0,
+        "settle_1pct_ticks": 1,
+        "retire_from_075_at_tau_050": 4
+      },
+      {
+        "rho": 0.95,
+        "alpha": 0.1,
+        "half_life_ticks": 14,
+        "fixed_point": 0.689655,
+        "settle_1pct_ticks": 28,
+        "retire_from_075_at_tau_050": 8
+      },
+      {
+        "rho": 0.95,
+        "alpha": 0.25,
+        "half_life_ticks": 14,
+        "fixed_point": 0.869565,
+        "settle_1pct_ticks": 14,
+        "retire_from_075_at_tau_050": 8
+      },
+      {
+        "rho": 0.95,
+        "alpha": 0.5,
+        "half_life_ticks": 14,
+        "fixed_point": 0.952381,
+        "settle_1pct_ticks": 7,
+        "retire_from_075_at_tau_050": 8
+      },
+      {
+        "rho": 0.95,
+        "alpha": 1.0,
+        "half_life_ticks": 14,
+        "fixed_point": 1.0,
+        "settle_1pct_ticks": 1,
+        "retire_from_075_at_tau_050": 8
+      }
+    ],
+    "note": "Exact rational iteration of tick(T)=reinforce(decay(T))."
+  }
+}

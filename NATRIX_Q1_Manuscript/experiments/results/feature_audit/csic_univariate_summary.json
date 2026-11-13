@@ -1,0 +1,75 @@
+{
+  "n_records": 34593,
+  "n_features": 22,
+  "near_constant_both_classes": [
+    "path_traversal_score",
+    "command_injection_score",
+    "html_tag_density",
+    "null_byte_score",
+    "user_agent_anomaly",
+    "param_pollution_count"
+  ],
+  "weak_effect_nonsignificant": [
+    "html_tag_density",
+    "null_byte_score",
+    "user_agent_anomaly",
+    "token_count",
+    "param_pollution_count"
+  ],
+  "strong_effect": [
+    "hex_encoding_ratio",
+    "max_value_special_ratio"
+  ],
+  "top_by_effect": [
+    {
+      "feature": "hex_encoding_ratio",
+      "cliffs_delta": 0.3860901752976622,
+      "p_bh": 0.0
+    },
+    {
+      "feature": "max_value_special_ratio",
+      "cliffs_delta": 0.33799844311979754,
+      "p_bh": 0.0
+    },
+    {
+      "feature": "uppercase_ratio",
+      "cliffs_delta": 0.2979190145193136,
+      "p_bh": 0.0
+    },
+    {
+      "feature": "quote_count",
+      "cliffs_delta": 0.18079654048144111,
+      "p_bh": 0.0
+    },
+    {
+      "feature": "special_char_ratio",
+      "cliffs_delta": 0.17871174485458763,
+      "p_bh": 1.0297248608057805e-180
+    },
+    {
+      "feature": "digit_ratio",
+      "cliffs_delta": 0.1736961699993731,
+      "p_bh": 7.101610814682062e-171
+    },
+    {
+      "feature": "double_escape_count",
+      "cliffs_delta": 0.1254936375603335,
+      "p_bh": 0.0
+    },
+    {
+      "feature": "shannon_entropy",
+      "cliffs_delta": 0.11503061972010586,
+      "p_bh": 6.896328767348985e-76
+    },
+    {
+      "feature": "max_value_length",
+      "cliffs_delta": 0.09896115170932651,
+      "p_bh": 7.154788776475245e-57
+    },
+    {
+      "feature": "suspicious_extension_flag",
+      "cliffs_delta": 0.06249608224158476,
+      "p_bh": 2.8758941345338217e-262
+    }
+  ]
+}

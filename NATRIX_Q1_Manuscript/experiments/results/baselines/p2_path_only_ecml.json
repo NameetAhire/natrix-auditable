@@ -1,0 +1,123 @@
+{
+  "corpus": "ecml",
+  "protocol": "P2-path-only",
+  "n": 50116,
+  "path_grouping": {
+    "n_rows": 50116,
+    "n_groups": 48723,
+    "median_group_size": 1.0,
+    "p95_group_size": 1.0,
+    "max_group_size": 68,
+    "n_mixed_groups": 2,
+    "pct_mixed_groups": 0.004104837551053917,
+    "pct_rows_in_mixed_groups": 0.017958336658951232
+  },
+  "endpoint_grouping": {
+    "n_rows": 50116,
+    "n_groups": 48727,
+    "median_group_size": 1.0,
+    "p95_group_size": 1.0,
+    "max_group_size": 68,
+    "n_mixed_groups": 1,
+    "pct_mixed_groups": 0.0020522502924456665,
+    "pct_rows_in_mixed_groups": 0.013967595179184292
+  },
+  "train_test_path_overlap": [
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "detectors": [
+    {
+      "view": "natrix",
+      "metrics": {
+        "accuracy": 0.9147577619921782,
+        "fpr": 0.017939781751699708,
+        "fnr": 0.2411647915287889,
+        "precision": 0.948073424838763,
+        "recall": 0.7588352084712111,
+        "f1": 0.8429642699603,
+        "tp": 11466,
+        "tn": 34378,
+        "fp": 628,
+        "fn": 3644,
+        "threshold_mean": 0.476,
+        "thresholds": [
+          0.5,
+          0.44,
+          0.44,
+          0.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "view": "lexical_full",
+      "metrics": {
+        "accuracy": 0.9374451273046532,
+        "fpr": 0.005484774038736217,
+        "fnr": 0.19477167438782264,
+        "precision": 0.9844647625212396,
+        "recall": 0.8052283256121774,
+        "f1": 0.8858713458808111,
+        "tp": 12167,
+        "tn": 34814,
+        "fp": 192,
+        "fn": 2943,
+        "threshold_mean": 0.33,
+        "thresholds": [
+          0.34,
+          0.34,
+          0.32,
+          0.33,
+          0.32
+        ]
+      }
+    },
+    {
+      "view": "lexical_payload",
+      "metrics": {
+        "accuracy": 0.9266701253092825,
+        "fpr": 0.005284808318573959,
+        "fnr": 0.23097286565188616,
+        "precision": 0.9843286742905548,
+        "recall": 0.7690271343481139,
+        "f1": 0.8634590377113134,
+        "tp": 11620,
+        "tn": 34821,
+        "fp": 185,
+        "fn": 3490,
+        "threshold_mean": 0.338,
+        "thresholds": [
+          0.34,
+          0.33,
+          0.36,
+          0.33,
+          0.33
+        ]
+      }
+    }
+  ],
+  "split_quality": {
+    "test_sizes": [
+      10006,
+      9943,
+      10242,
+      9928,
+      9997
+    ],
+    "test_attack_prevalence": [
+      0.299,
+      0.3014,
+      0.3192,
+      0.3056,
+      0.2819
+    ],
+    "max_min_test_size_ratio": 1.032,
+    "prevalence_range": 0.0373,
+    "balanced": true
+  },
+  "ranking_identifiable": true
+}

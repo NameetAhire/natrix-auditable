@@ -1,0 +1,260 @@
+{
+  "corpus": "SR-BH 2020",
+  "protocol": "P1",
+  "policy": "cross-fitted FPR<=2%",
+  "full_prior": 0.7096437896572476,
+  "sample20k_prior": 0.70965,
+  "rows": [
+    {
+      "subset": "full",
+      "n": 422054,
+      "accuracy": 0.9569794386500305,
+      "fpr": 0.019519200953111486,
+      "fnr": 0.052636323570655875,
+      "precision": 0.9916403096440491,
+      "recall": 0.9473636764293442,
+      "f1": 0.9689964705460494,
+      "tp": 283743,
+      "tn": 120154,
+      "fp": 2392,
+      "fn": 15765,
+      "threshold_mean": 0.756
+    },
+    {
+      "subset": "sample20k",
+      "n": 20000,
+      "accuracy": 0.9079,
+      "fpr": 0.019631479249182023,
+      "fnr": 0.12175015852885225,
+      "precision": 0.9909372764130694,
+      "recall": 0.8782498414711477,
+      "f1": 0.9311967727476467,
+      "tp": 12465,
+      "tn": 5693,
+      "fp": 114,
+      "fn": 1728,
+      "threshold_mean": 0.874
+    },
+    {
+      "subset": "nested10000",
+      "n": 10000,
+      "accuracy": 0.8786,
+      "fpr": 0.02066115702479339,
+      "fnr": 0.16262683201803832,
+      "precision": 0.9900033322225925,
+      "recall": 0.8373731679819617,
+      "f1": 0.9073140937547717,
+      "tp": 5942,
+      "tn": 2844,
+      "fp": 60,
+      "fn": 1154,
+      "threshold_mean": 0.8960000000000001
+    },
+    {
+      "subset": "nested20000",
+      "n": 20000,
+      "accuracy": 0.90315,
+      "fpr": 0.01894265541587739,
+      "fnr": 0.12872542802790107,
+      "precision": 0.9911830714972748,
+      "recall": 0.8712745719720989,
+      "f1": 0.9273688552251678,
+      "tp": 12366,
+      "tn": 5697,
+      "fp": 110,
+      "fn": 1827,
+      "threshold_mean": 0.8800000000000001
+    },
+    {
+      "subset": "nested50000",
+      "n": 50000,
+      "accuracy": 0.93432,
+      "fpr": 0.019010883041741287,
+      "fnr": 0.08477537906544164,
+      "precision": 0.9915725190839695,
+      "recall": 0.9152246209345584,
+      "f1": 0.9518700902802204,
+      "tp": 32474,
+      "tn": 14242,
+      "fp": 276,
+      "fn": 3008,
+      "threshold_mean": 0.8379999999999999
+    },
+    {
+      "subset": "nested100000",
+      "n": 100000,
+      "accuracy": 0.94095,
+      "fpr": 0.01914864306378289,
+      "fnr": 0.07537624711121133,
+      "precision": 0.9915975276178386,
+      "recall": 0.9246237528887887,
+      "f1": 0.9569402413679949,
+      "tp": 65615,
+      "tn": 28480,
+      "fp": 556,
+      "fn": 5349,
+      "threshold_mean": 0.8299999999999998
+    },
+    {
+      "subset": "nested200000",
+      "n": 200000,
+      "accuracy": 0.949955,
+      "fpr": 0.019200633707013828,
+      "fnr": 0.0626651353845937,
+      "precision": 0.99168840849795,
+      "recall": 0.9373348646154063,
+      "f1": 0.9637458843302098,
+      "tp": 133035,
+      "tn": 56956,
+      "fp": 1115,
+      "fn": 8894,
+      "threshold_mean": 0.798
+    }
+  ],
+  "family_mix": [
+    {
+      "corpus": "full",
+      "family": "126 - Path Traversal",
+      "clean": 0,
+      "attack": 12383
+    },
+    {
+      "corpus": "full",
+      "family": "153 - Input Data Manipulation",
+      "clean": 0,
+      "attack": 1123
+    },
+    {
+      "corpus": "full",
+      "family": "16 - Dictionary-based Password Attack",
+      "clean": 0,
+      "attack": 1118
+    },
+    {
+      "corpus": "full",
+      "family": "194 - Fake the Source of Data",
+      "clean": 0,
+      "attack": 46168
+    },
+    {
+      "corpus": "full",
+      "family": "242 - Code Injection",
+      "clean": 0,
+      "attack": 12043
+    },
+    {
+      "corpus": "full",
+      "family": "272 - Protocol Manipulation",
+      "clean": 0,
+      "attack": 4290
+    },
+    {
+      "corpus": "full",
+      "family": "274 - HTTP Verb Tampering",
+      "clean": 0,
+      "attack": 4055
+    },
+    {
+      "corpus": "full",
+      "family": "310 - Scanning for Vulnerable Software",
+      "clean": 0,
+      "attack": 2372
+    },
+    {
+      "corpus": "full",
+      "family": "34 - HTTP Response Splitting",
+      "clean": 0,
+      "attack": 18882
+    },
+    {
+      "corpus": "full",
+      "family": "66 - SQL Injection",
+      "clean": 0,
+      "attack": 190994
+    },
+    {
+      "corpus": "full",
+      "family": "88 - OS Command Injection",
+      "clean": 0,
+      "attack": 6080
+    },
+    {
+      "corpus": "full",
+      "family": "normal",
+      "clean": 122546,
+      "attack": 0
+    },
+    {
+      "corpus": "sample20k",
+      "family": "126 - Path Traversal",
+      "clean": 0,
+      "attack": 586
+    },
+    {
+      "corpus": "sample20k",
+      "family": "153 - Input Data Manipulation",
+      "clean": 0,
+      "attack": 45
+    },
+    {
+      "corpus": "sample20k",
+      "family": "16 - Dictionary-based Password Attack",
+      "clean": 0,
+      "attack": 67
+    },
+    {
+      "corpus": "sample20k",
+      "family": "194 - Fake the Source of Data",
+      "clean": 0,
+      "attack": 2202
+    },
+    {
+      "corpus": "sample20k",
+      "family": "242 - Code Injection",
+      "clean": 0,
+      "attack": 597
+    },
+    {
+      "corpus": "sample20k",
+      "family": "272 - Protocol Manipulation",
+      "clean": 0,
+      "attack": 211
+    },
+    {
+      "corpus": "sample20k",
+      "family": "274 - HTTP Verb Tampering",
+      "clean": 0,
+      "attack": 201
+    },
+    {
+      "corpus": "sample20k",
+      "family": "310 - Scanning for Vulnerable Software",
+      "clean": 0,
+      "attack": 110
+    },
+    {
+      "corpus": "sample20k",
+      "family": "34 - HTTP Response Splitting",
+      "clean": 0,
+      "attack": 879
+    },
+    {
+      "corpus": "sample20k",
+      "family": "66 - SQL Injection",
+      "clean": 0,
+      "attack": 8984
+    },
+    {
+      "corpus": "sample20k",
+      "family": "88 - OS Command Injection",
+      "clean": 0,
+      "attack": 311
+    },
+    {
+      "corpus": "sample20k",
+      "family": "normal",
+      "clean": 5807,
+      "attack": 0
+    }
+  ]
+}

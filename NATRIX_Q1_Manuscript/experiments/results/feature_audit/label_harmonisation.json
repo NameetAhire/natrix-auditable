@@ -1,0 +1,137 @@
+{
+  "families": {
+    "csic": {
+      "clean": 18640,
+      "unknown": 15953
+    },
+    "ecml": {
+      "clean": 35006,
+      "other": 6414,
+      "cmdi": 2302,
+      "traversal": 2295,
+      "sqli": 2274,
+      "xss": 1825
+    },
+    "srbh": {
+      "sqli": 190994,
+      "clean": 122546,
+      "other": 90051,
+      "traversal": 12383,
+      "cmdi": 6080
+    }
+  },
+  "common_families": [
+    "sqli",
+    "traversal",
+    "cmdi"
+  ],
+  "csic_note": "no per-request family labels; overall binary comparison only",
+  "direction_counts": {
+    "csic_vs_ecml": {
+      "same": 16,
+      "reversed": 6,
+      "reversed_features": [
+        "uppercase_ratio",
+        "token_count",
+        "path_traversal_score",
+        "command_injection_score",
+        "html_tag_density",
+        "suspicious_extension_flag"
+      ]
+    },
+    "csic_vs_srbh": {
+      "same": 14,
+      "reversed": 8,
+      "reversed_features": [
+        "token_count",
+        "xss_keyword_score",
+        "path_traversal_score",
+        "command_injection_score",
+        "null_byte_score",
+        "request_method_risk",
+        "suspicious_extension_flag",
+        "angle_count"
+      ]
+    },
+    "ecml_vs_srbh": {
+      "same": 13,
+      "reversed": 9,
+      "reversed_features": [
+        "uppercase_ratio",
+        "token_count",
+        "xss_keyword_score",
+        "path_traversal_score",
+        "command_injection_score",
+        "null_byte_score",
+        "html_tag_density",
+        "request_method_risk",
+        "angle_count"
+      ]
+    },
+    "ecml_vs_srbh_balanced": {
+      "same": 12,
+      "reversed": 10,
+      "reversed_features": [
+        "shannon_entropy",
+        "digit_ratio",
+        "uppercase_ratio",
+        "token_count",
+        "xss_keyword_score",
+        "command_injection_score",
+        "null_byte_score",
+        "request_method_risk",
+        "suspicious_extension_flag",
+        "angle_count"
+      ]
+    }
+  },
+  "within_family": {
+    "sqli": {
+      "same": 14,
+      "reversed": 8,
+      "reversed_features": [
+        "xss_keyword_score",
+        "path_traversal_score",
+        "command_injection_score",
+        "null_byte_score",
+        "request_method_risk",
+        "angle_count",
+        "max_value_special_ratio",
+        "max_value_length"
+      ]
+    },
+    "traversal": {
+      "same": 11,
+      "reversed": 11,
+      "reversed_features": [
+        "digit_ratio",
+        "uppercase_ratio",
+        "token_count",
+        "sql_keyword_score",
+        "xss_keyword_score",
+        "command_injection_score",
+        "null_byte_score",
+        "request_method_risk",
+        "suspicious_extension_flag",
+        "quote_count",
+        "angle_count"
+      ]
+    },
+    "cmdi": {
+      "same": 12,
+      "reversed": 10,
+      "reversed_features": [
+        "payload_length",
+        "shannon_entropy",
+        "special_char_ratio",
+        "uppercase_ratio",
+        "token_count",
+        "xss_keyword_score",
+        "null_byte_score",
+        "request_method_risk",
+        "max_value_special_ratio",
+        "max_value_length"
+      ]
+    }
+  }
+}

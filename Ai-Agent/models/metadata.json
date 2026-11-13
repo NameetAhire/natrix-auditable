@@ -1,0 +1,115 @@
+{
+  "version": "v2.0",
+  "trained_at": "2026-10-26T04:55:51Z",
+  "dataset_size": 67,
+  "features_count": 16,
+  "feature_schema_version": "v2",
+  "feature_names": [
+    "payload_length",
+    "shannon_entropy",
+    "special_char_ratio",
+    "digit_ratio",
+    "uppercase_ratio",
+    "token_count",
+    "sql_keyword_score",
+    "xss_keyword_score",
+    "path_traversal_score",
+    "user_agent_anomaly",
+    "command_injection_score",
+    "hex_encoding_ratio",
+    "null_byte_score",
+    "param_pollution_count",
+    "html_tag_density",
+    "request_method_risk"
+  ],
+  "method_aware": true,
+  "class_distribution": {
+    "CLEAN": 12,
+    "Command Injection": 9,
+    "Cross-Site Scripting (XSS)": 10,
+    "Parameter Pollution": 4,
+    "Path Traversal": 12,
+    "Reconnaissance": 9,
+    "SQL Injection": 11
+  },
+  "datasets_used": [
+    "NATRIX labelled baseline (SQLi, XSS, path traversal, command injection, HPP, scanners, unusual verbs)",
+    "emmanuelgjr/genai-incidents (HuggingFace, optional)",
+    "CICIDS-2017 pre-trained signatures & User-Agents",
+    "Local honeypot & Zeus malware logs"
+  ],
+  "algorithm": "RandomForestClassifier (Supervised) + IsolationForest (Unsupervised)",
+  "evaluation": "training-set fit (synthetic baseline, not a held-out benchmark)",
+  "inference_latency_ms": "2.8673 (p95, single vector)",
+  "notes": "Version 2.0 model trained on the full 16-D v2 feature contract. The six expansion features have explicit training examples.",
+  "accuracy": 1.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1_score": 1.0,
+  "feature_importance": [
+    {
+      "feature": "param_pollution_count",
+      "importance": 0.131454
+    },
+    {
+      "feature": "xss_keyword_score",
+      "importance": 0.100431
+    },
+    {
+      "feature": "command_injection_score",
+      "importance": 0.093964
+    },
+    {
+      "feature": "special_char_ratio",
+      "importance": 0.074961
+    },
+    {
+      "feature": "shannon_entropy",
+      "importance": 0.074412
+    },
+    {
+      "feature": "user_agent_anomaly",
+      "importance": 0.068369
+    },
+    {
+      "feature": "payload_length",
+      "importance": 0.067085
+    },
+    {
+      "feature": "uppercase_ratio",
+      "importance": 0.064808
+    },
+    {
+      "feature": "request_method_risk",
+      "importance": 0.057007
+    },
+    {
+      "feature": "path_traversal_score",
+      "importance": 0.05543
+    },
+    {
+      "feature": "token_count",
+      "importance": 0.054314
+    },
+    {
+      "feature": "sql_keyword_score",
+      "importance": 0.054184
+    },
+    {
+      "feature": "html_tag_density",
+      "importance": 0.041092
+    },
+    {
+      "feature": "hex_encoding_ratio",
+      "importance": 0.023373
+    },
+    {
+      "feature": "null_byte_score",
+      "importance": 0.020565
+    },
+    {
+      "feature": "digit_ratio",
+      "importance": 0.01855
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "package": "NATRIX_reproducibility_v1.0.0",
+  "version": "1.0.0",
+  "built_utc": "2026-11-13T04:21:55+00:00",
+  "source_workspace": "NATRIX_Q1_Manuscript",
+  "python": "3.11.8",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "payload_files": 486,
+  "payload_bytes": 116306583,
+  "manifest_sha256": "8b4ef23a8b72378b72f2eb46ffc94de8cd3fd4cbde3fbdb7898ec490361c618f",
+  "excluded": [
+    "data/raw/** and data/processed/** (raw corpora)",
+    "experiments/results/**/*.parquet (request caches)",
+    "experiments/results/nj*.npy (stray intermediates)",
+    "tools/** (Tectonic, JRE, tla2tools.jar)",
+    "paper/build/**, paper/*.docx, paper/*.log, paper/*.blg",
+    "paper/manuscript.md and paper/manuscript_revision.md (earlier drafts)",
+    "artifacts/formal/**/*.st, *.fp, *.log, *TTrace*.tla",
+    "backups/**, states/**, .hypothesis/**, .pytest_cache/**"
+  ],
+  "notes": [
+    "Raw corpora are not redistributed; see NATRIX_Q1_Manuscript/data/README.md.",
+    "Repository: https://github.com/NameetAhire/natrix-auditable. No DOI is minted.",
+    "Licence: MIT for authored code; CC BY 4.0 for documentation, tables, figures and manuscript source.",
+    "All results are from offline labelled corpora and local replay; no live traffic is included."
+  ]
+}

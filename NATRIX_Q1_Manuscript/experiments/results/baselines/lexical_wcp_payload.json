@@ -1,0 +1,34 @@
+{
+  "corpus": "wcp",
+  "view": "payload",
+  "limit": null,
+  "learner": "HashingVectorizer(char_wb 2-4, 2^18) + SGD log-loss",
+  "elapsed_seconds": 105.6,
+  "threshold_0.5": {
+    "accuracy": 0.9995,
+    "fpr": 0.00015363343063450608,
+    "fnr": 0.0011458034947006588,
+    "precision": 0.9997133027522935,
+    "recall": 0.9988541965052994,
+    "f1": 0.9992835649806562,
+    "tp": 6974,
+    "tn": 13016,
+    "fp": 2,
+    "fn": 8
+  },
+  "fpr2_crossfit": {
+    "accuracy": 0.99935,
+    "fpr": 0.0003840835765862652,
+    "fnr": 0.0011458034947006588,
+    "precision": 0.9992835649806563,
+    "recall": 0.9988541965052994,
+    "f1": 0.9990688346107013,
+    "tp": 6974,
+    "tn": 13013,
+    "fp": 5,
+    "fn": 8,
+    "threshold_mean": 0.246,
+    "thresholds": "0.22;0.22;0.21;0.22;0.36"
+  },
+  "n": 20000
+}

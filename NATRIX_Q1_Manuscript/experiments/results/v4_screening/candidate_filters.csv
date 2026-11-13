@@ -1,0 +1,25 @@
+candidate,max_abs_spearman_core,correlated_with,corr_rejected,reason
+url_depth,0.3632300565201717,suspicious_extension_flag,False,
+query_param_count,0.8590771993188704,token_count,False,
+body_param_count,0.9412464271498429,token_count,False,
+body_to_url_ratio,0.9333484726345698,body_param_count,True,|rho|>=0.95 with body_param_count
+semicolon_count,0.6027738632376048,quote_count,False,
+backslash_count,0.0,uppercase_ratio,False,
+brace_count,0.0,uppercase_ratio,False,
+dollar_count,0.06399982025061478,payload_length,False,
+percent_ratio,0.9999999478923126,hex_encoding_ratio,True,|rho|>=0.95
+longest_token_length,0.6982475960846295,payload_length,False,
+punctuation_diversity,0.769601812434302,max_value_length,False,
+nonascii_ratio,0.0,uppercase_ratio,False,
+max_param_name_entropy,0.7904570934010012,shannon_entropy,False,
+param_name_digit_ratio,0.6054421513794599,sql_keyword_score,False,
+duplicate_value_count,0.06928529305757855,special_char_ratio,False,
+empty_value_ratio,0.013153622864237631,shannon_entropy,False,
+ldap_filter_score,0.0,uppercase_ratio,False,
+xpath_score,,,True,near-constant on every corpus
+ssi_directive_score,,,True,near-constant on every corpus
+nosql_operator_score,,,True,near-constant on every corpus
+template_expression_score,,,True,near-constant on every corpus
+log4shell_score,,,True,near-constant on every corpus
+crlf_sequence_count,0.0,uppercase_ratio,False,
+absolute_uri_in_target,,,True,near-constant on every corpus

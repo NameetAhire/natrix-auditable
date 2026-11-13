@@ -1,0 +1,8 @@
+corpus,family,n,recall
+wcp,cmdexe,241,0.979253112033195
+wcp,log4shell,16,1.0
+wcp,shellshock,7,1.0
+wcp,sqli,74,0.8513513513513513
+wcp,traversal,2637,0.7106560485400076
+wcp,xss,4002,0.9992503748125937
+wcp,xxe,5,1.0
