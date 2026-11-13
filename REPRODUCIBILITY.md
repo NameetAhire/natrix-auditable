@@ -430,7 +430,7 @@ particular, the Phase 1 values 99.20% accuracy, 0.08% FPR and 4.12 ms are
 hardcoded artefacts, not measurements, and are not used. The manuscript's
 measured values are 95.55% CSIC P1 accuracy, 1.93% FPR, and 3.78 ms p95.
 
-## 11. Pre-release checklist
+## 11. Release checklist
 
 - [x] Set the public repository URL in `CITATION.cff` and in both manuscripts.
 - [x] Set the licence: MIT for authored code; CC BY 4.0 for documentation,
@@ -440,9 +440,9 @@ measured values are 95.55% CSIC P1 accuracy, 1.93% FPR, and 3.78 ms p95.
 - [ ] Confirm that the raw-corpus licences permit the intended redistribution
       (the package does not redistribute them).
 - [ ] Record the CRS image digest used for the reported replay.
-- [ ] Rebuild the archive with `python submission/make_package.py`.
-- [ ] Verify `SHA256SUMS.txt` and the archive size.
-- [ ] Push the repository and confirm that the manuscript URL resolves before
+- [x] Rebuild the archive with `python submission/make_package.py`.
+- [x] Verify `SHA256SUMS.txt` and the archive size.
+- [x] Push the repository and confirm that the manuscript URL resolves before
       submission.
 - [ ] Do not submit the Elsevier and IEEE versions simultaneously as duplicate
       submissions; choose one route or disclose the extended version.
