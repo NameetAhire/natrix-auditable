@@ -56,7 +56,7 @@ def arrow(ax, start, end, linestyle="-", color=EDGE, lw=0.8):
 
 
 def main() -> None:
-    fig, ax = plt.subplots(figsize=(7.2, 4.2))
+    fig, ax = plt.subplots(figsize=(7.2, 3.4))
     ax.set_xlim(0, 10)
     ax.set_ylim(0, 5.5)
     ax.axis("off")
@@ -84,11 +84,11 @@ def main() -> None:
 
     # Async band.
     ax.add_patch(FancyBboxPatch(
-        (0.15, 0.15), 9.7, 1.90,
+        (0.15, 0.10), 9.7, 1.95,
         boxstyle="round,pad=0.01,rounding_size=0.03",
         linewidth=0.0, facecolor=ASYNC, alpha=0.55, zorder=0,
     ))
-    ax.text(5.00, 0.36, "Asynchronous / post-decision roles",
+    ax.text(5.00, 0.22, "Asynchronous / post-decision roles",
             fontsize=8.2, fontweight="bold", va="center", ha="center")
     async_boxes = [
         (1.30, "Risk Scoring\nAgent"),
@@ -110,11 +110,6 @@ def main() -> None:
             "latency_bench.js times the shaded band end-to-end",
             ha="center", va="bottom", fontsize=7, color="#0072B2")
 
-    # CPPP lifecycle annotation under the policy box.
-    ax.text(5.30, 0.63,
-            "observed $\\rightarrow$ canary $\\rightarrow$ promoted $\\rightarrow$ retired\n"
-            "quorum $K$ + trust $\\tau$ + audit",
-            ha="center", va="center", fontsize=6.6, color="#333333")
 
     fig.savefig(FIG / "architecture.pdf")
     fig.savefig(FIG / "architecture.png")
