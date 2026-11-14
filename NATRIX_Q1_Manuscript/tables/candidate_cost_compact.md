@@ -21,8 +21,4 @@ The ten most expensive candidates are shown.
 | Gate B accepted | 12 | 1.71 | no |
 | accepted, marginal <= 0.15 ms | 9 | 0.73 | no |
 
-The four expensive candidates dominate the pass. Twenty candidates are
-individually below 0.15 ms, but nine of the twelve accepted candidates
-still cost 0.73 ms as a set because each shares the second parse. The
-gate is therefore applied to the block; selecting the cheap subset after
-inspecting this table would be the post-hoc search the protocol forbids.
+The ten most expensive candidates are shown. The set rows include the second parse because the candidate extractor is an additional pass over the payload. The budget applies to the admitted block, so selecting the cheap subset after inspecting this table would be the post-hoc search the protocol forbids.

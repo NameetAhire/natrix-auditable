@@ -598,6 +598,13 @@ def postprocess_tex(path: Path) -> None:
     # The Markdown source numbers figures in the alt text so that Word shows a
     # number; LaTeX supplies its own "Figure N:" prefix, so strip the manual one.
     text = re.sub(r"\\caption\{Figure\s+\d+\.\s*", r"\\caption{", text)
+    # The docx build needs raster images, but the typeset PDF should embed the
+    # vector versions that sit next to them.
+    text = re.sub(
+        r"(\\includegraphics(?:\[[^\]]*\])?\{[^}]+)\.png\}",
+        r"\1.pdf}",
+        text,
+    )
     text = text.replace("\\textless=", "$\\le$").replace("\\textgreater=", "$\\ge$")
     # The Markdown table headers use raw Greek letters; XeTeX's default text
     # font does not contain them, so typeset them as math.

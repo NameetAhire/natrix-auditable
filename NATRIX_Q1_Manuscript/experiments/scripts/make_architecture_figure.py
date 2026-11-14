@@ -76,7 +76,7 @@ def main() -> None:
     box(ax, 3.72, y, 1.25, 0.95, "Zero-Trust\nVerifier", INLINE)
     box(ax, 5.20, y, 1.25, 0.95, "Threat\nIntelligence", INLINE)
     box(ax, 6.83, y, 1.55, 0.95, "ML Engine\nONNX gate +\nthreat typing", INLINE)
-    box(ax, 8.70, y, 1.45, 0.95, "Orchestrator\nverdict", INLINE)
+    box(ax, 8.70, y, 1.45, 0.95, "Remediation\nOrchestrator", INLINE)
 
     for x0, x1 in [(1.31, 1.385), (2.935, 3.095), (4.345, 4.575),
                    (5.825, 6.055), (7.605, 7.975)]:

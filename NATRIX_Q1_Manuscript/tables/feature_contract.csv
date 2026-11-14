@@ -1,0 +1,23 @@
+feature,version_introduced,group,formula,source_field,safety_retained,notes
+payload_length,v1,shape,"len(P), where P is the first 8192 code points of `path?query + "" "" + body`","path, query, body",no,"Name is historical; P is the request target plus body, not the body alone."
+shannon_entropy,v1,shape,"-sum(p_i * log2(p_i)) over character frequencies in P, rounded half-up to 4 decimals","path, query, body",no,"Computed from the same character Counter used for the ratio features."
+special_char_ratio,v1,shape,"count(c in P where c is not ASCII alphanumeric and not whitespace) / len(P), 4 decimals","path, query, body",no,"ASCII test is explicit; non-ASCII characters count as special."
+digit_ratio,v1,shape,"count(c in P where c is ASCII 0-9) / len(P), 4 decimals","path, query, body",no,
+uppercase_ratio,v1,shape,"count(c in P where c is ASCII A-Z) / len(P), 4 decimals","path, query, body",no,
+token_count,v1,shape,"len(P.split()) using Python/JavaScript whitespace splitting","path, query, body",no,
+sql_keyword_score,v1,signature,"count of the 12 SQL keywords present in lower(P) + "" "" + unquote(P).lower()","path, query, body",yes,"Keywords: select, union, drop, insert, delete, update, where, or 1=1, --, information_schema, sleep(, benchmark(."
+xss_keyword_score,v1,signature,"count of the 9 XSS keywords present in lower(P) + "" "" + unquote(P).lower()","path, query, body",yes,"Keywords: <script>, javascript:, onerror=, onload=, eval(, alert(, document.cookie, <iframe, <svg."
+path_traversal_score,v1,signature,"count of the 6 traversal patterns present in lower(P) + "" "" + unquote(P).lower()","path, query, body",yes,"Patterns: ../, ..\, /etc/passwd, c:\windows, boot.ini, /proc/self."
+user_agent_anomaly,v1,signature,"1 if lower(User-Agent) contains any of 16 scanner names, else 0","user agent",yes,"Names: sqlmap, nikto, nmap, masscan, gobuster, dirbuster, w3af, acunetix, havij, hydra, metasploit, botnet, zgrab, wpscan, censys, shodan."
+command_injection_score,v2,evasion,"count of 7 regex patterns matching lower(P) + "" "" + unquote(P).lower()","path, query, body",yes,"Separator+command, shell paths, /etc/ reads, curl/wget URLs, nc -e, $(command), and backtick command."
+hex_encoding_ratio,v2,evasion,"total characters consumed by %XX, \xXX and \uXXXX matches / len(P), 4 decimals","path, query, body",no,
+null_byte_score,v2,evasion,"1 if %00, \x00, \0 or a literal NUL is present in P, else 0","path, query, body",yes,
+param_pollution_count,v2,structural,"number of `key=` matches minus number of distinct keys, regex `(?<![A-Za-z0-9_.-])([A-Za-z0-9_.-]+)=`","path, query, body",no,"Dropped in v4: exactly zero on CSIC 2010."
+html_tag_density,v2,structural,"count of opening HTML/XML/SVG tags / token_count, 4 decimals","path, query, body",no,"Dropped in v4: exactly zero on CSIC 2010."
+request_method_risk,v2,behavioral,"GET 0.1; POST 0.4; PUT 0.6; DELETE 0.6; PATCH 0.5; OPTIONS 0.2; HEAD 0.1; TRACE 1.0; CONNECT 0.8; default 0.5","method",yes,
+suspicious_extension_flag,v3,lexical,"1 if lower(path before ?) ends with one of 17 backup/config/source extensions, else 0","path",no,"Extensions: .bak, .old, .inc, .config, .env, .git, .svn, .sql, .zip, .tar, .gz, .log, .ini, .swp, .php~, .orig, .save."
+quote_count,v3,lexical,"count of ', "", %27 and %22 in lower(P)","path, query, body",no,
+angle_count,v3,lexical,"count of <, >, %3c and %3e in lower(P)","path, query, body",no,
+double_escape_count,v3,lexical,"count of %25XX sequences in lower(P), regex `%25[0-9a-fA-F]{2}`","path, query, body",no,
+max_value_special_ratio,v3,lexical,"max over decoded query and form-body values of (non-alphanumeric, non-space characters / len(value)), 4 decimals","query, body",no,"JSON bodies yield no key=value pairs and therefore no values."
+max_value_length,v3,lexical,"max len(value) over decoded query and form-body values","query, body",no,"JSON bodies yield no key=value pairs and therefore no values."

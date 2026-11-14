@@ -15,7 +15,7 @@ observation window, and no live adversary. The package therefore reproduces the
 Two manuscript versions are supported:
 
 - Elsevier: `paper/manuscript_short.md` -> `paper/NATRIX_manuscript_short.pdf`
-  (38 pages, 12 tables, 5 figures).
+  (40 pages, 12 tables, 5 figures).
 - IEEE conference: `paper/manuscript_ieee.tex` ->
   `paper/manuscript_ieee.pdf` (8 pages).
 
@@ -328,7 +328,7 @@ citations from `paper/refs.bib`. The compiled PDFs are included under
 
 ## 7. Claim-to-artifact map
 
-Table numbers refer to the 38-page Elsevier version. The IEEE version uses the
+Table numbers refer to the 40-page Elsevier version. The IEEE version uses the
 same result files with a subset of the tables. Tables 1, 3, 6, 7, and 8 in
 the short manuscript are compact derivatives of the generated full tables;
 the full versions and their generators are included under `tables/` and

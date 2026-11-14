@@ -1,13 +1,13 @@
 {
   "package": "NATRIX_reproducibility_v1.0.0",
   "version": "1.0.0",
-  "built_utc": "2026-11-13T04:25:47+00:00",
+  "built_utc": "2026-11-14T04:57:53+00:00",
   "source_workspace": "NATRIX_Q1_Manuscript",
   "python": "3.11.8",
   "platform": "Windows-10-10.0.26200-SP0",
-  "payload_files": 486,
-  "payload_bytes": 116306579,
-  "manifest_sha256": "f6f5f298bfb4b576c4b0cfb3fb82b23001bf699d2b8edb30ace9b551f164a68c",
+  "payload_files": 489,
+  "payload_bytes": 115842389,
+  "manifest_sha256": "d3210906197484f67c38ca46246acd244e0c870087d7a6f9c62d03b98195e8e9",
   "excluded": [
     "data/raw/** and data/processed/** (raw corpora)",
     "experiments/results/**/*.parquet (request caches)",

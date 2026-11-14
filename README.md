@@ -10,7 +10,7 @@ It contains the code, frozen protocol, measured result files, generated tables
 and figures, formal models, ONNX artifacts, and manuscript build pipeline used
 for the offline-corpus evaluation.
 
-**Repository status (2026-11-13).** Version 1.0.0 is published at
+**Repository status (2026-11-14).** Version 1.0.0 is published at
 <https://github.com/NameetAhire/natrix-auditable>. No DOI is
 minted. Cite the manuscript and the repository URL; the repository is the
 authoritative artifact for the offline-corpus results.

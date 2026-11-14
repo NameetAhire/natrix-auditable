@@ -1,0 +1,23 @@
+{
+  "protocol": "single-row wall-clock, 300 warm-up, 3 passes, median p95; ONNX Runtime single-threaded; same machine and frozen inputs",
+  "inputs": {
+    "n": 10000,
+    "source": "experiments/results/latency/latency_inputs.json",
+    "warmup": 300
+  },
+  "extraction": {
+    "v3_22d_p95_ms": 0.5425049999999999,
+    "v3_22d_p50_ms": 0.2338,
+    "v4_20d_p95_ms": 0.49000999999999983,
+    "v4_20d_p50_ms": 0.2341,
+    "delta_p95_ms": -0.05249500000000007
+  },
+  "onnx_inference": {
+    "v3_22d_p95_ms": 0.4573,
+    "v3_22d_p50_ms": 0.1689,
+    "v4_20d_p95_ms": 0.47447999999999957,
+    "v4_20d_p50_ms": 0.1589,
+    "delta_p95_ms": 0.017179999999999584
+  },
+  "note": "v4 extraction uses the production helpers but skips the two CSIC-constant features; the v4 ONNX forest is trained for timing only and is not used for any accuracy claim."
+}

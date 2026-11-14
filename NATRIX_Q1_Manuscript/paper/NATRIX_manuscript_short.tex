@@ -44,29 +44,29 @@ Inline HTTP Attack Detection}
 \begin{abstract}
 Web application firewalls must decide inline, yet the evidence behind
 their feature sets, promotion rules, and latency budgets is rarely
-auditable. NATRIX is a role-based architecture that separates a
-five-role synchronous decision path from four asynchronous governance
-roles. This paper evaluates two components in depth: the
-feature-admission gate and the promotion protocol. The detector contract
-is request-level: method, path, query, body, and user agent. A
+auditable. NATRIX separates a five-role synchronous decision path from
+four asynchronous governance roles. The contribution is an auditable
+feature-admission procedure with a measured cost gate, a model-checked
+promotion protocol, and an evaluation showing that WAF detector rankings
+invert between deployment-like and endpoint-disjoint splits. The
+contract is request-level: method, path, query, body, user agent. A
 three-gate mechanism combines provenance and safety constraints, a
-frozen four-condition statistical drop rule, and a measured
-extraction-cost budget. Applied to 34,593 deduplicated CSIC 2010
-requests, it reduces a 22-dimensional contract to 20 dimensions with a
-written evidence row for every decision, and rejects all 12
-statistically accepted candidates because their measured cost exceeds
-the budget. CPPP is model-checked in TLA+, mutation-tested (6/6 guards
-killed), and verified on 81,484 exact-rational trust-decay cases. The
-central evaluation finding is a protocol inversion: under a
+frozen four-condition drop rule, and a measured cost budget. On 34,593
+deduplicated CSIC 2010 requests it reduces a 22-dimensional contract to
+20 dimensions with an evidence row per decision, and rejects all 12
+accepted candidates on measured cost. CPPP is model-checked in TLA+,
+mutation-tested (6/6 guards killed), and verified on 81,484 trust-decay
+cases. The central finding is a protocol inversion: under a
 deployment-like split the lexical full-request baseline beats NATRIX on
-all three corpora, while under an endpoint-disjoint split the
-full-request baseline collapses on CSIC and the payload-only view wins;
-on SR-BH the payload view collapses and the path carries the signal. The
-ranking is therefore protocol- and view-dependent, and a single-protocol
-headline is not evidence of payload detection. Fusion gains are
-protocol-dependent, the per-parameter dilution fix is partial, and the
-SR-BH full-versus-20k gap is a sample-size effect. Inline p95 is 3.78
-ms. No live-network validation is claimed.
+all corpora; under an endpoint-disjoint split it collapses on CSIC while
+the payload view wins, and on SR-BH the payload view collapses and the
+path carries the signal. The ranking is protocol- and view-dependent; a
+single-protocol headline is not evidence of payload detection. Fusion
+gains are protocol-dependent, the per-parameter dilution fix is partial,
+and the SR-BH full-versus-20k gap is a sample-size effect. v4 is not
+claimed to be more accurate or meaningfully faster; its value is that
+every feature's presence or removal is justified by recorded evidence.
+Inline p95 is 3.78 ms. No live-network validation is claimed.
 \end{abstract}
 
 \begin{keyword}
@@ -117,26 +117,32 @@ included because a WAF sees it and endpoint structure is real evidence;
 the paper reports a view ablation and a lexical payload view as the
 diagnostic for what survives without it.
 
-The paper makes four contributions. First, a three-gate
-feature-admission mechanism: Gate A checks provenance, observability,
-determinism, and a pre-registered safety list; Gate B applies a frozen
+The paper's contribution is an auditable feature-admission procedure
+with a measured cost gate, a model-checked promotion protocol, and an
+evaluation showing that WAF detector rankings invert between
+deployment-like and endpoint-disjoint splits. We unpack this in four
+parts, starting with the transferable finding. First, a protocol
+inversion: under P1 the lexical full-request baseline is stronger than
+NATRIX on all three corpora, but under P2 it collapses on CSIC while the
+payload view stays at 96.03\%, and on SR-BH the payload view collapses
+while the path carries the signal. Second, the admission procedure: a
+three-gate mechanism in which Gate A checks provenance, observability,
+determinism, and a frozen safety list; Gate B applies a frozen
 four-condition statistical rule; Gate C applies a measured
 extraction-cost budget. On CSIC 2010 it reduces a 22-dimensional
 contract to 20 dimensions, and a 24-candidate screen accepts 12
 candidates statistically while admitting none because the accepted block
-costs 1.71 ms p95 against a 0.15 ms budget. Second, CPPP, a promotion
+costs 1.71 ms p95 against a 0.15 ms budget. Third, CPPP, a promotion
 protocol with quorum, canary, trust, and audit guards; a
 \texttt{Seed\allowbreak{}Trust} action decouples trust from votes so the quorum
 invariant is falsifiable, and the protocol is model-checked,
-mutation-tested, and verified on exact-rational trust decay. Third, an
+mutation-tested, and verified on exact-rational trust decay. Fourth, an
 evaluation protocol that reports every in-distribution result under P1
 and P2, with lexical views, a generic control, cross-fitted stackers, a
 nested threshold check, a frozen CRS replay, a scale curve, a grouping
-sensitivity check, and a dilution test. Fourth, a protocol inversion:
-under P1 the lexical full-request baseline is stronger than NATRIX on
-all three corpora, but under P2 it collapses on CSIC while the payload
-view stays at 96.03\%, and on SR-BH the payload view collapses while the
-path carries the signal.
+sensitivity check, and a dilution test. None of the individual
+components is new; the contribution is the combination and the evidence
+standard.
 
 The headline results are deliberately mixed. Under a cross-fitted FPR
 $\le$ 2\% operating point, NATRIX reaches 95.55/1.93 on CSIC P1,
@@ -151,6 +157,18 @@ lexical full 94.75/2.01, and lexical payload 36.27/1.88. The positive
 results are the feature-admission mechanism, the formal promotion
 protocol, the protocol-sensitivity analysis, and the partial dilution
 fix.
+
+\begin{quote}
+\textbf{Contributions.} An auditable feature-admission procedure with a
+measured cost gate; a model-checked promotion protocol; a two-protocol
+evaluation that shows detector rankings invert between P1 and P2; and a
+reproducibility artifact with the evidence row for every admission and
+rejection.
+
+\textbf{Non-contributions.} Not a new classifier; not state of the art;
+no live-traffic or shadow-mode validation; no adaptive-adversary
+evaluation; and CPPP is not implemented in the shipped proxy.
+\end{quote}
 
 \section{Related work}\label{related-work}
 
@@ -208,7 +226,19 @@ separating evidence producers from the policy owner
 \citep{nist2020zero}. The gap is the combination: feature-selection
 papers rarely verify a promotion protocol, agent-architecture papers
 rarely report endpoint-disjoint baselines, and WAF evaluation papers
-rarely report a pre-registered cost gate.
+rarely report a frozen cost gate.
+
+\textbf{Positioning.} Prior feature-selection work reports a final set
+and its accuracy, but not a measured admission cost, a promotion
+protocol, or a protocol-inversion check. Prior WAF evaluations usually
+report one split protocol, and prior role-based architectures specify
+authority without model-checking the promotion path. None of the
+individual components is new: filter and wrapper selection, permutation
+importance, extraction-cost budgets, TLA+ model checking, and
+endpoint-disjoint splits all predate this paper. The contribution is the
+combination and the evidence standard: every admission and rejection has
+a recorded row, the cost gate is measured on the worst case, promotion
+is model-checked, and the ranking is reported under both protocols.
 
 \section{NATRIX architecture and threat
 model}\label{natrix-architecture-and-threat-model}
@@ -241,7 +271,7 @@ does not train, promote, or mutate policy.
 
 \begin{figure}
 \centering
-\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 1. NATRIX architecture. The synchronous path contains five roles and produces the per-request verdict. The asynchronous band contains four governance roles; only the Policy Agent may promote a candidate, and promotion requires quorum, canary evidence, trust, and an audit record.}]{figures/architecture.png}
+\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 1. NATRIX architecture. The synchronous path contains five roles and produces the per-request verdict. The asynchronous band contains four governance roles; only the Policy Agent may promote a candidate, and promotion requires quorum, canary evidence, trust, and an audit record.}]{figures/architecture.pdf}
 \caption{NATRIX architecture. The synchronous path contains
 five roles and produces the per-request verdict. The asynchronous band
 contains four governance roles; only the Policy Agent may promote a
@@ -379,9 +409,29 @@ cover shape, lexical counts and maxima, evasion scores, signature
 scores, structural counts, and request-method risk. The names are
 historical: \texttt{payload\_\allowbreak{}length}, \texttt{shannon\_\allowbreak{}entropy}, and the
 ratio features are computed over the request target and body, not the
-body alone. Header-coherence features were deferred by a pre-registered
-decision (D1) because they would widen the contract beyond the fields
-the inline proxy currently passes.
+body alone. Header-coherence features were deferred by a frozen decision
+(D1) because they would widen the contract beyond the fields the inline
+proxy currently passes.
+
+\subsection{Feature origin}\label{feature-origin}
+
+v1 (10 features) was the first prototype, assembled from indicators
+common in WAF rules and HTTP-anomaly work: request length, Shannon
+entropy, character-class ratios, token count, SQL/XSS/traversal keyword
+scores, and a scanner user-agent flag. v2 (16) added six features for
+the threat-typing model: command-injection patterns, encoding ratio,
+null-byte flag, duplicate-parameter count, HTML tag density, and
+request-method risk. v3 (22) added six lexical features for the binary
+gate: suspicious extensions, quote and angle counts, double escapes, and
+maximum parameter-value ratio and length. The seven safety features come
+from rules the runtime already enforced as direct policy signals. The v3
+lexical block and the later candidate pool were shaped by error
+inspection of gate misses, but the v1-to-v3 growth was iterative and not
+frozen in advance; the admission procedure was introduced afterwards to
+audit the result, and this paper reports that sequence rather than
+presenting the final set as if it had been designed in one pass. The
+full formula, source field, and safety status of every feature are in
+\texttt{tables/\allowbreak{}feature\_\allowbreak{}contract.\allowbreak{}csv} in the repository.
 
 The admission mechanism is a decision procedure, not a search. A feature
 enters the contract only if it passes three gates in order, and the
@@ -389,8 +439,8 @@ gates and thresholds are frozen before the v4 outcome is inspected.
 \textbf{Gate A} requires the feature to be computable from the request
 fields the inline proxy already has, deterministic, bounded in cost, and
 independent of response bodies, logs, DNS, and external reputation. It
-must not be on the pre-registered safety list: seven features are
-retained because the runtime uses them as direct policy signals
+must not be on the frozen safety list: seven features are retained
+because the runtime uses them as direct policy signals
 (\texttt{sql\_\allowbreak{}keyword\_\allowbreak{}score}, \texttt{xss\_\allowbreak{}keyword\_\allowbreak{}score},
 \texttt{path\_\allowbreak{}traversal\_\allowbreak{}score}, \texttt{command\_\allowbreak{}injection\_\allowbreak{}score},
 \texttt{null\_\allowbreak{}byte\_\allowbreak{}score}, \texttt{request\_\allowbreak{}method\_\allowbreak{}risk}, and
@@ -411,9 +461,9 @@ conservative: a feature weak univariately but important in the model is
 retained, and a statistically droppable safety signal is retained.
 
 \textbf{Gate C} requires the feature to fit the measured extraction
-budget: added p95 cost on the 8 KiB worst case against a pre-registered
-0.15 ms budget. A feature that fails Gate C is not admitted even if Gate
-B accepts it. The decision rule is
+budget: added p95 cost on the 8 KiB worst case against a frozen 0.15 ms
+budget. A feature that fails Gate C is not admitted even if Gate B
+accepts it. The decision rule is
 \(\operatorname{admit}(f) = \mathrm{Gate\,A}(f) \land \mathrm{Gate\,B}(f) \land \mathrm{Gate\,C}(f)\).
 A feature is \emph{dropped} only if Gate A passes, Gate B fails, and it
 is not on the safety list. A feature that passes Gate B but fails Gate C
@@ -425,11 +475,14 @@ exactly two features: \texttt{param\_\allowbreak{}pollution\_\allowbreak{}count}
 \texttt{html\_\allowbreak{}tag\_\allowbreak{}density}. Both are exactly zero in both classes, so
 C1 holds by the near-constant clause, and their importance and ablation
 are null. They are redundant dimensions, not signals removed because
-they were inconvenient. \texttt{token\_\allowbreak{}count} is the conservative case:
-its permutation importance is -0.00054 with a 95\% interval of
-{[}-0.00082, -0.00026{]}, entirely below zero, so shuffling it slightly
-improves held-out performance, but C2 requires the interval to contain
-zero, so the feature is retained.
+they were inconvenient. This is a CSIC-only result: both features are
+constant on this corpus, so the evidence cannot show whether they carry
+signal in other corpora; they may. The cross-corpus audit is descriptive
+and does not re-run selection (D10). \texttt{token\_\allowbreak{}count} is the
+conservative case: its permutation importance is -0.00054 with a 95\%
+interval of {[}-0.00082, -0.00026{]}, entirely below zero, so shuffling
+it slightly improves held-out performance, but C2 requires the interval
+to contain zero, so the feature is retained.
 
 \texttt{special\_\allowbreak{}char\_\allowbreak{}ratio} is the more consequential anomaly. Its
 univariate association is strong (BH-adjusted \(p \approx 10^{-180}\),
@@ -446,7 +499,7 @@ gain; we do not, because that decision would follow the outcome. The
 1.52 points are an honest bound on what the frozen rule leaves on the
 table.
 
-The same mechanism screened 24 pre-registered candidates drawn from the
+The same mechanism screened 24 frozen candidates drawn from the
 literature, runtime capability, and error analysis. Twelve pass the
 statistical screen (mean delta F1 above its standard error and positive
 in at least four of five folds). None is admitted. Gate C is applied to
@@ -454,9 +507,44 @@ the accepted block as a set, because the inline budget is an envelope
 for the additional extraction pass, not a per-feature allowance. The
 block costs 1.71 ms p95 on the 8 KiB worst case and 0.43 ms p95 on the
 real CSIC distribution, against the 0.15 ms envelope; the full
-24-candidate pass costs 2.33 ms. Twenty candidates are individually
-below 0.15 ms, but nine of the twelve accepted candidates still cost
-0.73 ms as a set because each shares a second parse.
+24-candidate pass costs 2.33 ms. Table 1 gives the per-candidate
+marginal cost and the set-level budget. Twenty candidates are
+individually below 0.15 ms, but nine of the twelve accepted candidates
+still cost 0.73 ms as a set because each shares a second parse.
+
+The screen is not uniformly rejective. Table 2 is a positive control:
+the four v3-D path features pass Gate B and Gate C, are admitted, and
+change joint CSIC accuracy by +0.02 points. The procedure can admit a
+candidate when the evidence supports it; the 24-candidate outcome is a
+cost decision, not a prior against new features.
+
+\textbf{How to add a feature.} The procedure is fixed before the
+candidate is scored.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Implement the feature in the Node and Python extractors with identical
+  logic.
+\item
+  Gate A: use available request fields only; require deterministic,
+  bounded cost.
+\item
+  Reject the feature if it is constant on the corpus or has
+  \textbar Spearman\textbar{} $\ge$ 0.95 with an existing
+  feature.
+\item
+  Add it to the 20-feature core; run the same five folds; accept only if
+  the mean F1 gain exceeds its standard error and is positive in at
+  least four of five folds.
+\item
+  Gate C: measure the whole accepted block's p95 cost on the 8 KiB worst
+  case against the 0.15 ms budget.
+\item
+  Write the evidence row and the decision before looking at final test
+  results.
+\end{enumerate}
 
 
 
@@ -533,11 +621,11 @@ accepted, marginal $\le$ 0.15 ms & 9 & 0.73 & no \\
 \endgroup
 }
 
-The four expensive candidates dominate the pass. Twenty candidates are
-individually below 0.15 ms, but nine of the twelve accepted candidates
-still cost 0.73 ms as a set because each shares the second parse. The
-gate is therefore applied to the block; selecting the cheap subset after
-inspecting this table would be the post-hoc search the protocol forbids.
+The ten most expensive candidates are shown. The set rows include the
+second parse because the candidate extractor is an additional pass over
+the payload. The budget applies to the admitted block, so selecting the
+cheap subset after inspecting this table would be the post-hoc search
+the protocol forbids.
 
 
 
@@ -764,30 +852,31 @@ NATRIX+generic+lexical.
 Three threshold policies are reported: F1-optimal, FPR $\le$ 1\%,
 and FPR $\le$ 2\%. The 2\% policy is the deployment point because
 the acceptance target is FPR \textless{} 2.03\%; it was added after the
-plan was frozen and is recorded as D8. The pre-registered protocol
-selects the threshold by inner five-fold cross-validation inside each
-outer training fold. That is the fully nested point, and it is
-conservative because the inner models are trained on 64\% of the data
-while the model that scores the test fold is trained on 80\%, so the
-probability scale differs. We also report a cross-fitted calibration
-(D13): for each outer fold \(k\), the threshold is selected on the outer
-out-of-fold predictions of the other four folds and applied to fold
-\(k\). Fold \(k\)'s labels are never used to select its threshold, but
-the models that score the other folds were trained on data that includes
-fold \(k\), so this is a sensitivity analysis, not a fully nested
-selection. The headline comparison uses the cross-fitted 2\% policy
-because every baseline can be calibrated the same way; the fully nested
-result is reported for the primary corpus as the stricter check.
+plan was frozen and is recorded as D8. The frozen protocol selects the
+threshold by inner five-fold cross-validation inside each outer training
+fold. That is the fully nested point, and it is conservative because the
+inner models are trained on 64\% of the data while the model that scores
+the test fold is trained on 80\%, so the probability scale differs. We
+also report a cross-fitted calibration (D13): for each outer fold \(k\),
+the threshold is selected on the outer out-of-fold predictions of the
+other four folds and applied to fold \(k\). Fold \(k\)'s labels are
+never used to select its threshold, but the models that score the other
+folds were trained on data that includes fold \(k\), so this is a
+sensitivity analysis, not a fully nested selection. The headline
+comparison uses the cross-fitted 2\% policy because every baseline can
+be calibrated the same way; the fully nested result is reported for the
+primary corpus as the stricter check.
 
 \textbf{What ``pre-registered'' means here.} The analysis plan and
 candidate pool were frozen on 2026-10-30 in the project repository
 before the v4 screen and the matched-FPR comparison were run. This is a
-project-level freeze, not a third-party preregistration: there is no OSF
-record and no public git history. D8 (the 2\% operating point) and D13
-(cross-fitted calibration) were added after that freeze and are recorded
-as deviations in \texttt{protocol/\allowbreak{}deviations.\allowbreak{}md}; the headline 2\%
-comparison is therefore a post-freeze analysis, not a confirmatory test.
-We use ``frozen'' in that limited sense and do not claim that the entire
+project-level freeze, not a third-party preregistration: there was no
+OSF record and no public git history at freeze time. D8 (the 2\%
+operating point) and D13 (cross-fitted calibration) were added after
+that freeze and are recorded as deviations in
+\texttt{protocol/\allowbreak{}deviations.\allowbreak{}md}; the headline 2\% comparison is
+therefore a post-freeze analysis, not a confirmatory test. We use
+``frozen'' in that limited sense and do not claim that the entire
 analysis was preregistered.
 
 Accuracy, FPR, FNR, precision, recall, F1, ROC-AUC, and PR-AUC are
@@ -874,7 +963,7 @@ trained on the same folds; the stacks are cross-fitted logistic
 combinations of the listed base scores; CNN is an independent
 character-level convolutional detector trained on the same folds and
 calibrated with the same policy. SR-BH rows use the shared
-20,000-request sample.}\\
+20,000-request sample. Values are percentages.}\\
 \toprule\noalign{}
 corpus & detector & accuracy & FPR & recall & F1 \\
 \midrule\noalign{}
@@ -993,11 +1082,11 @@ on CSIC; a paper reporting only P2 would conclude that lexical payload
 is best on CSIC, lexical full is best on SR-BH, and NATRIX is never
 best. Neither summary is universal: the ranking is protocol- and
 corpus-dependent, and a single-protocol paper cannot tell which regime
-it is in.
+it is in. Figure 2 plots the matched operating points.
 
 \begin{figure}
 \centering
-\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 2. Matched operating points for NATRIX, the lexical full-request baseline, and the lexical payload baseline under P1 and P2. Panel (a) is accuracy and panel (b) is the realised false positive rate. The CSIC P2 panel shows the endpoint-disjoint collapse of the full-request lexical model; the SR-BH P2 panel shows the opposite payload collapse. All values are from Table 4.}]{figures/revision_protocol_sensitivity.png}
+\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 2. Matched operating points for NATRIX, the lexical full-request baseline, and the lexical payload baseline under P1 and P2. Panel (a) is accuracy and panel (b) is the realised false positive rate. The CSIC P2 panel shows the endpoint-disjoint collapse of the full-request lexical model; the SR-BH P2 panel shows the opposite payload collapse. All values are from Table 4.}]{figures/revision_protocol_sensitivity.pdf}
 \caption{Matched operating points for NATRIX, the lexical
 full-request baseline, and the lexical payload baseline under P1 and P2.
 Panel (a) is accuracy and panel (b) is the realised false positive rate.
@@ -1006,12 +1095,12 @@ full-request lexical model; the SR-BH P2 panel shows the opposite
 payload collapse. All values are from Table 4.}\label{fig:protocol}
 \end{figure}
 
-The fully nested check adds a caveat. On CSIC P1, the pre-registered
-inner-CV FPR $\le$ 2\% policy selects thresholds around 0.57 and
-yields 94.67\% accuracy at 1.26\% FPR for v3, and 94.59\% at 1.24\% for
-v4: 0.33 to 0.41 points below the 95\% target. The cross-fitted policy
-selects thresholds around 0.51 and yields 95.55\% at about 1.95\% FPR;
-the gap is a threshold-scale artifact.
+The fully nested check adds a caveat. On CSIC P1, the inner-CV FPR
+$\le$ 2\% policy selects thresholds around 0.57 and yields 94.67\%
+accuracy at 1.26\% FPR for v3, and 94.59\% at 1.24\% for v4: 0.33 to
+0.41 points below the 95\% target. The cross-fitted policy selects
+thresholds around 0.51 and yields 95.55\% at about 1.95\% FPR; the gap
+is a threshold-scale artifact.
 
 \subsection{View ablation: where the signal
 is}\label{view-ablation-where-the-signal-is}
@@ -1037,7 +1126,8 @@ contract (method, path, query, body, user agent). \texttt{no\_\allowbreak{}path}
 removes every path-derived feature. \texttt{path\_\allowbreak{}only} retains only
 path-derived features. \texttt{query\_\allowbreak{}only} and \texttt{body\_\allowbreak{}only}
 retain the corresponding lexical/structural features. All rows use the
-same P1 or P2 folds and the cross-fitted FPR $\le$ 2\% policy.}\\
+same P1 or P2 folds and the cross-fitted FPR $\le$ 2\% policy.
+Values are percentages.}\\
 \toprule\noalign{}
 corpus & protocol & view & accuracy & FPR & recall & F1 \\
 \midrule\noalign{}
@@ -1076,7 +1166,8 @@ carries almost all of the SR-BH signal. This is not endpoint
 memorisation, because it survives P2: the path morphology itself
 (traversal sequences, encoded SQL, suspicious extensions) separates the
 classes. But it means SR-BH is not evidence for payload detection, and
-the lexical payload collapse is consistent with that reading.
+the lexical payload collapse is consistent with that reading. Figure 3
+plots the five views.
 
 On CSIC P2, the pattern inverts. The full model reaches 78.85/6.50 with
 61.73\% recall. Removing the path gives 75.07/4.26 with 50.92\% recall:
@@ -1090,7 +1181,7 @@ signal.
 
 \begin{figure}
 \centering
-\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 3. View ablation for the 22-D contract. Panel (a) is accuracy and panel (b) is recall for the full, no-path, path-only, query-only, and body-only views. On SR-BH the path carries almost all of the signal under both protocols; on CSIC P2 the path-only model collapses to 34.47\% accuracy because it flags 99.92\% of clean requests. All values are from Table 5.}]{figures/revision_view_ablation.png}
+\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 3. View ablation for the 22-D contract. Panel (a) is accuracy and panel (b) is recall for the full, no-path, path-only, query-only, and body-only views. On SR-BH the path carries almost all of the signal under both protocols; on CSIC P2 the path-only model collapses to 34.47\% accuracy because it flags 99.92\% of clean requests. All values are from Table 5.}]{figures/revision_view_ablation.pdf}
 \caption{View ablation for the 22-D contract. Panel (a) is
 accuracy and panel (b) is recall for the full, no-path, path-only,
 query-only, and body-only views. On SR-BH the path carries almost all of
@@ -1234,7 +1325,8 @@ NATRIX+generic+lexical is -0.30 points versus generic+lexical ({[}-0.43,
 The P2 split groups requests by method, normalised path, and sorted
 query and body parameter names. We rebuilt the folds with path-only
 groups, which is stricter because requests to the same path with
-different parameter names can no longer be separated.
+different parameter names can no longer be separated. Table 7 reports
+the check.
 
 
 
@@ -1249,10 +1341,9 @@ different parameter names can no longer be separated.
   >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1429}}@{}}
 \caption{P2 grouping sensitivity. The main split groups by
 method + normalised path + sorted query/body parameter names; the
-path-only check groups by method + normalised path only. CSIC is not
-identifiable under path-only grouping because ten normalised paths carry
-93\% of the requests, so its path-only detector numbers are not used for
-ranking.}\\
+path-only check groups by method + normalised path only, which is
+stricter because requests to the same path with different parameter
+names can no longer be separated. Values are percentages.}\\
 \toprule\noalign{}
 \begin{minipage}[t]{\linewidth}\raggedright
 corpus
@@ -1359,7 +1450,7 @@ full-versus-20k gap.
 $\le$ 2\% policy are identical; only the training/test population
 size changes. The nested subsets are drawn from the full corpus with the
 same class prevalence, so the curve separates a sample-size effect from
-a class-prior artefact.}\\
+a class-prior artefact. Values are percentages.}\\
 \toprule\noalign{}
 subset & n & accuracy & FPR & recall & F1 \\
 \midrule\noalign{}
@@ -1395,11 +1486,11 @@ stable. The nested curve is monotonic: 10k 87.86, 20k 90.31, 50k 93.43,
 100k 94.09, 200k 95.00, full 95.70. The gap is a sample-size effect.
 Under P2 the 20k sample reaches 90.62/1.88 with 87.56\% recall and the
 full corpus 94.01/2.77 with 92.70\%, so scale does not remove the
-endpoint-disjoint penalty.
+endpoint-disjoint penalty. Figure 4 plots the curve.
 
 \begin{figure}
 \centering
-\includegraphics[width=3.4in,height=\textheight,keepaspectratio,alt={Figure 4. SR-BH scale sensitivity under P1. Accuracy and recall are plotted against the training/test population for nested subsets drawn from the full corpus at the same class prevalence. The open circle marks the separate shared 20k sample used in Table 4. The curve is monotonic, so the full-versus-20k gap is a sample-size effect, not a class-prior artefact.}]{figures/revision_srbh_learning.png}
+\includegraphics[width=3.4in,height=\textheight,keepaspectratio,alt={Figure 4. SR-BH scale sensitivity under P1. Accuracy and recall are plotted against the training/test population for nested subsets drawn from the full corpus at the same class prevalence. The open circle marks the separate shared 20k sample used in Table 4. The curve is monotonic, so the full-versus-20k gap is a sample-size effect, not a class-prior artefact.}]{figures/revision_srbh_learning.pdf}
 \caption{SR-BH scale sensitivity under P1. Accuracy and recall
 are plotted against the training/test population for nested subsets
 drawn from the full corpus at the same class prevalence. The open circle
@@ -1410,8 +1501,8 @@ class-prior artefact.}\label{fig:learning}
 
 \subsection{v3 versus v4}\label{v3-versus-v4}
 
-Table 9 reports the pre-registered nested comparison of v3 and v4 on
-CSIC P1 over three seeds.
+Table 9 reports the nested comparison of v3 and v4 on CSIC P1 over three
+seeds.
 
 
 
@@ -1427,8 +1518,8 @@ CSIC P1 over three seeds.
   >{\raggedleft\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}@{}}
 \caption{v3 versus v4 on CSIC 2010 (P1, three seeds). Thresholds
 are selected by inner five-fold cross-validation inside each outer
-training fold. Values are means over seeds; parentheses are standard
-deviations.}\\
+training fold. Values are percentages; entries are means over seeds and
+parentheses are standard deviations.}\\
 \toprule\noalign{}
 feature set & policy & threshold & accuracy & FPR & FNR & F1 \\
 \midrule\noalign{}
@@ -1469,8 +1560,9 @@ reach 95.55\%; v3 has 1.94\% FPR and v4 1.96\%, the paired difference is
 reason is visible in the audit: the two dropped features are exactly
 constant zero on every CSIC request, so removing them cannot change a
 tree split, and the small forest differences are RNG tie-breaking. v4 is
-not a performance improvement; its value is a smaller contract with
-every removal backed by evidence.
+not claimed to be more accurate or meaningfully faster; its value is
+that every feature's presence or removal is justified by recorded
+evidence.
 
 \subsection{Cross-corpus transfer and direction
 reversal}\label{cross-corpus-transfer-and-direction-reversal}
@@ -1582,9 +1674,20 @@ adversarial extraction worst case is 6.68 ms p95. A hard bound below
 that tail would need a persistent connection, a co-located inference
 library, or batching.
 
+A separate same-machine microbenchmark isolates the 22-D to 20-D
+difference on the same 10,000 frozen inputs, with 300 warm-up requests
+and the median of three passes. Python extraction p95 is 0.54 ms for v3
+and 0.49 ms for a benchmark-only 20-D path that skips the two dropped
+features (\(\Delta = -0.05\) ms); p50 is 0.234 ms for both.
+Single-threaded ONNX inference p95 is 0.46 ms for the shipped 22-D gate
+and 0.47 ms for a 20-D forest trained only for timing
+(\(\Delta = +0.02\) ms); p50 is 0.17 versus 0.16 ms. The 20-D model is
+not an accuracy artifact, and the differences are small and within
+run-to-run noise at p95. v4 is not claimed to be meaningfully faster.
+
 \begin{figure}
 \centering
-\includegraphics[width=3.4in,height=\textheight,keepaspectratio,alt={Figure 5. ECDF of end-to-end latency for the three input corpora. The dashed line marks 5 ms for reference. The curves cross it near the 95th percentile; the tail beyond 5 ms is visible.}]{figures/latency_ecdf.png}
+\includegraphics[width=3.4in,height=\textheight,keepaspectratio,alt={Figure 5. ECDF of end-to-end latency for the three input corpora. The dashed line marks 5 ms for reference. The curves cross it near the 95th percentile; the tail beyond 5 ms is visible.}]{figures/latency_ecdf.pdf}
 \caption{ECDF of end-to-end latency for the three input
 corpora. The dashed line marks 5 ms for reference. The curves cross it
 near the 95th percentile; the tail beyond 5 ms is
@@ -1631,7 +1734,8 @@ evaluates the request and are excluded from the decision metrics.
 requests are replayed at PL1, PL2, and PL3. The inbound anomaly
 threshold is 5. Edge rejections (HTTP 400/405/413/414) and transport
 failures (status 0) are excluded from the decision metrics. Each level
-is a frozen configuration, not a tuned operating point.}\\
+is a frozen configuration, not a tuned operating point. Values are
+percentages except the p95 latency column, which is milliseconds.}\\
 \toprule\noalign{}
 \begin{minipage}[t]{\linewidth}\raggedleft
 paranoia level
@@ -1692,8 +1796,9 @@ PL3 & 51.91 & 71.21 & 78.92 & 0.6021 & 12,587 & 5,366 & 13,272 & 3,362 &
 \endgroup
 }
 
-Status counts: - PL1: 200: 30,306, 403: 4,287 - PL2: 0: 49, 200: 25,123,
-403: 9,421 - PL3: 0: 6, 200: 8,728, 403: 25,859
+Note: HTTP status counts were PL1 200: 30,306, 403: 4,287; PL2 0: 49,
+200: 25,123, 403: 9,421; PL3 0: 6, 200: 8,728, 403: 25,859. Status 0 is
+a transport failure; 200 is an allow and 403 is a block.
 
 At PL1, CRS reaches 66.24\% accuracy at 0.03\% FPR with 26.84\% recall:
 it blocks 4,281 of 15,953 attacks and only 6 of 18,640 clean requests.
@@ -1783,7 +1888,7 @@ per-parameter and per-path maxima to the 22-D contract:
 \caption{Dilution-resistant feature variant (v3-D). Panel A is
 the bounded mutation suite over all 15,953 attacks. Panel B is the
 targeted dilution subset. Panel C is the per-operator loss for the
-bounded suite.}\\
+bounded suite. Values are percentages except the evaded count.}\\
 \toprule\noalign{}
 \begin{minipage}[t]{\linewidth}\raggedright
 contract
@@ -1971,10 +2076,9 @@ First, the three-gate mechanism is a reusable decision procedure, not a
 trial-and-error search. It drops two features, retains 20, and produces
 a written justification for every row, including a negative decision on
 all 24 candidates. Second, the inline path has a measured p95 of 3.78 ms
-over 9,700 real requests, and the HTTP hop, not the model, is the
-dominant cost; the cost gate is meaningful only because the measurement
-separates marginal extraction cost from the shared parse and the
-transport. Third, CPPP's control-flow safety is model-checked,
+over 9,700 real requests, and the HTTP hop, not the model, dominates;
+the cost gate separates marginal extraction cost from the shared parse
+and transport. Third, CPPP's control-flow safety is model-checked,
 mutation-tested, and implemented: \texttt{Seed\allowbreak{}Trust} removes the
 construction artifact, six of six mutants are killed, and the protocol
 forbids the direct promotion shortcut that the shipped proxy still uses.
@@ -1983,51 +2087,50 @@ Fourth, the comparison protocol is itself a contribution. NATRIX is
 competitive with a strong lexical baseline under P1 but does not beat
 it; under P2 the ranking changes, with lexical full collapsing on CSIC
 while lexical payload stays strong, and the opposite pattern on SR-BH.
-The matched-FPR protocol, the endpoint/payload decomposition, and the
-frozen CRS replay show where the gap comes from. Fifth, the control
-stack shows that the curated contract carries signal beyond a generic
-request-shape model, but fusion gains are protocol- and view-dependent,
-and the SR-BH P2 payload ``gain'' is the path signal re-entering the
-stack. Sixth, the dilution fix is a measured partial improvement: v3-D
-raises clean and mutated recall and reduces the targeted loss from 33.32
-to 28.44 points, but introduces new weaknesses on case changes and
-SQL-comment insertion.
+The matched-FPR protocol, endpoint/payload decomposition, and frozen CRS
+replay show where the gap comes from. Fifth, the control stack shows
+that the curated contract carries signal beyond a generic request-shape
+model, but fusion gains are protocol- and view-dependent, and the SR-BH
+P2 payload ``gain'' is the path signal re-entering the stack. Sixth, the
+dilution fix is a measured partial improvement: v3-D raises clean and
+mutated recall and reduces the targeted loss from 33.32 to 28.44 points,
+but introduces new weaknesses on case changes and SQL-comment insertion.
 
-The evidence does not support a claim of universal generalisation. ECML
-reaches 91.96\% under P1 and misses the accuracy target, and P2 fails on
-CSIC (78.85\% at 6.50\% FPR) and on the 20k SR-BH sample relative to the
-full corpus. Transfer is worse: two AUCs are below chance, and the
-OpenAppSec false-positive rate is 88.80\% with a CSIC source. Ten
-features reverse sign, so the learned boundary is population-specific.
-The evidence also does not support a claim that NATRIX is state of the
-art, that v4 improves accuracy, that the mutation test establishes
-adversarial robustness, that gate-plus-CRS fusion is useful at a 2\%
-budget, or that the shipped runtime enforces CPPP. It does not support
-real-network validation: every result is from offline labelled corpora
-and local replay.
+The evidence does not support universal generalisation. ECML reaches
+91.96\% under P1 and misses the accuracy target, and P2 fails on CSIC
+(78.85\% at 6.50\% FPR) and on the 20k SR-BH sample relative to the full
+corpus. Transfer is worse: two AUCs are below chance, and the OpenAppSec
+false-positive rate is 88.80\% with a CSIC source. Ten features reverse
+sign, so the learned boundary is population-specific. The evidence also
+does not support a claim that NATRIX is state of the art, that v4
+improves accuracy, that the mutation test establishes adversarial
+robustness, that gate-plus-CRS fusion is useful at a 2\% budget, or that
+the shipped runtime enforces CPPP. It does not support real-network
+validation: every result is from offline labelled corpora and local
+replay.
 
-The design implications follow. The inline/async split is worth
-preserving: the five inline roles account for the measured budget, while
-the four governance roles can be slower because they do not affect the
-current verdict. Feature direction is not portable, so a
-cross-deployment federated model would have to handle the heterogeneity
-explicitly \citep{mcmahan2017communication, kairouz2021advances}. The
-HTTP hop dominates latency, so a hard bound needs a persistent
-connection, co-located inference, or a Unix domain socket.
+Design implications follow. The inline/async split is worth preserving:
+the five inline roles account for the measured budget, while the four
+governance roles can be slower because they do not affect the current
+verdict. Feature direction is not portable, so a cross-deployment
+federated model would have to handle the heterogeneity explicitly
+\citep{mcmahan2017communication, kairouz2021advances}. The HTTP hop
+dominates latency, so a hard bound needs a persistent connection,
+co-located inference, or a Unix domain socket.
 
 \section{Limitations}\label{limitations}
 
 \textbf{Corpus age and construction.} CSIC 2010 and ECML/PKDD 2007 are
 old and were generated against specific applications; their traffic does
-not represent modern APIs, JSON bodies, GraphQL, or cloud-native
-deployments. SR-BH 2020 is more modern but attack-dominant, so its prior
-is not a deployment prior. WCP 2024 is the newest corpus, but its
-legitimate traffic is capped at 200 requests per site and is
-site-clustered, and every malicious row has path \texttt{/\allowbreak{}}; only the
-endpoint-matched subset is reported. The corpora also use different
-label ontologies, so a request labelled attack in one corpus may be
-labelled clean in another if the application context differs;
-deduplication removes exact conflicts but not semantic ones.
+not represent modern APIs, JSON, or cloud-native deployments. SR-BH 2020
+is more modern but attack-dominant, so its prior is not a deployment
+prior. WCP 2024 is the newest corpus, but its legitimate traffic is
+capped at 200 requests per site and is site-clustered, and every
+malicious row has path \texttt{/\allowbreak{}}; only the endpoint-matched subset is
+reported. The corpora also use different label ontologies, so a request
+labelled attack in one corpus may be labelled clean in another if the
+application context differs; deduplication removes exact conflicts but
+not semantic ones.
 
 \textbf{Split protocol and threshold selection.} P1 allows the same
 endpoint in training and test. That is realistic for a WAF but inflates
@@ -2038,7 +2141,7 @@ policy misses the 95\% target on CSIC by 0.33 to 0.41 points. The
 cross-fitted protocol meets it, but the out-of-fold models that score
 the other folds were trained on data that includes the held-out fold, so
 it is not a fully nested selection. The paper reports both and does not
-present the cross-fitted number as if it were the pre-registered one.
+present the cross-fitted number as frozen.
 
 \textbf{Learner and screening configuration.} The forest is pinned to
 the shipped configuration (D5), which is not tuned for these corpora. A
@@ -2046,8 +2149,8 @@ tuned forest might improve accuracy, but it would no longer be the
 deployed artifact. The secondary learners are fixed untuned
 configurations and are robustness checks, not a model search. The
 generic control is a single LightGBM configuration; a different control
-could be stronger, so the control result is a comparison to this
-specific reference, not a bound on all generic models.
+could be stronger, so the control result compares to this reference, not
+all generic models.
 
 \textbf{Formal scope.} TLC checks finite constants (three agents, two
 rules, \(K=2\), \(\tau=2\), max trust 3), and the BFS is bounded at
@@ -2079,24 +2182,29 @@ protocol.
 
 \section{Conclusion}\label{conclusion}
 
-The results are deliberately two-sided. On the positive side, the inline
-p95 is 3.78 ms over 9,700 real requests, the three-gate mechanism drops
-two features and rejects all 24 candidates on measured cost, CPPP's
-invariants hold in TLA+ and in the executable reference, six of six
-mutants are killed, trust decay is verified on 81,484 exact-rational
-cases and nine symbolic identities, and the NATRIX+lexical stacker
-improves on the lexical base on CSIC P1, ECML P2, and SR-BH P2 full. On
-the negative side, NATRIX is not the best single detector: the lexical
-full-request baseline is stronger than NATRIX at the 2\% FPR point under
-P1 on all three corpora, the char-CNN is comparable on CSIC, lexical
-payload is the strongest CSIC P2 detector, the fully nested policy
-reaches 94.67\% and misses the 95\% target, P2 fails on CSIC (78.85\% at
-6.50\% FPR), two transfer AUCs are below chance, ten features reverse
-direction, gate-plus-CRS fusion is redundant or over budget, bounded
-mutation removes 10.13 points of recall, and the targeted dilution
-attack still removes 28.44 points with v3-D. v4 is an auditability
-improvement, not an accuracy gain, and WCP is reported only as an
-endpoint-confounded diagnostic.
+The contribution is an auditable feature-admission procedure with a
+measured cost gate, a model-checked promotion protocol, and an
+evaluation showing that WAF detector rankings invert between
+deployment-like and endpoint-disjoint splits. The results are
+deliberately two-sided. On the positive side, the inline p95 is 3.78 ms
+over 9,700 real requests, the three-gate mechanism drops two features
+and rejects all 24 candidates on measured cost, CPPP's invariants hold
+in TLA+ and in the executable reference, six of six mutants are killed,
+trust decay is verified on 81,484 exact-rational cases and nine symbolic
+identities, and the NATRIX+lexical stacker improves on the lexical base
+on CSIC P1, ECML P2, and SR-BH P2 full. On the negative side, NATRIX is
+not the best single detector: the lexical full-request baseline is
+stronger than NATRIX at the 2\% FPR point under P1 on all three corpora,
+the char-CNN is comparable on CSIC, lexical payload is the strongest
+CSIC P2 detector, the fully nested policy reaches 94.67\% and misses the
+95\% target, P2 fails on CSIC (78.85\% at 6.50\% FPR), two transfer AUCs
+are below chance, ten features reverse direction, gate-plus-CRS fusion
+is redundant or over budget, bounded mutation removes 10.13 points of
+recall, and the targeted dilution attack still removes 28.44 points with
+v3-D. v4 is not claimed to be more accurate or meaningfully faster; its
+value is that every feature's presence or removal is justified by
+recorded evidence, and WCP is reported only as an endpoint-confounded
+diagnostic.
 
 The conclusion is not that the detector is universal or state of the
 art, but that the architecture and the evidence standard are reusable. A
