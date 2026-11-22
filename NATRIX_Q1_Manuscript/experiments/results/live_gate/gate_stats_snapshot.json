@@ -1,0 +1,1 @@
+﻿{"enabled":true,"available":false,"contract":"v4","feature_count":20,"threshold":0.5,"model":"models/csic_binary_20d/gate_20d.onnx","error":null,"decisions":0,"blocks":0,"enforced_blocks":0,"errors":0,"block_rate":0,"latency_ms":{"p50":null,"p95":null,"p99":null},"persisted":{"decisions":95,"positives":95,"enforced_blocks":19}}

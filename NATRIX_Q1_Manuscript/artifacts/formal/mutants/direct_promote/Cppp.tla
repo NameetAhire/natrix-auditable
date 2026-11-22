@@ -6,16 +6,21 @@
 \* scheduler tick, and a promoted rule whose trust falls below Tau is retired in
 \* the same tick (so a promoted rule is never observably under-trusted).
 \*
+\* A canary pass is an evidence event, not a free action: the rule must have
+\* accumulated at least CanaryObs observations in the canary state, and none of
+\* those observations may have produced a benign hit.  A single hit is
+\* permanent, so the model cannot "observe until clean" after a failure.
+\*
 \* TLC exhaustively explores every interleaving.  The invariants below are the
 \* properties claimed in the paper.
 
 EXTENDS Naturals, FiniteSets, TLC
 
-CONSTANTS Agents, PolicyAgent, Rules, K, Tau, MaxTrust
+CONSTANTS Agents, PolicyAgent, Rules, K, Tau, MaxTrust, CanaryObs
 
-VARIABLES state, votes, trust, canaryPassed, activePolicy, audit
+VARIABLES state, votes, trust, canaryPassed, canarySeen, canaryHit, activePolicy, audit
 
-vars == <<state, votes, trust, canaryPassed, activePolicy, audit>>
+vars == <<state, votes, trust, canaryPassed, canarySeen, canaryHit, activePolicy, audit>>
 
 Lifecycle == {"observed", "canary", "promoted", "retired", "rejected"}
 
@@ -24,6 +29,8 @@ TypeOK ==
   /\ votes \in [Rules -> SUBSET Agents]
   /\ trust \in [Rules -> 0..MaxTrust]
   /\ canaryPassed \in [Rules -> BOOLEAN]
+  /\ canarySeen \in [Rules -> 0..CanaryObs]
+  /\ canaryHit \in [Rules -> BOOLEAN]
   /\ activePolicy \subseteq Rules
   /\ audit \subseteq Rules
 
@@ -32,6 +39,8 @@ Init ==
   /\ votes = [r \in Rules |-> {}]
   /\ trust = [r \in Rules |-> 0]
   /\ canaryPassed = [r \in Rules |-> FALSE]
+  /\ canarySeen = [r \in Rules |-> 0]
+  /\ canaryHit = [r \in Rules |-> FALSE]
   /\ activePolicy = {}
   /\ audit = {}
 
@@ -43,7 +52,7 @@ Validate(a, r) ==
   /\ state[r] \in {"observed", "canary"}
   /\ votes' = [votes EXCEPT ![r] = @ \cup {a}]
   /\ trust' = [trust EXCEPT ![r] = IF @ < MaxTrust THEN @ + 1 ELSE @]
-  /\ UNCHANGED <<state, canaryPassed, activePolicy, audit>>
+  /\ UNCHANGED <<state, canaryPassed, canarySeen, canaryHit, activePolicy, audit>>
 
 \* Trust is a property of the rule, not a function of the current vote count.
 \* A rule can inherit trust from a prior version or from an operator's
@@ -53,7 +62,7 @@ SeedTrust(r) ==
   /\ state[r] = "observed"
   /\ trust[r] < Tau
   /\ trust' = [trust EXCEPT ![r] = Tau]
-  /\ UNCHANGED <<state, votes, canaryPassed, activePolicy, audit>>
+  /\ UNCHANGED <<state, votes, canaryPassed, canarySeen, canaryHit, activePolicy, audit>>
 
 \* Canary may start only with an independent quorum and sufficient trust.
 StartCanary(r) ==
@@ -61,14 +70,27 @@ StartCanary(r) ==
   /\ Cardinality(votes[r]) >= K
   /\ trust[r] >= Tau
   /\ state' = [state EXCEPT ![r] = "canary"]
-  /\ UNCHANGED <<votes, trust, canaryPassed, activePolicy, audit>>
+  /\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit, activePolicy, audit>>
+
+\* One canary observation.  hit is TRUE when the candidate fired on traffic
+\* that the operator had labelled benign.  Observations stop at CanaryObs; a
+\* hit is sticky, so the rule cannot be rescued by later clean traffic.
+ObserveCanary(r, hit) ==
+  /\ state[r] = "canary"
+  /\ canarySeen[r] < CanaryObs
+  /\ hit \in BOOLEAN
+  /\ canarySeen' = [canarySeen EXCEPT ![r] = @ + 1]
+  /\ canaryHit' = [canaryHit EXCEPT ![r] = @ \/ hit]
+  /\ UNCHANGED <<state, votes, trust, canaryPassed, activePolicy, audit>>
 
 PassCanary(r) ==
   /\ state[r] = "canary"
   /\ Cardinality(votes[r]) >= K
   /\ trust[r] >= Tau
+  /\ canarySeen[r] >= CanaryObs
+  /\ ~canaryHit[r]
   /\ canaryPassed' = [canaryPassed EXCEPT ![r] = TRUE]
-  /\ UNCHANGED <<state, votes, trust, activePolicy, audit>>
+  /\ UNCHANGED <<state, votes, trust, canarySeen, canaryHit, activePolicy, audit>>
 
 \* Only the policy agent holds the write capability.
 Promote(a, r) ==
@@ -80,13 +102,13 @@ Promote(a, r) ==
   /\ state' = [state EXCEPT ![r] = "promoted"]
   /\ activePolicy' = activePolicy \cup {r}
   /\ audit' = audit \cup {r}
-  /\ UNCHANGED <<votes, trust, canaryPassed>>
+  /\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit>>
 
 Retire(r) ==
   /\ state[r] \in {"canary", "promoted"}
   /\ state' = [state EXCEPT ![r] = "retired"]
   /\ activePolicy' = activePolicy \ {r}
-  /\ UNCHANGED <<votes, trust, canaryPassed, audit>>
+  /\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit, audit>>
 
 
 \* Mutant: an observed rule can be promoted without a canary.
@@ -95,12 +117,12 @@ DirectPromote(r) ==
   /\ state' = [state EXCEPT ![r] = "promoted"]
   /\ activePolicy' = activePolicy \cup {r}
   /\ audit' = audit \cup {r}
-  /\ UNCHANGED <<votes, trust, canaryPassed>>
+  /\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit>>
 
 Reject(r) ==
   /\ state[r] = "observed"
   /\ state' = [state EXCEPT ![r] = "rejected"]
-  /\ UNCHANGED <<votes, trust, canaryPassed, activePolicy, audit>>
+  /\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit, activePolicy, audit>>
 
 \* One scheduler tick: trust decays by one level, and any promoted rule that
 \* falls below Tau is retired atomically, so no reachable state exposes a
@@ -115,11 +137,12 @@ Tick ==
         THEN "retired"
         ELSE state[r]]
   /\ activePolicy' = {r \in activePolicy : ~(state[r] = "promoted" /\ trust[r] <= Tau)}
-  /\ UNCHANGED <<votes, canaryPassed, audit>>
+  /\ UNCHANGED <<votes, canaryPassed, canarySeen, canaryHit, audit>>
 
 Next ==
   \/ \E a \in Agents, r \in Rules : Validate(a, r)
   \/ \E a \in Agents, r \in Rules : Promote(a, r)
+  \/ \E r \in Rules, hit \in BOOLEAN : ObserveCanary(r, hit)
   \/ \E r \in Rules : SeedTrust(r) \/ StartCanary(r) \/ PassCanary(r) \/ Retire(r) \/ Reject(r) \/ DirectPromote(r)
   \/ Tick
 
@@ -137,6 +160,14 @@ NoPromotionWithoutQuorum ==
 
 NoPromotionWithoutTrust ==
   \A r \in Rules : state[r] = "promoted" => trust[r] >= Tau
+
+\* Promotion requires CanaryObs clean observations, not merely a passed flag.
+NoPromotionWithoutObservations ==
+  \A r \in Rules : state[r] = "promoted" => canarySeen[r] >= CanaryObs
+
+\* A candidate that ever hit benign traffic can never be promoted.
+NoPromotionWithCanaryHit ==
+  \A r \in Rules : state[r] = "promoted" => ~canaryHit[r]
 
 ActiveImpliesAudited ==
   activePolicy \subseteq audit

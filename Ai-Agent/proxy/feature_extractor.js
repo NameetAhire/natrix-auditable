@@ -451,12 +451,23 @@ function featureDictToVector(features, version = 'v3') {
 }
 
 /**
+ * Gateway mode prefixes every request with /p/<slug>.  Strip it before
+ * feature extraction so the ratios and lexical scores match the origin path
+ * the model was trained on (and the direct local test).
+ */
+function stripGatewayPrefix(url) {
+  const match = /^\/p\/[^/?#]+/.exec(url || '');
+  if (!match) return url;
+  return url.slice(match[0].length) || '/';
+}
+
+/**
  * Build the same normalized payload string that the Python service sees.
  * Keeping one helper prevents the proxy's local extraction and the ML call
  * from drifting apart.
  */
 function buildPayloadFromRequest(req) {
-  const url = req.originalUrl || req.url || '/';
+  const url = stripGatewayPrefix(req.originalUrl || req.url || '/');
   let bodyText = '';
   if (req.bodyParseFailed && req.rawBodyText) {
     bodyText = req.rawBodyText;
@@ -532,6 +543,7 @@ module.exports = {
   extractFeatures,
   featureDictToVector,
   buildPayloadFromRequest,
+  stripGatewayPrefix,
   extractFeatureBundle,
   scoreFeatureRisk,
 };

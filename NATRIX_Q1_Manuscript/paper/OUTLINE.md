@@ -17,9 +17,11 @@ artifact backs it, and which table or figure carries it. The source of truth is
 
 - Title, authors, abstract, keywords.
 - Abstract reports: 34,593 CSIC requests; 20-D v4; two dropped features; 24
-  candidates screened with zero admitted; CPPP model-checked; CSIC P1 and
-  SR-BH P1 at 95.55%/1.93% and 95.70%/1.96% under cross-fitted calibration;
-  nested CSIC 94.67%/1.26%; inline p95 3.779 ms on 9,700 measured requests.
+  candidates screened, 12 accepted statistically and none admitted on cost;
+  CPPP model-checked with 8/8 mutants killed; CSIC P1 and SR-BH P1 at
+  95.55%/1.93% and 95.70%/1.95% under cross-fitted calibration; nested CSIC
+  94.67%/1.26%; deployed gateway 30/30 attacks blocked with zero benign
+  blocks; inline p95 3.78 ms on 9,700 measured requests.
 - The abstract distinguishes the cross-fitted and fully nested operating
   points and does not claim a v4 accuracy gain.
 
@@ -88,21 +90,23 @@ artifact backs it, and which table or figure carries it. The source of truth is
 
 - Lifecycle: observed → canary → promoted → retired, with quorum K, trust
   floor τ, canary evidence, and an audit record.
-- Invariants: no promotion without canary, quorum, trust, and audit; no direct
-  promotion; retired rules are never active; active implies audited.
-- TLA+ model: one-rule and two-rule configurations; state counts and depth
-  from TLC logs; no invariant violation.
+- Invariants: no promotion without canary, quorum, trust, observations, and
+  audit; no promotion after a benign canary hit; no direct promotion; retired
+  rules are never active; active implies audited.
+- TLA+ model: one-rule and two-rule configurations; 939/278/depth 12 and
+  444,245/77,284/depth 23 from TLC logs; no invariant violation.
 - Executable reference: Python CPPP implementation; exhaustive BFS depth 9 =
-  11,874 states / 51,505 transitions.
+  20,678 states / 97,870 transitions.
 - Trust decay: discrete rational grid, 81,484 cases, zero violations; nine
   SymPy symbolic identities.
+- Mutation test: 8/8 mutants killed with the expected invariant.
 - Scope: control-flow safety only; not statistical validity of canary
   outcomes, not agent independence or Sybil resistance.
 - Evidence: `artifacts/formal/Cppp.tla`, `artifacts/formal/tlc_*.log`,
   `artifacts/formal/trust_decay_verification.json`,
-  `experiments/tests/test_formal.py` (9 passed).
-- Table 13 in Section 8 carries the formal numbers; Appendix C carries the
-  TLA+ configuration.
+  `experiments/tests/test_formal.py` (13 passed).
+- The formal numbers are reported in Section 9; the TLA+ configuration is
+  `artifacts/formal/Cppp.tla`.
 
 ## 5. Feature contract and statistical selection
 
@@ -124,7 +128,7 @@ artifact backs it, and which table or figure carries it. The source of truth is
   `uppercase_ratio` −1.08, `digit_ratio` −0.89, `hex_encoding_ratio` −0.72.
   Ablation and permutation rankings are not identical.
 - Candidate screen: 24 candidates → 16 after constant/correlation filters →
-  12 raw-accepted → 0 adopted. The 0.15 ms extraction budget fails: candidate
+  12 statistically accepted → 0 admitted on cost. The 0.15 ms extraction budget fails: candidate
   pass p95 3.799 ms, combined v3+candidate p95 10.918 ms, v3 worst-case p95
   6.680 ms. Final v4 = 20-D retained core. Five raw-accepted candidates
   (`backslash_count`, `brace_count`, `nonascii_ratio`, `ldap_filter_score`,
@@ -262,20 +266,23 @@ artifact backs it, and which table or figure carries it. The source of truth is
 
 ## 8. Formal verification
 
-- TLA+ one rule: 431 generated / 146 distinct / depth 10, no error.
-- TLA+ two rules: 104,245 generated / 21,316 distinct / depth 19, no error.
+- TLA+ one rule: 939 generated / 278 distinct / depth 12, no error.
+- TLA+ two rules: 444,245 generated / 77,284 distinct / depth 23, no error.
 - Invariants checked: TypeOK, NoPromotionWithoutCanary,
-  NoPromotionWithoutQuorum, NoPromotionWithoutTrust, ActiveImpliesAudited,
-  RetiredNotActive, NoDirectPromotion.
-- Executable reference: 9 tests pass; exhaustive BFS depth 9 = 11,874 states /
-  51,505 transitions.
+  NoPromotionWithoutQuorum, NoPromotionWithoutTrust,
+  NoPromotionWithoutObservations, NoPromotionWithCanaryHit,
+  ActiveImpliesAudited, RetiredNotActive, NoDirectPromotion.
+- Executable reference: 13 tests pass; exhaustive BFS depth 9 = 20,678 states /
+  97,870 transitions.
+- Mutation test: 8/8 mutants killed with the expected invariant.
 - Trust decay: 81,484 exact rational cases, zero violations; nine symbolic
   identities pass (initial value, limit at infinity, monotone decreasing,
   bounded above identity, half-life identity, recovery nondecreasing, recovery
   upper bound, recovery contracts gap, contraction identity).
 - Scope: control-flow safety and trust arithmetic; not canary statistical
   validity, not agent independence, not Byzantine fault tolerance.
-- Table 13. Appendix C.
+- The formal numbers are reported in Section 9 text; the TLA+ configuration is
+  `artifacts/formal/Cppp.tla`.
 - Evidence: `artifacts/formal/Cppp.tla`, `artifacts/formal/tlc_*.log`,
   `artifacts/formal/cppp.py`,
   `artifacts/formal/trust_decay_verification.json`,

@@ -7,20 +7,13 @@ authoring workspace.
 
 ## 1. Scope and status
 
-The evidence is entirely from four public, labelled HTTP corpora and local
-replay. There is no production traffic, no canary host, no shadow-mode
-observation window, and no live adversary. The package therefore reproduces the
-**offline evaluation**, not a deployment.
+The evidence is from four public, labelled HTTP corpora, local replay, and a fixed-probe audit of the deployed gateway. There is no shadow-mode observation window and no live adversary. The package reproduces the **offline evaluation** and the **fixed-probe deployment audit**, not a generalisation estimate.
 
-Two manuscript versions are supported:
-
-- Elsevier: `paper/manuscript_short.md` -> `paper/NATRIX_manuscript_short.pdf`
-  (40 pages, 12 tables, 5 figures).
-- IEEE conference: `paper/manuscript_ieee.tex` ->
-  `paper/manuscript_ieee.pdf` (8 pages).
-
-The two versions share the same evidence. Do not submit both simultaneously as
-duplicate submissions; see the manuscript's submission note.
+The submission version is the Elsevier manuscript for the *Journal of
+Information Security and Applications*:
+`paper/manuscript_jisa.md` -> `paper/NATRIX_jisa.pdf`. The earlier
+`paper/manuscript_short.md` -> `paper/NATRIX_manuscript_short.pdf` build is the
+retired *Computers & Security* variant and is kept only for history.
 
 ## 2. Reference environment
 
@@ -309,30 +302,43 @@ python artifacts\formal\mutation_test.py
 ```
 
 The checked-in `artifacts/formal/mutation_results.json` and
-`mutation_results.md` record 6/6 mutants killed. The Python trust-decay
+`mutation_results.md` record 8/8 mutants killed. The Python trust-decay
 verification covers 81,484 exact-rational cases.
 
-### 6.6 Manuscript build
+### 6.6 Deployment audit
+
+The fixed-probe audit reads the deployed gateway through its public route. It is
+a policy check, not a load test and not shadow-mode observation.
+
+```powershell
+python experiments\scripts\live_attack_suite.py `
+  --url https://natrix-security-engine.onrender.com/p/nameetahire-vercel-app `
+  --out experiments\results\live_gate\live_suite_run1
+# repeat with run2 and run3
+python experiments\scripts\aggregate_live_suite.py
+```
+
+The per-run files are `results/live_gate/live_suite_run{1,2,3}.json`, the pooled
+confusion matrix is `results/live_gate/aggregate.json`, and the raw gate ledger
+is `results/live_gate/gate_decisions_export.jsonl` (95 decisions, 2026-11-15 to
+2026-11-16 UTC). `experiments/scripts/deployment_boundary.py` replays
+`gateHasLexicalSignal` offline and writes
+`results/deployment_boundary/deployment_boundary.json`, the source for Table 13.
+
+### 6.7 Manuscript build
 
 ```powershell
 python paper\build_manuscript.py --source paper\manuscript_short.md `
   --stem NATRIX_manuscript_short --template paper\elsarticle_template.tex
 tectonic -X compile paper\NATRIX_manuscript_short.tex
-
-tectonic -X compile paper\manuscript_ieee.tex
 ```
 
 `build_manuscript.py` resolves `{{table:name}}` directives from `tables/` and
-citations from `paper/refs.bib`. The compiled PDFs are included under
-`paper/`.
+citations from `paper/refs.bib`. The compiled PDF is included under `paper/`.
 
 ## 7. Claim-to-artifact map
 
-Table numbers refer to the 40-page Elsevier version. The IEEE version uses the
-same result files with a subset of the tables. Tables 1, 3, 6, 7, and 8 in
-the short manuscript are compact derivatives of the generated full tables;
-the full versions and their generators are included under `tables/` and
-`experiments/scripts/`.
+Table numbers refer to the 41-page Elsevier version.
 
 | Manuscript item | Generator | Primary inputs |
 |---|---|---|
@@ -348,6 +354,8 @@ the full versions and their generators are included under `tables/` and
 | Table 10, inline latency | `make_result_tables.py` | `results/latency/latency_report.json` |
 | Table 11, CRS paranoia levels | `make_revision_tables.py` | `results/baselines/crs_pl{1,2,3}_csic.json` |
 | Table 12, dilution-resistant variant | `make_revision_tables.py` | `results/adversarial/dilution_resistant.json` |
+| Table 13, deployed enforcement boundary | `deployment_boundary.py` | `results/deployment_boundary/deployment_boundary.json` |
+| Live probe suite (Section 9) | `live_suite.py` + `aggregate_live_suite.py` | `results/live_gate/live_suite_run{1,2,3}.json`, `aggregate.json`, `gate_decisions_export.jsonl` |
 | Figure 1, architecture | `make_architecture_figure.py` | static |
 | Figure 2, protocol sensitivity | `make_revision_figures.py` | `tables/detector_comparison.md` |
 | Figure 3, view ablation | `make_revision_figures.py` | `tables/view_ablation.md` |
@@ -382,7 +390,7 @@ Key result files:
 | `tools/**` | Tectonic, JRE and `tla2tools.jar` are third-party binaries, not authored here | Install Tectonic; install Java 17 and TLA+ tools |
 | `backups/**`, `states/**`, `.hypothesis/**`, `.pytest_cache/**` | Editor/agent state and caches | None |
 | `paper/build/**`, `paper/*.docx`, `paper/*.log`, `paper/*.blg` | Generated build intermediates | `build_manuscript.py` |
-| `paper/manuscript.md`, `paper/manuscript_revision.md` | Earlier manuscript drafts, superseded by the short and IEEE versions | Kept in the authoring workspace, not in the public artifact |
+| `paper/manuscript.md`, `paper/manuscript_revision.md` | Earlier manuscript drafts, superseded by `paper/manuscript_short.md` | Archived in `paper/_archive/2026-11-17/` |
 | `artifacts/formal/**/*.st`, `*.fp`, `*.log`, `*TTrace*.tla` | TLC state dumps and trace files | Re-run TLC |
 | `submission/dist/**` | The archive itself | `make_package.py` |
 
@@ -444,5 +452,6 @@ measured values are 95.55% CSIC P1 accuracy, 1.93% FPR, and 3.78 ms p95.
 - [x] Verify `SHA256SUMS.txt` and the archive size.
 - [x] Push the repository and confirm that the manuscript URL resolves before
       submission.
-- [ ] Do not submit the Elsevier and IEEE versions simultaneously as duplicate
-      submissions; choose one route or disclose the extended version.
+- [x] Do not submit a conference version while the *Journal of Information
+      Security and Applications* submission is active; the IEEE build is
+      archived and withdrawn.

@@ -13,4 +13,4 @@ margin), and C4 the pre-registered safety exception. The two dropped features
 are exactly zero on CSIC in both classes. `token_count` is retained because its
 permutation interval is strictly negative rather than containing zero; the
 retention is a documented cost of the frozen rule, not evidence that the
-feature is useful. Appendix A gives the C1-C4 columns and the ablation values.
+feature is useful. The repository tables give the C1-C4 columns and the ablation values.

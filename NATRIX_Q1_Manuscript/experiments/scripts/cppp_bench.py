@@ -148,7 +148,7 @@ def main() -> None:
         raise SystemExit(f"sidecar did not start:\n{proc.stdout.read() if proc.stdout else ''}")
 
     actions: dict[str, list[float]] = {k: [] for k in
-        ("validate", "canary_start", "canary_pass", "promote", "retire", "tick")}
+        ("validate", "canary_start", "canary_observe", "canary_pass", "promote", "retire", "tick")}
     cycles_rows: list[dict] = []
 
     for rule in rules:
@@ -162,6 +162,10 @@ def main() -> None:
         actions["canary_start"].append(ns)
         if data["state"]["rules"][rule]["state"] != "canary":
             raise SystemExit(f"canary did not start for {rule}")
+
+        for _ in range(2):
+            data, ns, _ = client.call("POST", "/canary/observe", {"rule": rule, "hit": False})
+            actions["canary_observe"].append(ns)
 
         data, ns, _ = client.call("POST", "/canary/pass", {"rule": rule})
         actions["canary_pass"].append(ns)
@@ -205,6 +209,8 @@ def main() -> None:
     # Tick path (also exercises auto-retire bookkeeping).
     for rule in par_rules[: min(parallel, 8)]:
         client.call("POST", "/canary/start", {"rule": rule})
+        for _ in range(2):
+            client.call("POST", "/canary/observe", {"rule": rule, "hit": False})
         client.call("POST", "/canary/pass", {"rule": rule})
         client.call("POST", "/promote", {"agent": "policy", "rule": rule})
     for _ in range(4):
@@ -228,6 +234,7 @@ def main() -> None:
     expected = {
         "validate": 2 * cycles + 2 * parallel,
         "start_canary": cycles + min(parallel, 8),
+        "observe_canary": 2 * (cycles + min(parallel, 8)),
         "pass_canary": cycles + min(parallel, 8),
         "promote": cycles + min(parallel, 8),
         "retire": cycles,
@@ -262,6 +269,7 @@ def main() -> None:
         "sidecar": {
             "host": HOST, "port": port, "fsync": not args.no_fsync,
             "quorum": 2, "tau": 2, "max_trust": 4,
+            "canary_obs": 2,
             "agents": ["agent-a", "agent-b", "agent-c", "policy"],
         },
         "cycles": cycles,

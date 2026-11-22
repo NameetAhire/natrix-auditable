@@ -1,20 +1,20 @@
 {
-  "package": "NATRIX_reproducibility_v1.0.0",
-  "version": "1.0.0",
-  "built_utc": "2026-11-14T05:06:25+00:00",
+  "package": "NATRIX_reproducibility_v1.0.1",
+  "version": "1.0.1",
+  "built_utc": "2026-11-22T07:36:35+00:00",
   "source_workspace": "NATRIX_Q1_Manuscript",
   "python": "3.11.8",
-  "platform": "Windows-10-10.0.26200-SP0",
-  "payload_files": 489,
-  "payload_bytes": 115821350,
-  "manifest_sha256": "f4e08c833798e8b284aef0b091d2a362c26331ae2b9ec34ada0efc1d48203492",
+  "platform": "Windows-10-10.0.26300-SP0",
+  "payload_files": 530,
+  "payload_bytes": 116488663,
+  "manifest_sha256": "627de18c125b37cf8dffa685a6969bee84fdaa58f592bb4ad4daa2973e186128",
   "excluded": [
     "data/raw/** and data/processed/** (raw corpora)",
     "experiments/results/**/*.parquet (request caches)",
     "experiments/results/nj*.npy (stray intermediates)",
     "tools/** (Tectonic, JRE, tla2tools.jar)",
     "paper/build/**, paper/*.docx, paper/*.log, paper/*.blg",
-    "paper/manuscript.md and paper/manuscript_revision.md (earlier drafts)",
+    "paper/_archive/** (superseded drafts and builds)",
     "artifacts/formal/**/*.st, *.fp, *.log, *TTrace*.tla",
     "backups/**, states/**, .hypothesis/**, .pytest_cache/**"
   ],
@@ -22,6 +22,6 @@
     "Raw corpora are not redistributed; see NATRIX_Q1_Manuscript/data/README.md.",
     "Repository: https://github.com/NameetAhire/natrix-auditable. No DOI is minted.",
     "Licence: MIT for authored code; CC BY 4.0 for documentation, tables, figures and manuscript source.",
-    "All results are from offline labelled corpora and local replay; no live traffic is included."
+    "Results are from offline labelled corpora, local replay, and a fixed 20-probe audit of the deployed gateway; no shadow-mode traffic is included."
   ]
 }

@@ -62,9 +62,29 @@
       ],
       "exit_code": 12,
       "matched_expected": true
+    },
+    {
+      "mutant": "canary_hit",
+      "expected_invariant": "NoPromotionWithCanaryHit",
+      "killed": true,
+      "violated": [
+        "NoPromotionWithCanaryHit"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
+    },
+    {
+      "mutant": "no_observations",
+      "expected_invariant": "NoPromotionWithoutObservations",
+      "killed": true,
+      "violated": [
+        "NoPromotionWithoutObservations"
+      ],
+      "exit_code": 12,
+      "matched_expected": true
     }
   ],
-  "killed": 6,
-  "total": 6,
+  "killed": 8,
+  "total": 8,
   "all_expected": true
 }

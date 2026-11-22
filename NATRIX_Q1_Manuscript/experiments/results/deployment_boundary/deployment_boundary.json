@@ -1,0 +1,178 @@
+{
+  "rows": [
+    {
+      "corpus": "csic",
+      "protocol": "P1",
+      "threshold": 0.5,
+      "applicable_rate_clean": 0.2047,
+      "applicable_rate_attack": 0.3471,
+      "model_only": {
+        "n": 34593,
+        "tp": 14827,
+        "fp": 385,
+        "tn": 18255,
+        "fn": 1126,
+        "accuracy": 0.9563,
+        "fpr": 0.0207,
+        "recall": 0.9294,
+        "precision": 0.9747
+      },
+      "conjunctive": {
+        "n": 34593,
+        "tp": 5529,
+        "fp": 0,
+        "tn": 18640,
+        "fn": 10424,
+        "accuracy": 0.6987,
+        "fpr": 0.0,
+        "recall": 0.3466,
+        "precision": 1.0
+      }
+    },
+    {
+      "corpus": "csic",
+      "protocol": "P2",
+      "threshold": 0.5,
+      "applicable_rate_clean": 0.2047,
+      "applicable_rate_attack": 0.3471,
+      "model_only": {
+        "n": 34593,
+        "tp": 14329,
+        "fp": 4530,
+        "tn": 14110,
+        "fn": 1624,
+        "accuracy": 0.8221,
+        "fpr": 0.243,
+        "recall": 0.8982,
+        "precision": 0.7598
+      },
+      "conjunctive": {
+        "n": 34593,
+        "tp": 5490,
+        "fp": 1051,
+        "tn": 17589,
+        "fn": 10463,
+        "accuracy": 0.6672,
+        "fpr": 0.0564,
+        "recall": 0.3441,
+        "precision": 0.8393
+      }
+    },
+    {
+      "corpus": "ecml",
+      "protocol": "P1",
+      "threshold": 0.5,
+      "applicable_rate_clean": 0.2184,
+      "applicable_rate_attack": 0.5975,
+      "model_only": {
+        "n": 50116,
+        "tp": 11628,
+        "fp": 526,
+        "tn": 34480,
+        "fn": 3482,
+        "accuracy": 0.92,
+        "fpr": 0.015,
+        "recall": 0.7696,
+        "precision": 0.9567
+      },
+      "conjunctive": {
+        "n": 50116,
+        "tp": 8079,
+        "fp": 238,
+        "tn": 34768,
+        "fn": 7031,
+        "accuracy": 0.855,
+        "fpr": 0.0068,
+        "recall": 0.5347,
+        "precision": 0.9714
+      }
+    },
+    {
+      "corpus": "ecml",
+      "protocol": "P2",
+      "threshold": 0.5,
+      "applicable_rate_clean": 0.2184,
+      "applicable_rate_attack": 0.5975,
+      "model_only": {
+        "n": 50116,
+        "tp": 11448,
+        "fp": 524,
+        "tn": 34482,
+        "fn": 3662,
+        "accuracy": 0.9165,
+        "fpr": 0.015,
+        "recall": 0.7576,
+        "precision": 0.9562
+      },
+      "conjunctive": {
+        "n": 50116,
+        "tp": 8045,
+        "fp": 234,
+        "tn": 34772,
+        "fn": 7065,
+        "accuracy": 0.8544,
+        "fpr": 0.0067,
+        "recall": 0.5324,
+        "precision": 0.9717
+      }
+    },
+    {
+      "corpus": "srbh20k",
+      "protocol": "P1",
+      "threshold": 0.5,
+      "applicable_rate_clean": 0.3343,
+      "applicable_rate_attack": 0.5978,
+      "model_only": {
+        "n": 20000,
+        "tp": 13660,
+        "fp": 634,
+        "tn": 5173,
+        "fn": 533,
+        "accuracy": 0.9416,
+        "fpr": 0.1092,
+        "recall": 0.9624,
+        "precision": 0.9556
+      },
+      "conjunctive": {
+        "n": 20000,
+        "tp": 8425,
+        "fp": 83,
+        "tn": 5724,
+        "fn": 5768,
+        "accuracy": 0.7075,
+        "fpr": 0.0143,
+        "recall": 0.5936,
+        "precision": 0.9902
+      }
+    },
+    {
+      "corpus": "srbh20k",
+      "protocol": "P2",
+      "threshold": 0.5,
+      "applicable_rate_clean": 0.3343,
+      "applicable_rate_attack": 0.5978,
+      "model_only": {
+        "n": 20000,
+        "tp": 13638,
+        "fp": 862,
+        "tn": 4945,
+        "fn": 555,
+        "accuracy": 0.9292,
+        "fpr": 0.1484,
+        "recall": 0.9609,
+        "precision": 0.9406
+      },
+      "conjunctive": {
+        "n": 20000,
+        "tp": 8416,
+        "fp": 87,
+        "tn": 5720,
+        "fn": 5777,
+        "accuracy": 0.7068,
+        "fpr": 0.015,
+        "recall": 0.593,
+        "precision": 0.9898
+      }
+    }
+  ]
+}

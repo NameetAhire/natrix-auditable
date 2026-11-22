@@ -48,9 +48,9 @@ workspace.
   text and are excluded. They can be regenerated with the CRS replay scripts.
 - **Third-party binaries.** Tectonic, the bundled JRE, and `tla2tools.jar` are
   not included. See `REPRODUCIBILITY.md` for installation.
-- **Live or shadow-mode traffic.** All results are from offline labelled corpora
-  and local replay. No production traffic, canary host, or labelled observation
-  window is included.
+- **Live or shadow-mode traffic.** Results are from offline labelled corpora,
+  local replay, and a fixed 20-probe audit of the deployed gateway. No
+  production traffic, shadow-mode window, or live adversary is included.
 
 The released `latency_inputs.json` is sanitized: credential-like URL, form and
 JSON values are replaced with same-length `~` placeholders. Request count,
@@ -100,16 +100,14 @@ produce small numerical differences.
 For the additional Gate C, v3-D, P2 path-only, control/stacker, SR-BH scale and
 char-CNN runs, see `REPRODUCIBILITY.md`.
 
-## Build the manuscripts
+## Build the manuscript
 
-The Elsevier source is `paper/manuscript_short.md`; the IEEE source is
-`paper/manuscript_ieee.tex`.
+The submission source is `paper/manuscript_short.md`.
 
 ```powershell
 python paper\build_manuscript.py --source paper\manuscript_short.md `
   --stem NATRIX_manuscript_short --template paper\elsarticle_template.tex
 tectonic -X compile paper\NATRIX_manuscript_short.tex
-tectonic -X compile paper\manuscript_ieee.tex
 ```
 
 Tectonic is not bundled. Install it from

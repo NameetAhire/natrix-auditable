@@ -66,7 +66,7 @@ Included:
 - The two unmodified production Python modules and the JavaScript extractor
   needed to run the evaluation and latency harness.
 - Data provenance (`data/README.md`, `data/manifest.json`) without raw corpora.
-- The compiled Elsevier and IEEE PDFs and their sources.
+- The compiled Elsevier PDF, DOCX and TeX sources.
 
 Excluded:
 
@@ -74,7 +74,7 @@ Excluded:
 - Parquet replay caches.
 - Third-party binaries (Tectonic, JRE, `tla2tools.jar`).
 - Editor/agent state, caches, backups and build intermediates.
-- Earlier manuscript drafts superseded by the short and IEEE versions.
+- Earlier manuscript drafts superseded by `paper/manuscript_short.md`.
 - The archive itself (`submission/dist/`).
 
 ## Checksums

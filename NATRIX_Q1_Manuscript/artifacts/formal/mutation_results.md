@@ -11,5 +11,7 @@ killed when TLC reports the expected invariant violation.
 | `no_audit` | `ActiveImpliesAudited` | yes | ActiveImpliesAudited |
 | `direct_promote` | `NoDirectPromotion` | yes | NoDirectPromotion |
 | `retired_active` | `RetiredNotActive` | yes | RetiredNotActive |
+| `canary_hit` | `NoPromotionWithCanaryHit` | yes | NoPromotionWithCanaryHit |
+| `no_observations` | `NoPromotionWithoutObservations` | yes | NoPromotionWithoutObservations |
 
-Killed 6/6 mutants; all expected: True.
+Killed 8/8 mutants; all expected: True.

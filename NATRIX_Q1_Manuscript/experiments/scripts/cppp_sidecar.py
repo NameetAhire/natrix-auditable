@@ -26,6 +26,7 @@ GET  /audit
 GET  /audit/verify
 POST /validate        {"agent": "...", "rule": "..."}
 POST /canary/start    {"rule": "..."}
+POST /canary/observe  {"rule": "...", "hit": false}
 POST /canary/pass     {"rule": "..."}
 POST /promote         {"agent": "...", "rule": "..."}
 POST /retire          {"rule": "..."}          # rollback
@@ -58,13 +59,15 @@ class ProtocolError(RuntimeError):
 
 
 class Rule:
-    __slots__ = ("state", "votes", "trust", "canary_passed", "promoted_tick", "retired_tick")
+    __slots__ = ("state", "votes", "trust", "canary_passed", "canary_seen", "canary_hit", "promoted_tick", "retired_tick")
 
     def __init__(self) -> None:
         self.state = "observed"
         self.votes: set[str] = set()
         self.trust = 0
         self.canary_passed = False
+        self.canary_seen = 0
+        self.canary_hit = False
         self.promoted_tick: int | None = None
         self.retired_tick: int | None = None
 
@@ -74,6 +77,8 @@ class Rule:
             "votes": sorted(self.votes),
             "trust": self.trust,
             "canary_passed": self.canary_passed,
+            "canary_seen": self.canary_seen,
+            "canary_hit": self.canary_hit,
             "promoted_tick": self.promoted_tick,
             "retired_tick": self.retired_tick,
         }
@@ -90,6 +95,7 @@ class Sidecar:
         quorum: int,
         tau: int,
         max_trust: int,
+        canary_obs: int,
         audit_path: Path,
         fsync: bool = True,
     ) -> None:
@@ -99,11 +105,14 @@ class Sidecar:
             raise ValueError("quorum must be in [1, len(agents)]")
         if not (0 <= tau <= max_trust):
             raise ValueError("tau must be in [0, max_trust]")
+        if canary_obs < 1:
+            raise ValueError("canary_obs must be at least one observation")
         self.agents = frozenset(agents)
         self.policy_agent = policy_agent
         self.quorum = quorum
         self.tau = tau
         self.max_trust = max_trust
+        self.canary_obs = canary_obs
         self.rules = {name: Rule() for name in rules}
         self.audited: set[str] = set()
         self.tick_no = 0
@@ -191,6 +200,18 @@ class Sidecar:
             self._append("start_canary", rule, agent)
             return self.snapshot_locked()
 
+    def observe_canary(self, rule: str, hit: bool, agent: str | None = None) -> dict[str, Any]:
+        with self.lock:
+            rs = self._rule(rule)
+            if rs.state != "canary":
+                raise ProtocolError("no canary is running")
+            if rs.canary_seen >= self.canary_obs:
+                raise ProtocolError("canary observation budget exhausted")
+            rs.canary_seen += 1
+            rs.canary_hit = rs.canary_hit or bool(hit)
+            self._append("observe_canary", rule, agent, "hit" if hit else "clean")
+            return self.snapshot_locked()
+
     def pass_canary(self, rule: str, agent: str | None = None) -> dict[str, Any]:
         with self.lock:
             rs = self._rule(rule)
@@ -200,6 +221,10 @@ class Sidecar:
                 raise ProtocolError("quorum lost")
             if not self._trust_ok(rs):
                 raise ProtocolError("trust below tau")
+            if rs.canary_seen < self.canary_obs:
+                raise ProtocolError("insufficient canary observations")
+            if rs.canary_hit:
+                raise ProtocolError("canary observed a benign hit")
             rs.canary_passed = True
             self._append("pass_canary", rule, agent)
             return self.snapshot_locked()
@@ -272,6 +297,13 @@ class Sidecar:
             ),
             "NoPromotionWithoutTrust": all(
                 rs.state != "promoted" or rs.trust >= self.tau for rs in rules.values()
+            ),
+            "NoPromotionWithoutObservations": all(
+                rs.state != "promoted" or rs.canary_seen >= self.canary_obs
+                for rs in rules.values()
+            ),
+            "NoPromotionWithCanaryHit": all(
+                rs.state != "promoted" or not rs.canary_hit for rs in rules.values()
             ),
             "ActiveImpliesAudited": active <= self.audited,
             "RetiredNotActive": all(
@@ -367,6 +399,10 @@ class Handler(BaseHTTPRequestHandler):
             return s.validate(str(body.get("agent", "")), str(body.get("rule", "")))
         if action == "canary_start":
             return s.start_canary(str(body.get("rule", "")), body.get("agent"))
+        if action == "canary_observe":
+            return s.observe_canary(
+                str(body.get("rule", "")), bool(body.get("hit", False)), body.get("agent")
+            )
         if action == "canary_pass":
             return s.pass_canary(str(body.get("rule", "")), body.get("agent"))
         if action == "promote":
@@ -405,6 +441,7 @@ class Handler(BaseHTTPRequestHandler):
         actions = {
             "/validate": "validate",
             "/canary/start": "canary_start",
+            "/canary/observe": "canary_observe",
             "/canary/pass": "canary_pass",
             "/promote": "promote",
             "/retire": "retire",
@@ -443,6 +480,7 @@ def main() -> None:
     parser.add_argument("--quorum", type=int, default=2)
     parser.add_argument("--tau", type=int, default=2)
     parser.add_argument("--max-trust", type=int, default=4)
+    parser.add_argument("--canary-obs", type=int, default=2)
     parser.add_argument("--audit", default="experiments/results/cppp/audit.jsonl")
     parser.add_argument("--no-fsync", action="store_true")
     args = parser.parse_args()
@@ -454,6 +492,7 @@ def main() -> None:
         quorum=args.quorum,
         tau=args.tau,
         max_trust=args.max_trust,
+        canary_obs=args.canary_obs,
         audit_path=Path(args.audit),
         fsync=not args.no_fsync,
     )

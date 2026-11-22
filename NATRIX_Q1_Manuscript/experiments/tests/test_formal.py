@@ -26,10 +26,11 @@ RULES = ("r1", "r2")
 QUORUM = 2
 TAU = 2
 MAX_TRUST = 3
+CANARY_OBS = 2
 
 
 def fresh() -> CPPP:
-    return CPPP(AGENTS, POLICY, RULES, QUORUM, TAU, MAX_TRUST)
+    return CPPP(AGENTS, POLICY, RULES, QUORUM, TAU, MAX_TRUST, CANARY_OBS)
 
 
 def apply_action(system: CPPP, action) -> bool:
@@ -41,6 +42,8 @@ def apply_action(system: CPPP, action) -> bool:
             system.seed_trust(action[1])
         elif kind == "start":
             system.start_canary(action[1])
+        elif kind == "observe":
+            system.observe_canary(action[1], action[2])
         elif kind == "pass":
             system.pass_canary(action[1])
         elif kind == "promote":
@@ -62,6 +65,7 @@ ACTIONS = (
     [("validate", a, r) for a in AGENTS for r in RULES]
     + [("seed", r) for r in RULES]
     + [("start", r) for r in RULES]
+    + [("observe", r, hit) for r in RULES for hit in (False, True)]
     + [("pass", r) for r in RULES]
     + [("promote", a, r) for a in AGENTS for r in RULES]
     + [("retire", r) for r in RULES]
@@ -101,6 +105,8 @@ def _key(system: CPPP):
                     tuple(sorted(state.votes)),
                     state.trust,
                     state.canary_passed,
+                    state.canary_seen,
+                    state.canary_hit,
                 )
                 for rule, state in system.rules.items()
             )
@@ -132,6 +138,8 @@ def test_exhaustive_bounded_reachability():
                             votes=set(s.votes),
                             trust=s.trust,
                             canary_passed=s.canary_passed,
+                            canary_seen=s.canary_seen,
+                            canary_hit=s.canary_hit,
                             promoted_tick=s.promoted_tick,
                             retired_tick=s.retired_tick,
                         )
@@ -161,6 +169,8 @@ def test_atomic_retirement():
     for agent in ("a1", "a2"):
         system.validate(agent, "r1")
     system.start_canary("r1")
+    system.observe_canary("r1", hit=False)
+    system.observe_canary("r1", hit=False)
     system.pass_canary("r1")
     system.promote(POLICY, "r1")
     assert system.rules["r1"].trust == TAU
@@ -200,6 +210,48 @@ def test_direct_promotion_rejected():
     with pytest.raises(ProtocolError):
         system.promote(POLICY, "r1")
     assert "r1" not in system.active_policy
+
+
+def test_canary_requires_clean_observations():
+    system = fresh()
+    for agent in ("a1", "a2"):
+        system.validate(agent, "r1")
+    system.start_canary("r1")
+    with pytest.raises(ProtocolError):
+        system.pass_canary("r1")
+    system.observe_canary("r1", hit=True)
+    system.observe_canary("r1", hit=False)
+    assert system.rules["r1"].canary_seen == CANARY_OBS
+    with pytest.raises(ProtocolError):
+        system.pass_canary("r1")
+    with pytest.raises(ProtocolError):
+        system.promote(POLICY, "r1")
+    system.check()
+
+
+def test_canary_hit_is_permanent():
+    system = fresh()
+    for agent in ("a1", "a2"):
+        system.validate(agent, "r1")
+    system.start_canary("r1")
+    system.observe_canary("r1", hit=True)
+    system.observe_canary("r1", hit=False)
+    assert system.rules["r1"].canary_hit is True
+    with pytest.raises(ProtocolError):
+        system.pass_canary("r1")
+
+
+def test_canary_clean_path_promotes():
+    system = fresh()
+    for agent in ("a1", "a2"):
+        system.validate(agent, "r1")
+    system.start_canary("r1")
+    for _ in range(CANARY_OBS):
+        system.observe_canary("r1", hit=False)
+    system.pass_canary("r1")
+    system.promote(POLICY, "r1")
+    assert system.rules["r1"].state is Lifecycle.PROMOTED
+    system.check()
 
 
 def test_trust_decay_exhaustive_verification():

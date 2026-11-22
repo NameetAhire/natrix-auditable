@@ -31,7 +31,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PAPER = ROOT / "paper"
-SOURCE = PAPER / "manuscript.md"
+SOURCE = PAPER / "manuscript_short.md"
 BUILD = PAPER / "build"
 REFERENCE = PAPER / "elsevier_reference.docx"
 TEMPLATE = PAPER / "elsarticle_template.tex"
@@ -40,6 +40,63 @@ BIB = PAPER / "refs.bib"
 INCLUDE = re.compile(r"^\{\{(?:table:|include:)?([^}]+)\}\}[ \t]*$", re.MULTILINE)
 HEADING = re.compile(r"^(#{1,6})\s+(.*)$")
 KEYWORDS = re.compile(r"^keywords:\s*(.+)$", re.MULTILINE)
+
+# Float keys are semantic, so a table can move and its printed number follows.
+# The caption prefix identifies the float; the build refuses to run if a prefix
+# is missing or duplicated, or if the number of in-text references changes.
+TABLE_FLOATS = [
+    ("Gate C per-candidate cost", "tab:gate-c"),
+    ("Positive control", "tab:positive-control"),
+    ("Labelled HTTP corpora", "tab:corpora"),
+    ("Matched operating points at the cross-fitted", "tab:matched-operating"),
+    ("View ablation. ", "tab:view-ablation"),
+    ("Generic control and cross-fitted stackers", "tab:control-models"),
+    ("P2 grouping sensitivity", "tab:grouping"),
+    ("SR-BH scale sensitivity. The detector", "tab:srbh-scale"),
+    ("v3 versus v4 on CSIC 2010", "tab:v3-v4"),
+    ("End-to-end inline latency", "tab:latency"),
+    ("ModSecurity CRS paranoia levels", "tab:crs"),
+    ("Dilution-resistant feature variant", "tab:dilution"),
+    ("Deployed enforcement boundary", "tab:deployment"),
+]
+FIGURE_FLOATS = [
+    ("NATRIX architecture", "fig:architecture"),
+    ("Matched operating points for NATRIX", "fig:protocol"),
+    ("View ablation for the 22-D contract", "fig:views"),
+    ("SR-BH scale sensitivity under P1", "fig:learning"),
+    ("ECDF of end-to-end latency", "fig:latency"),
+]
+# One entry per in-text mention, in document order.  These are the semantic
+# targets, not the current numbers, so inserting a float cannot silently
+# renumber a reference.
+TABLE_REF_ORDER = [
+    "tab:gate-c",
+    "tab:positive-control",
+    "tab:corpora",
+    "tab:matched-operating",
+    "tab:matched-operating",
+    "tab:matched-operating",
+    "tab:matched-operating",
+    "tab:view-ablation",
+    "tab:view-ablation",
+    "tab:control-models",
+    "tab:grouping",
+    "tab:srbh-scale",
+    "tab:matched-operating",
+    "tab:v3-v4",
+    "tab:matched-operating",
+    "tab:latency",
+    "tab:crs",
+    "tab:dilution",
+    "tab:deployment",
+]
+FIGURE_REF_ORDER = [
+    "fig:architecture",
+    "fig:latency",
+    "fig:protocol",
+    "fig:views",
+    "fig:learning",
+]
 
 
 def source_keywords(source: Path = SOURCE) -> str:
@@ -155,11 +212,16 @@ def postprocess_docx(path: Path, keywords: str = "") -> None:
     if keywords:
         anchor = None
         for paragraph in doc.paragraphs:
-            if paragraph.text.strip().startswith(
-                "Department of Computer Engineering"
-            ):
+            if paragraph.text.strip().startswith("Corresponding author:"):
                 anchor = paragraph
                 break
+        if anchor is None:
+            for paragraph in doc.paragraphs:
+                if paragraph.text.strip().startswith(
+                    "Department of Computer Engineering"
+                ):
+                    anchor = paragraph
+                    break
         if anchor is None:
             for paragraph in doc.paragraphs:
                 if paragraph.style.name == "Abstract":
@@ -176,6 +238,26 @@ def postprocess_docx(path: Path, keywords: str = "") -> None:
             run = keyword_paragraph.add_run("Keywords: ")
             run.bold = True
             keyword_paragraph.add_run(keywords)
+
+    # Pandoc emits the YAML abstract before body text, which would place the
+    # affiliation block below the abstract.  Move the block above it.
+    abstract_title = next(
+        (p for p in doc.paragraphs if p.style.name == "Abstract Title"), None
+    )
+    affiliations = [
+        p
+        for p in doc.paragraphs
+        if p.text.strip().startswith(
+            (
+                "Department of Computer Engineering",
+                "Department of Electronics and Telecommunication Engineering",
+                "Corresponding author:",
+            )
+        )
+    ]
+    if abstract_title is not None:
+        for paragraph in affiliations:
+            abstract_title._p.addprevious(paragraph._p)
 
     doc.save(path)
 
@@ -584,6 +666,86 @@ def _repeat_table_headers(text: str) -> str:
     return "".join(pieces)
 
 
+def _mask_alt(text: str) -> str:
+    """Blank alt={...} spans without shifting string offsets."""
+    return re.sub(r"alt=\{[^}]*\}", lambda m: " " * len(m.group(0)), text)
+
+
+def _caption_span(text: str, prefix: str) -> tuple[int, int]:
+    matches = list(re.finditer(r"\\caption\{" + re.escape(prefix), text))
+    if len(matches) != 1:
+        raise SystemExit(
+            f"expected exactly one caption starting {prefix!r}, found {len(matches)}"
+        )
+    opening = matches[0].start() + len("\\caption")
+    closing = _matching_brace(text, opening)
+    if closing < 0:
+        raise SystemExit(f"unbalanced caption starting {prefix!r}")
+    return opening, closing
+
+
+def _add_table_labels(text: str) -> str:
+    for prefix, label in TABLE_FLOATS:
+        _, closing = _caption_span(text, prefix)
+        tag = "\\label{" + label + "}"
+        if tag in text:
+            continue
+        text = text[:closing + 1] + tag + text[closing + 1:]
+    return text
+
+
+def _check_float_labels(text: str) -> None:
+    for floats in (TABLE_FLOATS, FIGURE_FLOATS):
+        for prefix, label in floats:
+            _, closing = _caption_span(text, prefix)
+            tail = text[closing + 1:closing + 10 + len(label)]
+            if not tail.startswith("\\label{" + label + "}"):
+                raise SystemExit(
+                    f"caption {prefix!r} is not followed by \\label{{{label}}}"
+                )
+
+
+def _replace_float_refs(text: str) -> str:
+    for kind, order in (("Table", TABLE_REF_ORDER), ("Figure", FIGURE_REF_ORDER)):
+        masked = _mask_alt(text)
+        matches = list(re.finditer(kind + r"\s+\d+", masked))
+        if len(matches) != len(order):
+            raise SystemExit(
+                f"expected {len(order)} in-text {kind} references, found {len(matches)}"
+            )
+        for match, key in reversed(list(zip(matches, order))):
+            text = (
+                text[:match.start()]
+                + kind
+                + "~\\ref{"
+                + key
+                + "}"
+                + text[match.end():]
+            )
+    return text
+
+
+def _check_float_refs(text: str) -> None:
+    if len(re.findall(r"\\begin\{longtable\}", text)) != len(TABLE_FLOATS):
+        raise SystemExit("table count changed; update TABLE_FLOATS and the references")
+    if len(re.findall(r"\\begin\{figure\}", text)) != len(FIGURE_FLOATS):
+        raise SystemExit("figure count changed; update FIGURE_FLOATS and the references")
+    labels = re.findall(r"\\label\{([^}]*)\}", text)
+    if len(labels) != len(set(labels)):
+        raise SystemExit("duplicate float labels")
+    refs = set(re.findall(r"\\ref\{([^}]*)\}", text))
+    missing = refs - set(labels)
+    if missing:
+        raise SystemExit(f"references to missing labels: {sorted(missing)}")
+    if len(re.findall(r"\\ref\{tab:", text)) != len(TABLE_REF_ORDER):
+        raise SystemExit("table reference count changed")
+    if len(re.findall(r"\\ref\{fig:", text)) != len(FIGURE_REF_ORDER):
+        raise SystemExit("figure reference count changed")
+    leftover = re.findall(r"(?:Table|Figure)\s+\d+", _mask_alt(text))
+    if leftover:
+        raise SystemExit(f"literal float references remain: {leftover[:5]}")
+
+
 def postprocess_tex(path: Path) -> None:
     """Move bold table captions into their first longtable.
 
@@ -609,14 +771,11 @@ def postprocess_tex(path: Path) -> None:
     # The Markdown table headers use raw Greek letters; XeTeX's default text
     # font does not contain them, so typeset them as math.
     text = text.replace("δ", "$\\delta$").replace("Δ", "$\\Delta$")
-    # The Word build needs the affiliation line after the author block; the
-    # LaTeX frontmatter already carries it in \address, so drop the duplicate.
-    text = re.sub(
-        r"\\emph\{Department of Computer Engineering, Sardar Patel Institute of\s+"
-        r"Technology, Mumbai 400058, India\}\s*",
-        "",
-        text,
-    )
+    # The Word build needs the affiliation and corresponding-author lines after
+    # the author block; the LaTeX frontmatter already carries them in \address,
+    # \ead and \cortext, so drop the duplicates.
+    text = re.sub(r"\\emph\{Department of [^{}]*\}\s*", "", text)
+    text = re.sub(r"\\emph\{Corresponding author:[^{}]*\}\s*", "", text)
 
     captions: list[tuple[int, int, str]] = []
     cursor = 0
@@ -701,6 +860,11 @@ def postprocess_tex(path: Path) -> None:
         text,
     )
     text = text.replace("\\begin{minipage}[b]", "\\begin{minipage}[t]")
+
+    text = _add_table_labels(text)
+    _check_float_labels(text)
+    text = _replace_float_refs(text)
+    _check_float_refs(text)
 
     path.write_text(text, encoding="utf-8")
 

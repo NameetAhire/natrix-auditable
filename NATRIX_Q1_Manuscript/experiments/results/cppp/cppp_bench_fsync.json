@@ -1,11 +1,12 @@
 {
   "sidecar": {
     "host": "127.0.0.1",
-    "port": 6278,
+    "port": 2274,
     "fsync": true,
     "quorum": 2,
     "tau": 2,
     "max_trust": 4,
+    "canary_obs": 2,
     "agents": [
       "agent-a",
       "agent-b",
@@ -15,69 +16,77 @@
   },
   "cycles": 100,
   "parallel_rules": 32,
-  "concurrent_validation_seconds": 1.8660922999997638,
+  "concurrent_validation_seconds": 2.9710123999999496,
   "latency": {
     "validate": {
       "n": 264,
-      "p50_ms": 32.9027,
-      "p95_ms": 975.5376849999999,
-      "p99_ms": 1043.222402,
-      "mean_ms": 176.61070265151517,
-      "max_ms": 1055.441
+      "p50_ms": 32.9694,
+      "p95_ms": 1421.809855,
+      "p99_ms": 1475.370981,
+      "mean_ms": 269.8317178030303,
+      "max_ms": 1515.5557
     },
     "canary_start": {
       "n": 100,
-      "p50_ms": 32.09165,
-      "p95_ms": 34.259925,
-      "p99_ms": 133.69147900000007,
-      "mean_ms": 31.208781,
-      "max_ms": 145.1932
+      "p50_ms": 32.46595,
+      "p95_ms": 43.20419,
+      "p99_ms": 84.68826600000025,
+      "mean_ms": 31.634336,
+      "max_ms": 133.4622
+    },
+    "canary_observe": {
+      "n": 200,
+      "p50_ms": 32.37525,
+      "p95_ms": 44.66447,
+      "p99_ms": 127.78311599999995,
+      "mean_ms": 31.335899,
+      "max_ms": 143.3703
     },
     "canary_pass": {
       "n": 100,
-      "p50_ms": 32.22905,
-      "p95_ms": 34.313515,
-      "p99_ms": 43.49989,
-      "mean_ms": 29.392008,
-      "max_ms": 43.5781
+      "p50_ms": 32.1898,
+      "p95_ms": 41.544475,
+      "p99_ms": 55.37292000000001,
+      "mean_ms": 29.944162,
+      "max_ms": 56.4738
     },
     "promote": {
       "n": 100,
-      "p50_ms": 32.19565,
-      "p95_ms": 34.17965,
-      "p99_ms": 34.404556,
-      "mean_ms": 29.047951,
-      "max_ms": 34.8556
+      "p50_ms": 32.3085,
+      "p95_ms": 53.56845499999998,
+      "p99_ms": 133.959703,
+      "mean_ms": 33.433997,
+      "max_ms": 134.0689
     },
     "retire": {
       "n": 100,
-      "p50_ms": 32.18955,
-      "p95_ms": 34.44139,
-      "p99_ms": 134.03363600000012,
-      "mean_ms": 31.656451,
-      "max_ms": 154.154
+      "p50_ms": 32.2928,
+      "p95_ms": 48.041754999999995,
+      "p99_ms": 66.77398000000044,
+      "mean_ms": 31.496358,
+      "max_ms": 150.7537
     },
     "tick": {
       "n": 4,
-      "p50_ms": 22.07175,
-      "p95_ms": 173.26512999999994,
-      "p99_ms": 194.58358599999997,
-      "mean_ms": 66.2035,
-      "max_ms": 199.9132
+      "p50_ms": 23.0883,
+      "p95_ms": 172.05457499999994,
+      "p99_ms": 193.06075499999997,
+      "mean_ms": 66.291,
+      "max_ms": 198.3123
     }
   },
   "cycle_latency": {
     "n": 100,
-    "p50_ms": 165.10175,
-    "p95_ms": 188.52025,
-    "p99_ms": 278.171693,
-    "mean_ms": 152.806301,
-    "max_ms": 278.8541
+    "p50_ms": 232.14955,
+    "p95_ms": 343.82054,
+    "p99_ms": 422.25461600000017,
+    "mean_ms": 224.211765,
+    "max_ms": 455.2232
   },
   "completeness": {
     "chain_ok": true,
-    "records": 700,
-    "seq_expected": 700,
+    "records": 916,
+    "seq_expected": 916,
     "count_errors": {},
     "promotions": 108,
     "retirements": 108,
@@ -86,13 +95,15 @@
     "no_active_below_tau": true,
     "invariants": {
       "ActiveImpliesAudited": true,
+      "NoPromotionWithCanaryHit": true,
       "NoPromotionWithoutCanary": true,
+      "NoPromotionWithoutObservations": true,
       "NoPromotionWithoutQuorum": true,
       "NoPromotionWithoutTrust": true,
       "RetiredNotActive": true,
       "TrustBounded": true
     }
   },
-  "audit_head": "5b0625382a68f0d69158ba8a5b4523f7c0310e6938df2f9d6212cf262120f5f7",
+  "audit_head": "13bc975ba437f508e9b658e19c334e8724a3a99d40e58c87f0d89bfacb067b86",
   "audit_path": "D:\\Mtech\\MAJOR_PROJECT\\NATRIX_Q1_Manuscript\\experiments\\results\\cppp\\audit.jsonl"
 }

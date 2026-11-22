@@ -45,7 +45,7 @@ DirectPromote(r) ==
   /\\ state' = [state EXCEPT ![r] = "promoted"]
   /\\ activePolicy' = activePolicy \\cup {r}
   /\\ audit' = audit \\cup {r}
-  /\\ UNCHANGED <<votes, trust, canaryPassed>>
+  /\\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit>>
 '''
 
 
@@ -97,8 +97,8 @@ def mutants() -> dict[str, tuple[str, str]]:
     # 4. Promote without writing the audit record.
     text = replace_once(
         base,
-        "  /\\ audit' = audit \\cup {r}\n  /\\ UNCHANGED <<votes, trust, canaryPassed>>",
-        "  /\\ audit' = audit\n  /\\ UNCHANGED <<votes, trust, canaryPassed>>",
+        "  /\\ audit' = audit \\cup {r}\n  /\\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit>>",
+        "  /\\ audit' = audit\n  /\\ UNCHANGED <<votes, trust, canaryPassed, canarySeen, canaryHit>>",
     )
     out["no_audit"] = (text, "ActiveImpliesAudited")
 
@@ -122,6 +122,22 @@ def mutants() -> dict[str, tuple[str, str]]:
         "  /\\ state' = [state EXCEPT ![r] = \"retired\"]\n  /\\ activePolicy' = activePolicy",
     )
     out["retired_active"] = (text, "RetiredNotActive")
+
+    # 7. Pass the canary after a benign hit.
+    text = replace_once(
+        base,
+        "  /\\ canarySeen[r] >= CanaryObs\n  /\\ ~canaryHit[r]\n  /\\ canaryPassed'",
+        "  /\\ canarySeen[r] >= CanaryObs\n  /\\ canaryPassed'",
+    )
+    out["canary_hit"] = (text, "NoPromotionWithCanaryHit")
+
+    # 8. Pass the canary without the observation budget.
+    text = replace_once(
+        base,
+        "  /\\ trust[r] >= Tau\n  /\\ canarySeen[r] >= CanaryObs\n  /\\ ~canaryHit[r]",
+        "  /\\ trust[r] >= Tau\n  /\\ ~canaryHit[r]",
+    )
+    out["no_observations"] = (text, "NoPromotionWithoutObservations")
 
     return out
 
@@ -174,7 +190,8 @@ def main() -> None:
                 "    Rules = {r1}\n"
                 "    K = 2\n"
                 "    Tau = 2\n"
-                "    MaxTrust = 3\n\n"
+                "    MaxTrust = 3\n"
+                "    CanaryObs = 2\n\n"
                 "INVARIANTS\n"
                 "    TypeOK\n"
                 "    NoDirectPromotion\n",

@@ -17,6 +17,9 @@ Rules
 * trust may be seeded from a prior rule version or a reputation record without
   creating a vote, so quorum and trust are separate guards;
 * a canary may start only with an independent quorum and trust >= tau;
+* passing the canary requires at least ``canary_obs`` observations and zero
+  benign hits; a hit is permanent, so the rule cannot be rescued by later
+  clean traffic;
 * only the policy agent can promote, and only after the canary passed,
   the quorum is still present, and trust >= tau;
 * every promotion is written to the audit log;
@@ -50,6 +53,8 @@ class RuleState:
     votes: set[str] = field(default_factory=set)
     trust: int = 0
     canary_passed: bool = False
+    canary_seen: int = 0
+    canary_hit: bool = False
     promoted_tick: int | None = None
     retired_tick: int | None = None
 
@@ -65,18 +70,22 @@ class CPPP:
         quorum: int,
         tau: int,
         max_trust: int,
+        canary_obs: int,
     ) -> None:
         self.agents = frozenset(agents)
         self.policy_agent = policy_agent
         self.quorum = int(quorum)
         self.tau = int(tau)
         self.max_trust = int(max_trust)
+        self.canary_obs = int(canary_obs)
         if self.policy_agent not in self.agents:
             raise ValueError("policy agent must be an agent")
         if self.quorum < 1 or self.quorum > len(self.agents):
             raise ValueError("quorum must be between 1 and the number of agents")
         if not (0 <= self.tau <= self.max_trust):
             raise ValueError("tau must lie in [0, max_trust]")
+        if self.canary_obs < 1:
+            raise ValueError("canary_obs must be at least one observation")
         self.rules: dict[str, RuleState] = {r: RuleState() for r in rules}
         self.audit: set[str] = set()
         self.tick_no = 0
@@ -124,6 +133,17 @@ class CPPP:
         rs.state = Lifecycle.CANARY
         self.history.append(("start_canary", rule))
 
+    def observe_canary(self, rule: str, hit: bool) -> None:
+        """Record one canary observation; ``hit`` means benign traffic fired."""
+        rs = self._require_rule(rule)
+        if rs.state is not Lifecycle.CANARY:
+            raise ProtocolError("no canary is running")
+        if rs.canary_seen >= self.canary_obs:
+            raise ProtocolError("canary observation budget exhausted")
+        rs.canary_seen += 1
+        rs.canary_hit = rs.canary_hit or bool(hit)
+        self.history.append(("observe_canary", f"{rule}:{'hit' if hit else 'clean'}"))
+
     def pass_canary(self, rule: str) -> None:
         rs = self._require_rule(rule)
         if rs.state is not Lifecycle.CANARY:
@@ -132,6 +152,10 @@ class CPPP:
             raise ProtocolError("quorum lost")
         if rs.trust < self.tau:
             raise ProtocolError("trust below tau")
+        if rs.canary_seen < self.canary_obs:
+            raise ProtocolError("insufficient canary observations")
+        if rs.canary_hit:
+            raise ProtocolError("canary observed a benign hit")
         rs.canary_passed = True
         self.history.append(("pass_canary", rule))
 
@@ -196,6 +220,14 @@ class CPPP:
                 s.state is not Lifecycle.PROMOTED or s.trust >= self.tau
                 for s in rules.values()
             ),
+            "NoPromotionWithoutObservations": all(
+                s.state is not Lifecycle.PROMOTED or s.canary_seen >= self.canary_obs
+                for s in rules.values()
+            ),
+            "NoPromotionWithCanaryHit": all(
+                s.state is not Lifecycle.PROMOTED or not s.canary_hit
+                for s in rules.values()
+            ),
             "ActiveImpliesAudited": self.active_policy <= self.audit,
             "RetiredNotActive": all(
                 s.state is not Lifecycle.RETIRED or r not in self.active_policy
@@ -224,6 +256,8 @@ class CPPP:
                     "votes": sorted(s.votes),
                     "trust": s.trust,
                     "canary_passed": s.canary_passed,
+                    "canary_seen": s.canary_seen,
+                    "canary_hit": s.canary_hit,
                 }
                 for r, s in self.rules.items()
             },

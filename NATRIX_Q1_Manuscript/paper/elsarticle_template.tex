@@ -12,6 +12,12 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{url}
+\usepackage{xurl}
+% xurl permits a break anywhere, which can split a DOI mid-token.  Restrict
+% breaks to punctuation so identifiers stay readable and copy-pasteable.
+\makeatletter
+\def\UrlBreaks{\do\-\do\/}
+\makeatother
 \usepackage[hidelinks]{hyperref}
 \usepackage{microtype}
 \usepackage{etoolbox}
@@ -27,8 +33,12 @@
 % Pandoc emits \tightlist for compact lists; elsarticle does not define it.
 \providecommand{\tightlist}{}
 
+% Numeric affiliation markers keep the corresponding-author asterisk and the
+% affiliation marker from being read as part of the surname.
+\renewcommand{\theaffn}{\arabic{affn}}
+
 \graphicspath{{../}{./}}
-\journal{Computers \& Security}
+\journal{J. Inf. Secur. Appl.}
 
 \begin{document}
 
@@ -36,9 +46,13 @@
 
 \title{$title$}
 
-\author[spit]{Ahire Nameet Sudam}
-\author[spit]{D. D. Ambawade}
-\address[spit]{Department of Computer Engineering, Sardar Patel Institute of Technology, Mumbai 400058, India}
+\author[spit1]{Ahire Nameet Sudam\corref{cor1}}
+\ead{nameet.ahire25@spit.ac.in}
+\author[spit2]{D. D. Ambawade}
+\ead{dd.ambawade@spit.ac.in}
+\address[spit1]{Department of Computer Engineering, Sardar Patel Institute of Technology, Munshi Nagar, Andheri (West), Mumbai 400058, Maharashtra, India}
+\address[spit2]{Department of Electronics and Telecommunication Engineering, Sardar Patel Institute of Technology, Munshi Nagar, Andheri (West), Mumbai 400058, Maharashtra, India}
+\cortext[cor1]{Corresponding author.}
 
 \begin{abstract}
 $abstract$
@@ -47,7 +61,7 @@ $abstract$
 \begin{keyword}
 Web application firewall \sep role-based security architecture \sep feature admission \sep
 formal verification \sep TLA+ \sep endpoint-disjoint evaluation \sep
-adversarial robustness \sep inline latency
+inline latency
 \end{keyword}
 
 \end{frontmatter}

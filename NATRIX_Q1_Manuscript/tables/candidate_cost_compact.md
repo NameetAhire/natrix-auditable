@@ -1,7 +1,3 @@
-# Gate C: per-candidate cost and the set-level budget
-
-The ten most expensive candidates are shown.
-
 | candidate | Gate B accepted | marginal p95 (ms) | marginal <= 0.15 ms |
 |---|---|---:|---|
 | `max_param_name_entropy` | yes | 0.480 | no |
@@ -21,4 +17,4 @@ The ten most expensive candidates are shown.
 | Gate B accepted | 12 | 1.71 | no |
 | accepted, marginal <= 0.15 ms | 9 | 0.73 | no |
 
-The ten most expensive candidates are shown. The set rows include the second parse because the candidate extractor is an additional pass over the payload. The budget applies to the admitted block, so selecting the cheap subset after inspecting this table would be the post-hoc search the protocol forbids.
+Selecting the cheap subset after inspecting this table would be the post-hoc search the protocol forbids.

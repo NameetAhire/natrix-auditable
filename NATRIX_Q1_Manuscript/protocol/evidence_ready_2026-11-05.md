@@ -1,7 +1,8 @@
 # Evidence readiness summary — 2026-11-05
 
-This is the frozen evidence set for the reviewer response and the IEEE
-condensation.  Every number is backed by an artifact under
+Historical planning note, kept for provenance and superseded by
+`paper/manuscript_short.md`; the IEEE condensation was withdrawn and is not
+submitted.  Every number is backed by an artifact under
 `experiments/results/`.  The old `NATRIX_MASTER_RESEARCH_PAPER_V3.docx`
 figures (99.20% accuracy, 0.08% FPR, 4.12 ms) are not used anywhere.
 
@@ -109,7 +110,7 @@ at 0% FPR and 99.91% recall, CRS 88.49% at 24.12% FPR and 88.80% recall.  WCP
 is an out-of-corpus sanity check and a dataset-limitation example, not a
 generalisation claim.
 
-## 7. Open decisions
+## 7. Open decisions (as of 2026-11-05; resolved later)
 
 1. **Real-network validation:** no host, protected application, traffic, or
    approval has been defined.  Without them the paper says "offline corpora
