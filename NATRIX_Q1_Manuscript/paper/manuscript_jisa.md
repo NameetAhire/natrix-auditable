@@ -343,7 +343,7 @@ The conclusion is not that the detector is universal or state of the art, but th
 
 # Data availability {-}
 
-The datasets are public research corpora. CSIC 2010 is available from the Information Security Institute, Spanish National Research Council. ECML/PKDD 2007 is available from the challenge archive. SR-BH 2020 and the OpenAppSec WAF Comparison corpus are available from their respective public repositories. The manifest, checksums, and preprocessing counts are in `data/manifest.json` and `data/processed/*/*_summary.json`. An archived snapshot of the code and result files with a persistent DOI is available at https://doi.org/10.5281/zenodo.24435602. The corpora themselves are third-party and are not redistributed; the deposit contains the manifest, checksums, and derived result files.
+The datasets are public research corpora. CSIC 2010 is available from the Information Security Institute, Spanish National Research Council. ECML/PKDD 2007 is available from the challenge archive. SR-BH 2020 and the OpenAppSec WAF Comparison corpus are available from their respective public repositories. The manifest, checksums, and preprocessing counts are in `data/manifest.json` and `data/processed/*/*_summary.json`. An archived copy of the code and result files is available at https://doi.org/10.5281/zenodo.24435601, a concept DOI that resolves to the latest archived version. The corpora themselves are third-party and are not redistributed; the deposit contains the manifest, checksums, and derived result files.
 
 # Code availability {-}
 
