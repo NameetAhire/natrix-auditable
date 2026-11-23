@@ -4,7 +4,7 @@ author:
   - "Ahire Nameet Sudam"
   - "D. D. Ambawade"
 abstract: |
-  Web application firewalls must decide inline, yet the evidence behind their feature sets, promotion rules, and latency budgets is rarely auditable. NATRIX separates a five-role synchronous decision path from four asynchronous governance roles. The central finding is a protocol inversion: under deployment-like splits the lexical full-request baseline beats NATRIX on all three corpora, but under endpoint-disjoint splits it collapses on CSIC while the payload view wins, and SR-BH reverses. A three-gate mechanism reduces a 22-dimensional contract to 20 dimensions on 34,593 CSIC requests with an evidence row per decision; it accepts 12 of 24 candidates statistically and admits none on cost. The candidate-promotion protocol (CPPP) is model-checked in TLA+, mutation-tested (8/8 guards killed), and verified on 81,484 trust-decay cases. Its canary requires N observations with zero benign hits and makes a hit permanent. On the deployed gateway, a fixed 20-probe hand-written set blocked 30/30 attacks and 0/30 benign probes, but 21 of the 30 attacks were blocked by the lexical rule layer before the gate; the gate scored all 24 benign probes that reached it as attacks and enforced none. Replaying its predicate cuts CSIC recall from 92.94% to 34.66% at 0.00% FPR, so the live zero-FP result is a composition effect. Inline p95 is 3.78 ms.
+  Web application firewalls must decide inline, yet the evidence behind their feature sets, promotion rules, and latency budgets is rarely auditable. NATRIX separates a five-role synchronous decision path from four asynchronous governance roles. The central finding is a protocol inversion: under deployment-like splits the lexical full-request baseline beats NATRIX on all three corpora, but under endpoint-disjoint splits it collapses on CSIC 2010 while the payload view wins, and the ranking reverses on SR-BH 2020. A three-gate mechanism reduces a 22-dimensional contract to 20 dimensions on 34,593 CSIC requests with an evidence row per decision; it accepts 12 of 24 candidates statistically and admits none on cost. The candidate-promotion protocol (CPPP) is model-checked in TLA+, mutation-tested (8/8 guards killed), and verified on 81,484 trust-decay cases. Its canary requires N observations with zero benign hits and makes a hit permanent. On the deployed gateway, a fixed 20-probe hand-written set blocked 30/30 attacks and 0/30 benign probes, but 21 of the 30 attacks were blocked by the lexical rule layer before the gate; the gate scored all 24 benign probes that reached it as attacks and enforced none. Replaying its predicate cuts CSIC recall from 92.94% to 34.66% at 0.00% FPR, so the live zero-FP result is a composition effect. Inline p95 is 3.78 ms.
 keywords: "web application firewall; role-based security architecture; feature admission; formal verification; TLA+; endpoint-disjoint evaluation; inline latency"
 ---
 
@@ -347,7 +347,7 @@ The datasets are public research corpora. CSIC 2010 is available from the Inform
 
 # Code availability {-}
 
-A reproducibility package containing the feature extractor, experiment scripts, ONNX export, formal models, result files, and manuscript build is available at <https://github.com/NameetAhire/natrix-auditable>. The experiment queue is `experiments/run_all.ps1`; the analysis plan and deviations are in `protocol/`; the tables and figures are generated from the result files.
+A reproducibility package containing the feature extractor, experiment scripts, ONNX export, formal models, result files, and manuscript build is available at <https://github.com/NameetAhire/natrix-auditable> and archived on Zenodo \cite{natrix_artifact}. The experiment queue is `experiments/run_all.ps1`; the analysis plan and deviations are in `protocol/`; the tables and figures are generated from the result files.
 
 # Ethics statement {-}
 
@@ -361,13 +361,13 @@ The work uses public, labelled HTTP corpora. It does not involve human subjects,
 
 The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
-# Declaration of generative AI and AI-assisted technologies {-}
+# Declaration of generative AI and AI-assisted technologies in the manuscript preparation process {-}
 
-During the preparation of this work the authors used AI-assisted tools for code development and manuscript editing. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
+During the preparation of this work the authors used large language model assistants for code development, data-analysis scripting, and manuscript editing. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article.
 
 # Funding {-}
 
-This research received no specific grant from any funding agency in the public, commercial, or not-for-profit sectors.
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
 
 # Acknowledgements {-}
 
