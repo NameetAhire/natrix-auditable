@@ -42,7 +42,7 @@ across library versions.
 ## 3. Package layout
 
 ```text
-NATRIX_reproducibility_v1.0.0/
+NATRIX_reproducibility_v1.0.3/
   README.md
   REPRODUCIBILITY.md
   MANIFEST.md
@@ -443,7 +443,8 @@ measured values are 95.55% CSIC P1 accuracy, 1.93% FPR, and 3.78 ms p95.
 - [x] Set the public repository URL in `CITATION.cff` and in both manuscripts.
 - [x] Set the licence: MIT for authored code; CC BY 4.0 for documentation,
       tables, figures and manuscript source.
-- [x] Remove the Zenodo metadata; no DOI is minted for this artifact.
+- [x] Publish the Zenodo deposit and cite the concept DOI
+      (10.5281/zenodo.24435601) in the manuscript and \CITATION.cff\.
 - [ ] Confirm the author list, affiliations and corresponding author.
 - [ ] Confirm that the raw-corpus licences permit the intended redistribution
       (the package does not redistribute them).
