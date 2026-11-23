@@ -10,9 +10,9 @@ keywords: "web application firewall; role-based security architecture; feature a
 
 *Department of Computer Engineering, Sardar Patel Institute of Technology, Munshi Nagar, Andheri (West), Mumbai 400058, Maharashtra, India*
 
-*Department of Electronics and Telecommunication Engineering, Sardar Patel Institute of Technology, Munshi Nagar, Andheri (West), Mumbai 400058, Maharashtra, India*
+*Department of Computer Science and Engineering, Sardar Patel Institute of Technology, Munshi Nagar, Andheri (West), Mumbai 400058, Maharashtra, India*
 
-*Corresponding author: Ahire Nameet Sudam. E-mail: nameet.ahire25@spit.ac.in; dd.ambawade@spit.ac.in*
+*Corresponding author: Ahire Nameet Sudam. E-mail: nameet.ahire25@spit.ac.in; dd_ambawade@spit.ac.in*
 
 # Introduction
 A web application firewall sits on the request path, so every design choice is also a latency choice. Signature sets are interpretable and cheap, but they age quickly: a rule written for one framework version can miss the same vulnerability after a parameter rename, an encoding change, or a move to a JSON body. Learned detectors promise to close that gap, and the literature reports many high-accuracy results on public HTTP corpora. The deployment questions are different: which features were kept and why, which were dropped and on what evidence, who may promote a new rule or model, what stops one compromised or over-eager agent, and what exactly was measured when a paper claims a millisecond budget? The contribution of this paper is an auditable admission and promotion protocol plus an evaluation methodology, not a new detector.
