@@ -1,14 +1,14 @@
 cff-version: 1.2.0
 message: "If you use this artifact, please cite the manuscript and the repository."
-title: "NATRIX: An Auditable Feature-Admission and Promotion Protocol for Inline HTTP Attack Detection"
+title: "NATRIX: Endpoint Priors, Split Protocols, and Deployment Audits in Inline HTTP Attack Detection"
 abstract: >-
-  Reproducibility package for an evaluation of NATRIX, a role-based inline HTTP
-  attack-detection architecture. The package contains the feature-admission
-  gates, the CPPP promotion protocol and TLA+ model, the P1/P2 evaluation
-  protocol, lexical and character-CNN baselines, CRS replay results, the v3-D
-  positive control, and the manuscript build pipeline. All reported results are
-  from public labelled HTTP corpora; no production or shadow-mode traffic is
-  included.
+  Reproducibility package for a benchmark-validity study of inline HTTP attack
+  detection. The package contains the endpoint-disjoint evaluation protocol and
+  the paired interaction analysis, the feature-admission gates, the CPPP
+  promotion protocol and TLA+ model, lexical and character-CNN baselines, CRS
+  replay results, the v3-D positive control, the deployment audit ledger, and
+  the manuscript build pipeline. All reported results are from public labelled
+  HTTP corpora; no production or shadow-mode traffic is included.
 type: software
 authors:
   - family-names: Ahire
@@ -17,8 +17,8 @@ authors:
   - family-names: Ambawade
     given-names: D. D.
     affiliation: "Department of Computer Science and Engineering, Sardar Patel Institute of Technology, Mumbai 400058, India"
-version: "1.0.5"
-date-released: "2026-11-23"
+version: "1.0.6"
+date-released: "2026-11-24"
 doi: "10.5281/zenodo.24435601"
 keywords:
   - web application firewall

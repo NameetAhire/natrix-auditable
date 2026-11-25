@@ -10,7 +10,7 @@ It contains the code, frozen protocol, measured result files, generated tables
 and figures, formal models, ONNX artifacts, and manuscript build pipeline used
 for the offline-corpus evaluation.
 
-**Repository status (2026-11-23).** Version 1.0.5 is published at
+**Repository status (2026-11-25).** Version 1.0.6 is published at
 <https://github.com/NameetAhire/natrix-auditable> and archived on Zenodo at
 <https://doi.org/10.5281/zenodo.24435601>, a concept DOI that resolves to the
 latest version. Cite the manuscript, the DOI, and the repository URL.
@@ -62,7 +62,7 @@ on the original corpus.
 The package mirrors the source workspace layout:
 
 ```text
-NATRIX_reproducibility_v1.0.5/
+NATRIX_reproducibility_v1.0.6/
   NATRIX_Q1_Manuscript/
   Ai-Agent/
   README.md

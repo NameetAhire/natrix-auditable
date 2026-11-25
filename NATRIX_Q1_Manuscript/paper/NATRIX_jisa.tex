@@ -40,8 +40,8 @@
 
 \begin{frontmatter}
 
-\title{NATRIX: An Auditable Feature-Admission and Promotion Protocol for
-Inline HTTP Attack Detection}
+\title{NATRIX: Endpoint Priors, Split Protocols, and Deployment Audits
+in Inline HTTP Attack Detection}
 
 \author[a]{Ahire Nameet Sudam\corref{cor1}}
 \ead{nameet.ahire25@spit.ac.in}
@@ -52,31 +52,33 @@ Inline HTTP Attack Detection}
 \cortext[cor1]{Corresponding author.}
 
 \begin{abstract}
-Web application firewalls must decide inline, yet the evidence behind
-their feature sets, promotion rules, and latency budgets is rarely
-auditable. NATRIX separates a five-role synchronous decision path from
-four asynchronous governance roles. The central finding is a protocol
-inversion: under deployment-like splits the lexical full-request
-baseline beats NATRIX on all three corpora, but under endpoint-disjoint
-splits it collapses on CSIC 2010 while the payload view wins, and the
-ranking reverses on SR-BH 2020. A three-gate mechanism reduces a
-22-dimensional contract to 20 dimensions on 34,593 CSIC requests with an
-evidence row per decision; it accepts 12 of 24 candidates statistically
-and admits none on cost. The candidate-promotion protocol (CPPP) is
-model-checked in TLA+, mutation-tested (8/8 guards killed), and verified
-on 81,484 trust-decay cases. Its canary requires N observations with
-zero benign hits and makes a hit permanent. On the deployed gateway, a
-fixed 20-probe hand-written set blocked 30/30 attacks and 0/30 benign
-probes, but 21 of the 30 attacks were blocked by the lexical rule layer
-before the gate; the gate scored all 24 benign probes that reached it as
-attacks and enforced none. Replaying its predicate cuts CSIC recall from
-92.94\% to 34.66\% at 0.00\% FPR, so the live zero-FP result is a
-composition effect. Inline p95 is 3.78 ms.
+Web application firewalls are evaluated on public HTTP corpora, yet the
+reported numbers depend on how requests are split and on what the
+detector is allowed to see. We quantify it with one frozen pipeline on
+three labelled corpora. Under a deployment-like split, a lexical
+full-request baseline beats our audited system (NATRIX) on all three
+corpora; under an endpoint-disjoint split it collapses on CSIC 2010,
+from 96.57\% to 69.53\% accuracy, while its payload-only view stays at
+96.03\%, and on SR-BH 2020 the payload view collapses instead, at
+36.27\% against 94.75\%. The change in the full-versus-payload gap is
++26.2 points on CSIC 2010 (95\% CI 25.7 to 26.7) and +0.7 on SR-BH 2020,
+so neither protocol alone identifies a usable detector. A deployment
+audit shows the same gap between offline evidence and enforcement: the
+gate scored all 24 benign probes it saw as attacks, and the lexical
+predicate underneath produced the zero-false-positive result; replaying
+that predicate cuts CSIC recall from 92.94\% to 34.66\% at 0.00\% FPR.
+The constructive part is an auditable procedure: a three-gate admission
+rule reduces a 22-dimensional contract to 20 with an evidence row per
+decision, accepting 12 of 24 candidates statistically and admitting none
+on measured cost; a promotion protocol is model-checked and kills 8 of 8
+mutants; and an offline cross-fitted stack of the contract with the
+lexical channel reaches 98.24\% at 1.32\% FPR on CSIC under a fully
+nested protocol. Inline p95 is 3.78 ms.
 \end{abstract}
 
 \begin{keyword}
-Web application firewall \sep role-based security architecture \sep feature admission \sep
-formal verification \sep TLA+ \sep endpoint-disjoint evaluation \sep
+Web application firewall \sep benchmark validity \sep endpoint priors \sep
+split protocols \sep feature admission \sep deployment audit \sep
 inline latency
 \end{keyword}
 
@@ -94,9 +96,9 @@ public HTTP corpora. The deployment questions are different: which
 features were kept and why, which were dropped and on what evidence, who
 may promote a new rule or model, what stops one compromised or
 over-eager agent, and what exactly was measured when a paper claims a
-millisecond budget? The contribution of this paper is an auditable
-admission and promotion protocol plus an evaluation methodology, not a
-new detector.
+millisecond budget? This paper is a benchmark-validity study of those
+questions, with a constructive admission and promotion procedure; it is
+not a new classifier.
 
 Evaluation has the same problem. A detector that sees the request path
 can learn which endpoints are usually attacked. If the same endpoint
@@ -122,20 +124,23 @@ included because a WAF sees it and endpoint structure is real evidence;
 the view ablation and lexical payload view show what survives without
 it.
 
-The paper has four parts. First, a protocol inversion: under P1 the
-lexical full-request baseline is stronger than NATRIX on all three
+The paper has four parts. First, a benchmark-validity result: under P1
+the lexical full-request baseline is stronger than NATRIX on all three
 corpora, but under P2 it collapses on CSIC while the payload view stays
 at 96.03\%, and on SR-BH the payload view collapses while the path
-carries the signal. Second, the admission procedure: Gate A checks
-provenance, observability, determinism, and a frozen safety list; Gate B
-applies a frozen four-condition statistical rule; Gate C applies a
-measured extraction-cost budget. On CSIC 2010 it reduces a
-22-dimensional contract to 20 dimensions, and a 24-candidate screen
-accepts 12 candidates statistically while admitting none because the
-accepted block costs 1.71 ms p95 against a 0.15 ms budget. Third, CPPP,
-a promotion protocol with quorum, canary, trust, and audit guards; the
-canary is evidence-coupled, so promotion requires N observations with
-zero benign hits; a \texttt{Seed\allowbreak{}Trust} action decouples trust from
+carries the signal. The change in the full-versus-payload gap is +26.2
+points on CSIC (95\% CI 25.7 to 26.7) and +0.7 on SR-BH, so the value of
+the path is a property of the corpus, and the endpoint-disjoint protocol
+exposes it on CSIC without creating it on SR-BH. Second, the admission
+procedure: Gate A checks provenance, observability, determinism, and a
+frozen safety list; Gate B applies a frozen four-condition statistical
+rule; Gate C applies a measured extraction-cost budget. On CSIC 2010 it
+reduces a 22-dimensional contract to 20 dimensions, and a 24-candidate
+screen accepts 12 candidates statistically while admitting none because
+the accepted block costs 1.71 ms p95 against a 0.15 ms budget. Third,
+CPPP, a promotion protocol with quorum, canary, trust, and audit guards;
+the canary is evidence-coupled, so promotion requires N observations
+with zero benign hits; a \texttt{Seed\allowbreak{}Trust} action decouples trust from
 votes, and the protocol is model-checked, mutation-tested, and verified
 on exact-rational trust decay. Fourth, an evaluation protocol that
 reports every in-distribution result under P1 and P2, with lexical
@@ -153,20 +158,31 @@ payload), and the frozen CRS PL1 baseline is not competitive
 (66.24/0.03, 78.64/20.13, and 44.29/25.80). Under P2, CSIC NATRIX falls
 to 78.85/6.50, lexical full to 69.53/21.57, and lexical payload stays at
 96.03/2.43; on SR-BH P2, NATRIX is 90.62/1.88, lexical full 94.75/2.01,
-and lexical payload 36.27/1.88.
+and lexical payload 36.27/1.88. A cross-fitted stack of the contract
+with the lexical channel reaches 98.24\% at 1.32\% FPR on CSIC under a
+fully nested protocol, the one setting where the combination beats both
+components; it is offline, because the lexical channel is not in the
+shipped proxy.
 
 \begin{quote}
-\textbf{Contributions.} An auditable feature-admission procedure with a
-measured cost gate; a model-checked promotion protocol with an
-evidence-coupled canary; a deployment audit of the shipped gateway
-against that protocol; a two-protocol evaluation that shows detector
-rankings invert between P1 and P2; and a reproducibility artifact with
-the evidence row for every admission and rejection.
+\textbf{Contributions.} A benchmark-validity result with intervals:
+changing the split moves the full-versus-payload gap by 26.2 points on
+CSIC (95\% CI 25.7--26.7) and by 0.7 on SR-BH, so a single-protocol
+comparison cannot identify a usable detector; a deployment audit that
+separates the gate's score from the predicate that enforces, and prices
+the conjunction at 58.3 points of CSIC recall; an offline cross-fitted
+stack of the audited contract with a lexical channel that reaches
+98.24\% at 1.32\% FPR under a fully nested CSIC protocol; an auditable
+feature-admission procedure with a measured cost gate; a model-checked
+promotion protocol with an evidence-coupled canary; and a
+reproducibility artifact with the evidence row for every admission and
+rejection.
 
 \textbf{Non-contributions.} Not a new classifier; not state of the art;
 the deployment audit is a fixed labelled probe suite, not shadow-mode or
-generalisation evidence; no adaptive-adversary evaluation; and CPPP is
-not implemented in the shipped proxy.
+generalisation evidence; no adaptive-adversary evaluation; CPPP is not
+implemented in the shipped proxy; and the fusion result is offline
+headroom, not a shipped detector.
 \end{quote}
 
 \section{Related work}\label{related-work}
@@ -200,6 +216,30 @@ form: every malicious request has path \texttt{/\allowbreak{}}, while legitimate
 traffic spans thousands of paths. The paper treats WCP as a diagnostic
 and uses the endpoint-matched subset for any payload claim.
 
+CSIC 2010 has been criticised before, but for different reasons: heavy
+request repetition \citep{lamrani2022csic}, synthetic generation
+\citep{sureda2022new}, and a single-application traffic mix. Those
+critiques motivate deduplication, which we apply before any split: no
+identical request crosses a fold, and a request with two labels is
+removed. The failure measured here is not duplication. It is that
+endpoint identity is a memorisable prior, and a deployment-like split
+leaves that prior available at test time. The distinction matters
+because deduplication does not remove it, and because the same protocol
+change leaves the SR-BH ranking intact. The paper therefore measures how
+far a conclusion moves when the protocol changes, with intervals, rather
+than asserting that a benchmark is flawed.
+
+Benchmark validity is an established concern in this journal.
+Cross-dataset studies show that a detector trained on one corpus rarely
+transfers to another \citep{dhooge2020interdataset}, and distributional
+comparisons show that synthetic benchmarks differ from production
+traffic \citep{layeghy2024benchmarking}. Those results hold the protocol
+fixed and vary the data. This paper holds the data fixed and varies the
+protocol: the corpus, the rows, the deduplication, and the learner stay
+the same, and only the split and the feature view change. The two
+effects are complementary, and the protocol effect is the one a reader
+can check without a second corpus.
+
 Feature selection is grouped into filter, wrapper, and embedded methods
 \citep{guyon2003introduction}. The common weakness is that the selection
 is reported as a final set, not as a decision process. Pre-registration
@@ -222,11 +262,12 @@ explicit and verifies the promotion path. Zero-trust principles motivate
 separating evidence producers from the policy owner
 \citep{nist2020zero}.
 
-\textbf{Positioning.} The individual components predate this paper; the
-contribution is the combination and the evidence standard: every
-decision has a recorded row, the cost gate is measured on the worst
-case, promotion is model-checked, and the ranking is reported under both
-protocols.
+\textbf{Positioning.} The individual components predate this paper. The
+contribution is the measured dependence of the conclusion on the
+protocol, plus the evidence standard that makes the dependence visible:
+every decision has a recorded row, the cost gate is measured on the
+worst case, promotion is model-checked, and the ranking is reported
+under both protocols.
 
 \section{NATRIX architecture and threat
 model}\label{natrix-architecture-and-threat-model}
@@ -1185,6 +1226,33 @@ The threshold selected on training folds at 2\% does not hold on unseen
 endpoints. This is a limitation of the calibration protocol, not a
 threshold-tuning problem: no single threshold can fix a ranking that
 changes with the endpoint population.
+
+\subsection{Is the ranking change larger than sampling
+noise?}\label{is-the-ranking-change-larger-than-sampling-noise}
+
+The tables report point estimates; the claim is that the change in
+ranking is larger than sampling noise. We bootstrap the paired
+difference-in-differences over requests, using the same out-of-fold
+predictions and the same leave-one-fold-out thresholds as Table~\ref{tab:matched-operating}, with
+2,000 resamples. The script asserts that the recomputed point estimates
+reproduce Table~\ref{tab:matched-operating} before it bootstraps, and writes the full grid to
+\texttt{protocol\_\allowbreak{}interaction.\allowbreak{}json} in the artifact.
+
+The NATRIX-minus-lexical-full gap moves by +10.33 points on CSIC between
+P1 and P2 (95\% CI {[}9.72, 10.96{]}): NATRIX is 1.02 points behind
+under P1 and 9.32 ahead under P2. On ECML the same quantity is -0.19
+points ({[}-0.30, -0.07{]}) and on SR-BH +0.49 ({[}0.18, 0.80{]}), so
+the protocol change alone does not reorder the ranking on those corpora;
+the intervals exclude zero but the effects are negligible. The view
+effect is where the corpora separate: payload-minus-full moves by +26.17
+points on CSIC ({[}25.66, 26.67{]}) but only +0.73 on SR-BH ({[}0.52,
+0.94{]}) and +0.21 on ECML ({[}0.14, 0.28{]}). The 25.4-point difference
+between the CSIC and SR-BH view interactions is the quantitative form of
+the paper's central claim: the value of the path is a property of the
+corpus, and the endpoint-disjoint protocol exposes it on CSIC without
+creating it on SR-BH. The resampling unit is the request, matching the
+intervals reported elsewhere; it does not model fold-level variance, so
+the intervals describe request-level uncertainty only.
 
 \subsection{Control models and
 stackers}\label{control-models-and-stackers}
@@ -2179,30 +2247,47 @@ definitions.
 
 The evidence supports six claims.
 
-First, the three-gate mechanism is a reusable decision procedure, not a
+First, the comparison protocol is itself a contribution, and it carries
+an interval: the full-versus-payload gap moves by 26.2 points on CSIC
+when the split changes, against 0.7 on SR-BH, so a single-protocol
+comparison cannot identify a usable detector. NATRIX is competitive with
+a strong lexical baseline under P1 but does not beat it; under P2 the
+ranking changes, with lexical full collapsing on CSIC while lexical
+payload stays strong, and the opposite pattern on SR-BH.
+
+Second, the deployment audit shows that the offline score and the
+enforced decision are different objects. The gate scored every benign
+probe that reached it as an attack, and a lexical predicate produced the
+zero-false-positive result at a cost of 58.3 points of CSIC recall. An
+audit that reported only the end-to-end block rate would have missed
+this, and the same separation is what CPPP formalises as an evidence
+requirement.
+
+Third, the contract carries signal beyond a generic request-shape model,
+and the cross-fitted stack with the lexical channel reaches 98.24\% at
+1.32\% FPR on CSIC under a fully nested protocol. The gain is real but
+offline, and it is protocol-dependent: on CSIC P2 full the stack is
+worse than lexical alone, and the SR-BH P2 payload gain is the path
+signal re-entering the stack.
+
+Fourth, the three-gate mechanism is a reusable decision procedure, not a
 trial-and-error search. It drops two features, retains 20, and produces
 a written justification for every row; it screens 24 candidates, accepts
-12 statistically, and admits none on measured cost. Second, the inline
-path has a measured p95 of 3.78 ms over 9,700 real requests, and the
-HTTP hop, not the model, dominates; the cost gate separates marginal
-extraction cost from the shared parse and transport. Third, CPPP's
-control-flow safety is model-checked, mutation-tested, and implemented
-as a reference implementation: \texttt{Seed\allowbreak{}Trust} removes the
-construction artifact, eight of eight mutants are killed, and the
+12 statistically, and admits none on measured cost. The inline path has
+a measured p95 of 3.78 ms over 9,700 real requests, and the HTTP hop,
+not the model, dominates; the cost gate separates marginal extraction
+cost from the shared parse and transport.
+
+Fifth, CPPP's control-flow safety is model-checked, mutation-tested, and
+implemented as a reference implementation: \texttt{Seed\allowbreak{}Trust} removes
+the construction artifact, eight of eight mutants are killed, and the
 protocol forbids the direct promotion shortcut that the shipped proxy
 still uses.
 
-Fourth, the comparison protocol is itself a contribution. NATRIX is
-competitive with a strong lexical baseline under P1 but does not beat
-it; under P2 the ranking changes, with lexical full collapsing on CSIC
-while lexical payload stays strong, and the opposite pattern on SR-BH.
-Fifth, the control stack shows that the curated contract carries signal
-beyond a generic request-shape model, but fusion gains are protocol- and
-view-dependent, and the SR-BH P2 payload ``gain'' is the path signal
-re-entering the stack. Sixth, the dilution fix is a measured partial
-improvement: v3-D raises clean and mutated recall and reduces the
-targeted loss from 33.32 to 28.44 points, but introduces new weaknesses
-on case changes and SQL-comment insertion.
+Sixth, the dilution fix is a measured partial improvement: v3-D raises
+clean and mutated recall and reduces the targeted loss from 33.32 to
+28.44 points, but introduces new weaknesses on case changes and
+SQL-comment insertion.
 
 The evidence does not support universal generalisation. ECML reaches
 91.96\% under P1 and misses the accuracy target, and P2 fails on CSIC
@@ -2282,33 +2367,38 @@ protocol.
 
 \section{Conclusion}\label{conclusion}
 
-The paper's contribution is the evidence standard, not a new detector.
-The results are two-sided. On the positive side, the inline p95 is 3.78
-ms over 9,700 real requests, the three-gate mechanism drops two features
-and admits none of the 12 statistically accepted candidates on measured
+The paper's contribution is a benchmark-validity result and an audit
+standard, not a new detector. The results are two-sided. On the positive
+side, the full-versus-payload gap moves by 26.2 points on CSIC between
+protocols with an interval that excludes zero, the deployment audit
+separates the gate's score from the predicate that enforces, the
+cross-fitted stack with the lexical channel reaches 98.24\% at 1.32\%
+FPR under a fully nested CSIC protocol, the inline p95 is 3.78 ms over
+9,700 real requests, the three-gate mechanism drops two features and
+admits none of the 12 statistically accepted candidates on measured
 cost, CPPP's invariants hold in TLA+ and in the executable reference,
 eight of eight mutants are killed, trust decay is verified on 81,484
-exact-rational cases and nine symbolic identities, the deployed gateway
-blocked 30/30 probe attacks with zero benign blocks, and the
-NATRIX+lexical stacker improves on the lexical base on CSIC P1, ECML P2,
-and SR-BH P2 full. On the negative side, NATRIX is not the best single
-detector: the lexical full-request baseline is stronger than NATRIX at
-the 2\% FPR point under P1 on all three corpora, the char-CNN is
-comparable on CSIC, lexical payload is the strongest CSIC P2 detector,
-the fully nested policy reaches 94.67\% and misses the 95\% target, P2
-fails on CSIC (78.85\% at 6.50\% FPR), two transfer AUCs are below
-chance, ten features reverse direction, gate-plus-CRS fusion is
-redundant or over budget, bounded mutation removes 10.13 points of
-recall, and the targeted dilution attack still removes 28.44 points with
-v3-D. v4 is not claimed to be more accurate or meaningfully faster; its
-value is that every feature's presence or removal is justified by
-recorded evidence, and WCP is reported only as an endpoint-confounded
-diagnostic.
+exact-rational cases and nine symbolic identities, and the deployed
+gateway blocked 30/30 probe attacks with zero benign blocks. On the
+negative side, NATRIX is not the best single detector: the lexical
+full-request baseline is stronger than NATRIX at the 2\% FPR point under
+P1 on all three corpora, the char-CNN is comparable on CSIC, lexical
+payload is the strongest CSIC P2 detector, the fully nested policy
+reaches 94.67\% and misses the 95\% target, P2 fails on CSIC (78.85\% at
+6.50\% FPR), two transfer AUCs are below chance, ten features reverse
+direction, gate-plus-CRS fusion is redundant or over budget, bounded
+mutation removes 10.13 points of recall, and the targeted dilution
+attack still removes 28.44 points with v3-D. v4 is not claimed to be
+more accurate or meaningfully faster; its value is that every feature's
+presence or removal is justified by recorded evidence, and WCP is
+reported only as an endpoint-confounded diagnostic.
 
 The conclusion is not that the detector is universal or state of the
-art, but that the architecture and the evidence standard are reusable. A
-deployment should calibrate on local data, evaluate on endpoint-disjoint
-splits, report endpoint-only and payload-only baselines, monitor feature
+art, but that the evaluation standard and the architecture are reusable.
+A reported accuracy should be accompanied by the split protocol, the
+feature view, and the enforcement rule that produced it. A deployment
+should calibrate on local data, evaluate on endpoint-disjoint splits,
+report endpoint-only and payload-only baselines, monitor feature
 directions for reversal, and treat promotion as a protocol with quorum,
 canary, trust, and audit. The current runtime does not yet enforce CPPP;
 replacing the \texttt{hitCount\ \textgreater{}=\ 2} and import-shortcut

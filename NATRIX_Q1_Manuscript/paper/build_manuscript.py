@@ -79,6 +79,8 @@ TABLE_REF_ORDER = [
     "tab:matched-operating",
     "tab:view-ablation",
     "tab:view-ablation",
+    "tab:matched-operating",
+    "tab:matched-operating",
     "tab:control-models",
     "tab:grouping",
     "tab:srbh-scale",

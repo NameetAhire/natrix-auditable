@@ -1,0 +1,185 @@
+{
+  "cells": {
+    "csic": {
+      "P1": {
+        "natrix": {
+          "accuracy_pct": 95.54823230133263,
+          "fpr_pct": 1.9313304721030045,
+          "n": 34593,
+          "threshold_mean": 0.51
+        },
+        "lex_full": {
+          "accuracy_pct": 96.56577920388519,
+          "fpr_pct": 1.9581545064377683,
+          "n": 34593,
+          "threshold_mean": 0.394
+        },
+        "lex_payload": {
+          "accuracy_pct": 96.89821640216229,
+          "fpr_pct": 1.8830472103004294,
+          "n": 34593,
+          "threshold_mean": 0.38800000000000007
+        }
+      },
+      "P2": {
+        "natrix": {
+          "accuracy_pct": 78.84543115659237,
+          "fpr_pct": 6.502145922746781,
+          "n": 34593,
+          "threshold_mean": 0.99
+        },
+        "lex_full": {
+          "accuracy_pct": 69.52851733009568,
+          "fpr_pct": 21.571888412017167,
+          "n": 34593,
+          "threshold_mean": 0.8619999999999999
+        },
+        "lex_payload": {
+          "accuracy_pct": 96.03387968664181,
+          "fpr_pct": 2.430257510729614,
+          "n": 34593,
+          "threshold_mean": 0.43
+        }
+      }
+    },
+    "ecml": {
+      "P1": {
+        "natrix": {
+          "accuracy_pct": 91.95865591826961,
+          "fpr_pct": 1.6654287836370907,
+          "n": 50116,
+          "threshold_mean": 0.48200000000000004
+        },
+        "lex_full": {
+          "accuracy_pct": 93.93008220927447,
+          "fpr_pct": 0.4256413186310918,
+          "n": 50116,
+          "threshold_mean": 0.34
+        },
+        "lex_payload": {
+          "accuracy_pct": 92.65703567722883,
+          "fpr_pct": 0.5427640975832714,
+          "n": 50116,
+          "threshold_mean": 0.336
+        }
+      },
+      "P2": {
+        "natrix": {
+          "accuracy_pct": 91.60148455583047,
+          "fpr_pct": 1.7539850311375191,
+          "n": 50116,
+          "threshold_mean": 0.472
+        },
+        "lex_full": {
+          "accuracy_pct": 93.7584803256445,
+          "fpr_pct": 0.505627606695995,
+          "n": 50116,
+          "threshold_mean": 0.33799999999999997
+        },
+        "lex_payload": {
+          "accuracy_pct": 92.69893846276638,
+          "fpr_pct": 0.4427812375021425,
+          "n": 50116,
+          "threshold_mean": 0.346
+        }
+      }
+    },
+    "srbh20k": {
+      "P1": {
+        "natrix": {
+          "accuracy_pct": 90.79,
+          "fpr_pct": 1.9631479249182022,
+          "n": 20000,
+          "threshold_mean": 0.874
+        },
+        "lex_full": {
+          "accuracy_pct": 95.405,
+          "fpr_pct": 1.980368520750818,
+          "n": 20000,
+          "threshold_mean": 0.666
+        },
+        "lex_payload": {
+          "accuracy_pct": 36.199999999999996,
+          "fpr_pct": 1.9975891165834339,
+          "n": 20000,
+          "threshold_mean": 0.752
+        }
+      },
+      "P2": {
+        "natrix": {
+          "accuracy_pct": 90.625,
+          "fpr_pct": 1.877044945755123,
+          "n": 20000,
+          "threshold_mean": 0.8720000000000001
+        },
+        "lex_full": {
+          "accuracy_pct": 94.75,
+          "fpr_pct": 2.0148097124160493,
+          "n": 20000,
+          "threshold_mean": 0.7260000000000002
+        },
+        "lex_payload": {
+          "accuracy_pct": 36.275,
+          "fpr_pct": 1.877044945755123,
+          "n": 20000,
+          "threshold_mean": 0.768
+        }
+      }
+    }
+  },
+  "tests": {
+    "csic_natrix_minus_lexfull": {
+      "interaction_points": 10.334460729049233,
+      "ci95_points": [
+        9.721547711964856,
+        10.964790564565085
+      ],
+      "p": 0.0
+    },
+    "ecml_natrix_minus_lexfull": {
+      "interaction_points": -0.18556947880916663,
+      "ci95_points": [
+        -0.2993056109825143,
+        -0.07382871737568991
+      ],
+      "p": 0.005
+    },
+    "srbh_natrix_minus_lexfull": {
+      "interaction_points": 0.48999999999999044,
+      "ci95_points": [
+        0.18000000000000238,
+        0.8049999999999894
+      ],
+      "p": 0.001
+    },
+    "csic_payload_minus_full": {
+      "interaction_points": 26.172925158269024,
+      "ci95_points": [
+        25.661188679790698,
+        26.673026334807616
+      ],
+      "p": 0.0
+    },
+    "ecml_payload_minus_full": {
+      "interaction_points": 0.2135046691675302,
+      "ci95_points": [
+        0.13568521031207537,
+        0.28339252933195225
+      ],
+      "p": 0.0
+    },
+    "srbh_payload_minus_full": {
+      "interaction_points": 0.7299999999999973,
+      "ci95_points": [
+        0.5199999999999982,
+        0.935000000000008
+      ],
+      "p": 0.0
+    },
+    "csic_vs_srbh_view_protocol": {
+      "difference_points": 25.442925158269027,
+      "note": "difference of two independently bootstrapped interactions; not itself bootstrapped"
+    }
+  },
+  "n_boot": 2000
+}
