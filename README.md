@@ -2,15 +2,15 @@
 
 This package accompanies the manuscript:
 
-> Ahire Nameet Sudam and D. D. Ambawade, "NATRIX: An Auditable
-> Feature-Admission and Promotion Protocol for Inline HTTP Attack Detection,"
+> Ahire Nameet Sudam and D. D. Ambawade, "NATRIX: Endpoint Priors, Split
+> Protocols, and Deployment Audits in Inline HTTP Attack Detection,"
 > manuscript under review, 2026.
 
 It contains the code, frozen protocol, measured result files, generated tables
 and figures, formal models, ONNX artifacts, and manuscript build pipeline used
 for the offline-corpus evaluation.
 
-**Repository status (2026-11-25).** Version 1.0.7 is published at
+**Repository status (2026-11-26).** Version 1.0.8 is published at
 <https://github.com/NameetAhire/natrix-auditable> and archived on Zenodo at
 <https://doi.org/10.5281/zenodo.24435601>, a concept DOI that resolves to the
 latest version. Cite the manuscript, the DOI, and the repository URL.
@@ -49,7 +49,8 @@ workspace.
 - **Third-party binaries.** Tectonic, the bundled JRE, and `tla2tools.jar` are
   not included. See `REPRODUCIBILITY.md` for installation.
 - **Live or shadow-mode traffic.** Results are from offline labelled corpora,
-  local replay, and a fixed 20-probe audit of the deployed gateway. No
+  local replay, and a fixed 50-probe audit of the deployed gateway (30 attack,
+  20 benign). No
   production traffic, shadow-mode window, or live adversary is included.
 
 The released `latency_inputs.json` is sanitized: credential-like URL, form and
@@ -62,7 +63,7 @@ on the original corpus.
 The package mirrors the source workspace layout:
 
 ```text
-NATRIX_reproducibility_v1.0.7/
+NATRIX_reproducibility_v1.0.8/
   NATRIX_Q1_Manuscript/
   Ai-Agent/
   README.md
@@ -102,12 +103,12 @@ char-CNN runs, see `REPRODUCIBILITY.md`.
 
 ## Build the manuscript
 
-The submission source is `paper/manuscript_short.md`.
+The submission source is `paper/manuscript_jisa.md`.
 
 ```powershell
-python paper\build_manuscript.py --source paper\manuscript_short.md `
-  --stem NATRIX_manuscript_short --template paper\elsarticle_template.tex
-tectonic -X compile paper\NATRIX_manuscript_short.tex
+python paper\build_manuscript.py --source paper\manuscript_jisa.md `
+  --stem NATRIX_jisa
+tectonic -X compile paper\NATRIX_jisa.tex
 ```
 
 Tectonic is not bundled. Install it from
@@ -116,8 +117,8 @@ the `elsarticle` class. Pandoc 3.10 is fetched by `pypandoc` on first use.
 
 ## Citation
 
-Use `CITATION.cff`. Cite the manuscript and the repository URL; no DOI is
-assigned to this artifact.
+Use `CITATION.cff`. Cite the manuscript, the concept DOI
+<https://doi.org/10.5281/zenodo.24435601>, and the repository URL.
 
 ## Licence
 

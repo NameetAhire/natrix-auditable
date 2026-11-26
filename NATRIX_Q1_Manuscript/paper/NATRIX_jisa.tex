@@ -224,9 +224,12 @@ removed. The failure measured here is not duplication. It is that
 endpoint identity is a memorisable prior, and a deployment-like split
 leaves that prior available at test time. The distinction matters
 because deduplication does not remove it, and because the same protocol
-change leaves the SR-BH ranking intact. The paper therefore measures how
-far a conclusion moves when the protocol changes, with intervals, rather
-than asserting that a benchmark is flawed.
+change leaves the SR-BH ranking intact. The view ablation shows that the
+prior need not be the path string: on CSIC it is endpoint-conditioned
+payload statistics, and removing the path barely changes P1 accuracy
+there. The paper therefore measures how far a conclusion moves when the
+protocol changes, with intervals, rather than asserting that a benchmark
+is flawed.
 
 Benchmark validity is an established concern in this journal.
 Cross-dataset studies show that a detector trained on one corpus rarely
@@ -541,11 +544,13 @@ the accepted block as a set, because the inline budget is an envelope
 for the additional extraction pass, not a per-feature allowance. The
 block costs 1.71 ms p95 on the 8 KiB worst case and 0.43 ms p95 on the
 real CSIC distribution, against the 0.15 ms envelope; the full
-24-candidate pass costs 2.33 ms. Table~\ref{tab:gate-c} gives the per-candidate
-marginal cost and the set-level budget. Twenty candidates are
-individually below 0.15 ms. Even the nine accepted candidates that are
-individually below budget cost 0.73 ms as a set, because each shares a
-second parse.
+24-candidate pass costs 2.33 ms. The counterfactual is therefore not
+marginal: admitting the twelve statistically accepted candidates would
+exceed the envelope by 11.4 times, and admitting all 24 by 15.5 times.
+Table~\ref{tab:gate-c} gives the per-candidate marginal cost and the set-level budget.
+Twenty candidates are individually below 0.15 ms. Even the nine accepted
+candidates that are individually below budget cost 0.73 ms as a set,
+because each shares a second parse.
 
 The screen is not uniformly rejective. Table~\ref{tab:positive-control} is a positive control:
 the four v3-D path features pass Gate B and Gate C, are admitted, and
@@ -1128,9 +1133,10 @@ is a threshold-scale artifact.
 \subsection{View ablation: where the signal
 is}\label{view-ablation-where-the-signal-is}
 
-Table~\ref{tab:view-ablation} reports five views of the same 22-dimensional contract: full,
-no-path, path-only, query-only, and body-only. All rows use the same
-folds and the same cross-fitted FPR $\le$ 2\% policy.
+Table~\ref{tab:view-ablation} reports five views of the same 22-dimensional contract across
+six corpus-protocol groups: full, no-path, path-only, query-only, and
+body-only. All rows use the same folds and the same cross-fitted FPR
+$\le$ 2\% policy.
 
 
 
@@ -1149,8 +1155,9 @@ contract (method, path, query, body, user agent). \texttt{no\_\allowbreak{}path}
 removes every path-derived feature. \texttt{path\_\allowbreak{}only} retains only
 path-derived features. \texttt{query\_\allowbreak{}only} and \texttt{body\_\allowbreak{}only}
 retain the corresponding lexical/structural features. All rows use the
-same P1 or P2 folds and the cross-fitted FPR $\le$ 2\% policy.
-Values are percentages.}\label{tab:view-ablation}\\
+same P1 or P2 folds and the cross-fitted FPR $\le$ 2\% policy. CSIC
+is reported under both protocols so that the P2 path-only collapse can
+be read against its P1 control. Values are percentages.}\label{tab:view-ablation}\\
 \toprule\noalign{}
 corpus & protocol & view & accuracy & FPR & recall & F1 \\
 \midrule\noalign{}
@@ -1171,6 +1178,11 @@ SR-BH 20k & P2 & no\_path & 37.29 & 2.08 & 12.49 & 0.2203 \\
 SR-BH 20k & P2 & path\_only & 89.05 & 1.83 & 85.31 & 0.9170 \\
 SR-BH 20k & P2 & query\_only & 34.03 & 1.55 & 7.68 & 0.1418 \\
 SR-BH 20k & P2 & body\_only & 35.24 & 1.86 & 9.50 & 0.1724 \\
+CSIC & P1 & full & 95.55 & 1.93 & 92.60 & 0.9505 \\
+CSIC & P1 & no\_path & 95.34 & 2.01 & 92.24 & 0.9481 \\
+CSIC & P1 & path\_only & 60.87 & 0.09 & 15.26 & 0.2645 \\
+CSIC & P1 & query\_only & 73.26 & 1.98 & 44.34 & 0.6047 \\
+CSIC & P1 & body\_only & 68.77 & 2.00 & 34.62 & 0.5056 \\
 CSIC & P2 & full & 78.85 & 6.50 & 61.73 & 0.7291 \\
 CSIC & P2 & no\_path & 75.07 & 4.26 & 50.92 & 0.6532 \\
 CSIC & P2 & path\_only & 34.47 & 99.92 & 74.64 & 0.5123 \\
@@ -1202,15 +1214,32 @@ individually weak (51.02\% and 50.45\% accuracy), but together, as
 at a false-positive cost, and the payload features carry substantial
 signal.
 
+The CSIC P1 rows are the control that separates two readings of that
+collapse. Under P1 the full model reaches 95.55/1.93 with 92.60\%
+recall, and removing the path changes nothing material: 95.34/2.01 with
+92.24\% recall, a 0.21-point accuracy difference. Path-only reaches
+60.87\% accuracy with 15.26\% recall at 0.09\% FPR, and query-only alone
+recovers 44.34\% recall. The CSIC P1 headline is therefore not a path
+prior; it is payload signal. Yet the same path-only model that flags
+0.09\% of clean requests under P1 flags 99.92\% under P2. That flip is a
+threshold-transfer failure, not a change in what the path contains:
+path-derived scores are nearly degenerate, so a small shift on unseen
+endpoints moves almost every clean request across a threshold calibrated
+at 2\% on seen ones. The endpoint prior on CSIC is not the path string
+but endpoint-conditioned payload statistics, which is consistent with
+the full model's FPR rising from 1.93\% to 6.50\% under P2 while lexical
+payload, which pools n-grams across endpoints, stays at 2.43\%.
+
 \begin{figure}
 \centering
-\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 3. View ablation for the 22-D contract. Panel (a) is accuracy and panel (b) is recall for the full, no-path, path-only, query-only, and body-only views. On SR-BH the path carries almost all of the signal under both protocols; on CSIC P2 the path-only model collapses to 34.47\% accuracy because it flags 99.92\% of clean requests. All values are from Table 5.}]{figures/revision_view_ablation.pdf}
+\includegraphics[width=4.9in,height=\textheight,keepaspectratio,alt={Figure 3. View ablation for the 22-D contract. Panel (a) is accuracy and panel (b) is recall for the full, no-path, path-only, query-only, and body-only views. On SR-BH the path carries almost all of the signal under both protocols; on CSIC P2 the path-only model collapses to 34.47\% accuracy because it flags 99.92\% of clean requests, while the same model under CSIC P1 flags 0.09\%. All values are from Table 5.}]{figures/revision_view_ablation.pdf}
 \caption{View ablation for the 22-D contract. Panel (a) is
 accuracy and panel (b) is recall for the full, no-path, path-only,
 query-only, and body-only views. On SR-BH the path carries almost all of
 the signal under both protocols; on CSIC P2 the path-only model
 collapses to 34.47\% accuracy because it flags 99.92\% of clean
-requests. All values are from Table~\ref{tab:view-ablation}.}\label{fig:views}
+requests, while the same model under CSIC P1 flags 0.09\%. All values
+are from Table~\ref{tab:view-ablation}.}\label{fig:views}
 \end{figure}
 
 This answers the ``NATRIX versus payload-only'' inconsistency. NATRIX is
@@ -2354,6 +2383,23 @@ guarantee. The mutation study applies a fixed, bounded set of
 transformations, not an adaptive search; a mutated payload is not
 guaranteed to remain exploitable, and no adversary probes the detector
 for evasions \citep{biggio2018wild}.
+
+\textbf{What evidence would settle the open claims.} The deployment
+audit is 30 attack and 20 benign probes on one gateway; it shows that
+the enforcement path can diverge from the score, not what the field
+false-positive rate is. Three further claims need evidence this study
+does not have, and each has a test that could refute it. A shadow-mode
+trial that scores live traffic without enforcing, over a pre-registered
+window with a labelled audit sample, a fixed FPR ceiling, and an
+automatic rollback rule would settle deployment behaviour; the claim
+survives only if endpoint-disjoint FPR stays within the 2\% budget and
+no feature direction reverses. A query-budgeted black-box search against
+the deployed gate, scored at the same 2\% FPR and compared with the
+non-adaptive mutation baseline, would settle adaptive robustness. A
+same-budget comparison against the strongest published WAF on a shared
+corpus with endpoint-disjoint splits would settle whether the contract
+is a detection advance; that claim is not made here. Until such evidence
+exists, the paper claims benchmark validity and auditability only.
 
 \textbf{Baseline, fusion, and scale comparability.} CRS is a frozen
 PL1-PL3 configuration, not a detector tuned to a 2\% budget, so its rows

@@ -74,7 +74,7 @@ Excluded:
 - Parquet replay caches.
 - Third-party binaries (Tectonic, JRE, `tla2tools.jar`).
 - Editor/agent state, caches, backups and build intermediates.
-- Earlier manuscript drafts superseded by `paper/manuscript_short.md`.
+- Earlier manuscript drafts superseded by `paper/manuscript_jisa.md`.
 - The archive itself (`submission/dist/`).
 
 ## Checksums

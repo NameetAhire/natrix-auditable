@@ -159,7 +159,7 @@ def fig_view_ablation():
         return
     frame = pd.DataFrame(tables[0])
     frame["group"] = frame["corpus"] + " " + frame["protocol"]
-    groups = ["SR-BH 20k P1", "SR-BH 20k P2", "CSIC P2"]
+    groups = ["SR-BH 20k P1", "SR-BH 20k P2", "CSIC P1", "CSIC P2"]
     views = ["full", "no_path", "path_only", "query_only", "body_only"]
     colors = ["#0072B2", "#56B4E9", "#009E73", "#E69F00", "#CC79A7"]
 
@@ -182,7 +182,7 @@ def fig_view_ablation():
                 edgecolor="white", linewidth=0.4,
             )
         axis.set_xticks(x)
-        axis.set_xticklabels(groups, fontsize=7.5)
+        axis.set_xticklabels([g.replace("20k ", "") for g in groups], fontsize=7.5)
         axis.set_ylabel(label)
         axis.set_ylim(0, 100)
         axis.grid(axis="y", linewidth=0.3, alpha=0.4)

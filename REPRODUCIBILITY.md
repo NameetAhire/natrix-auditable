@@ -328,9 +328,9 @@ is `results/live_gate/gate_decisions_export.jsonl` (95 decisions, 2026-11-15 to
 ### 6.7 Manuscript build
 
 ```powershell
-python paper\build_manuscript.py --source paper\manuscript_short.md `
-  --stem NATRIX_manuscript_short --template paper\elsarticle_template.tex
-tectonic -X compile paper\NATRIX_manuscript_short.tex
+python paper\build_manuscript.py --source paper\manuscript_jisa.md `
+  --stem NATRIX_jisa
+tectonic -X compile paper\NATRIX_jisa.tex
 ```
 
 `build_manuscript.py` resolves `{{table:name}}` directives from `tables/` and
@@ -390,7 +390,7 @@ Key result files:
 | `tools/**` | Tectonic, JRE and `tla2tools.jar` are third-party binaries, not authored here | Install Tectonic; install Java 17 and TLA+ tools |
 | `backups/**`, `states/**`, `.hypothesis/**`, `.pytest_cache/**` | Editor/agent state and caches | None |
 | `paper/build/**`, `paper/*.docx`, `paper/*.log`, `paper/*.blg` | Generated build intermediates | `build_manuscript.py` |
-| `paper/manuscript.md`, `paper/manuscript_revision.md` | Earlier manuscript drafts, superseded by `paper/manuscript_short.md` | Archived in `paper/_archive/2026-11-17/` |
+| `paper/manuscript.md`, `paper/manuscript_revision.md` | Earlier manuscript drafts, superseded by `paper/manuscript_jisa.md` | Archived in `paper/_archive/2026-11-17/` |
 | `artifacts/formal/**/*.st`, `*.fp`, `*.log`, `*TTrace*.tla` | TLC state dumps and trace files | Re-run TLC |
 | `submission/dist/**` | The archive itself | `make_package.py` |
 

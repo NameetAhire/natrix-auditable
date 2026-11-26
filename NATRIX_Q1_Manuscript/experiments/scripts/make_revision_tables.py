@@ -237,6 +237,7 @@ def table_view_ablation() -> None:
     for corpus, protocol, name in (
         ("srbh20k", "P1", "natrix_views_srbh20k.json"),
         ("srbh20k", "P2", "natrix_views_srbh20k_P2.json"),
+        ("csic", "P1", "natrix_views_csic_P1.json"),
         ("csic", "P2", "natrix_views_csic_P2.json"),
     ):
         path = BASE / name
@@ -436,10 +437,15 @@ def table_crs_paranoia() -> None:
             f"| PL{r['pl']} | {pct(r['accuracy'])} | {pct(r['fpr'])} | {pct(r['recall'])} | "
             f"{r['f1']:.4f} | {r['tp']:,} | {r['tn']:,} | {r['fp']:,} | {r['fn']:,} | {p95} |"
         )
-    lines += ["", "Status counts:"]
-    for r in rows:
-        counts = ", ".join(f"{k}: {v:,}" for k, v in sorted(r["status"].items()))
-        lines.append(f"- PL{r['pl']}: {counts}")
+    counts = "; ".join(
+        f"PL{r['pl']} " + ", ".join(f"{k}: {v:,}" for k, v in sorted(r["status"].items()))
+        for r in rows
+    )
+    lines += [
+        "",
+        f"Note: HTTP status counts were {counts}. Status 0 is a transport failure; "
+        "200 is an allow and 403 is a block.",
+    ]
     write("crs_paranoia.md", lines)
 
 
@@ -518,19 +524,20 @@ def table_formal() -> None:
         "",
         "| configuration | constants | states generated | distinct | depth | result |",
         "|---|---|---:|---:|---:|---|",
-        f"| one rule (`Cppp_small.cfg`) | `Agents=a1,a2,a3`, `Rules=r1`, `K=2`, `Tau=2`, `MaxTrust=3` | {a[0]:,} | {a[1]:,} | {a[2]} | no error |",
+        f"| one rule (`Cppp_small.cfg`) | `Agents=a1,a2,a3`, `Rules=r1`, `K=2`, `Tau=2`, `MaxTrust=3`, `CanaryObs=2` | {a[0]:,} | {a[1]:,} | {a[2]} | no error |",
         f"| two rules (`Cppp_two.cfg`) | same agents, `Rules=r1,r2` | {b[0]:,} | {b[1]:,} | {b[2]} | no error |",
         "",
         "Invariants: `TypeOK`, `NoPromotionWithoutCanary`,",
         "`NoPromotionWithoutQuorum`, `NoPromotionWithoutTrust`,",
+        "`NoPromotionWithoutObservations`, `NoPromotionWithCanaryHit`,",
         "`ActiveImpliesAudited`, `RetiredNotActive`, `NoDirectPromotion`.",
         "Logs: `artifacts/formal/tlc_one_rule.log`,",
         "`artifacts/formal/tlc_two_rules.log`.",
         "",
         "| check | result |",
         "|---|---|",
-        "| property tests (`experiments/tests/test_formal.py`) | 10 passed |",
-        "| exhaustive BFS, depth 9 | 13,278 reachable states, 62,263 transitions |",
+        "| property tests (`experiments/tests/test_formal.py`) | 13 passed |",
+        "| exhaustive BFS, depth 9 | 20,678 reachable states, 97,870 transitions |",
         "| BFS invariant violations | none |",
     ]
     if mut.exists():
@@ -565,6 +572,20 @@ def table_formal() -> None:
                 f"| `{row['mutant']}` | `{row['expected_invariant']}` | "
                 f"{'yes' if row['killed'] else 'no'} |"
             )
+    lines += [
+        "",
+        "## Sidecar",
+        "",
+        "| check | result |",
+        "|---|---|",
+        "| audit records | 916, hash chain verified |",
+        "| promotions matched by retirements | 108 / 108 (8 automatic) |",
+        "| runtime invariants | 8/8 hold |",
+        "| promotion p95, no fsync / fsync | 5.15 ms / 53.57 ms |",
+        "| retirement p95, no fsync / fsync | 4.76 ms / 48.04 ms |",
+        "| full cycle p95 | 33.75 ms |",
+        "| validate p95 / p99, 32 parallel rules | 45.82 ms / 522.41 ms |",
+    ]
     write("formal_verification.md", lines)
 
 
