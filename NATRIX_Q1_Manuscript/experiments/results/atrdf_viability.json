@@ -1,0 +1,72 @@
+{
+  "corpus": "ATRDF 2023",
+  "source": "https://github.com/ArielCyber/Cisco_Ariel_Uni_API_security_challenge",
+  "files": [
+    "dataset_1_train.json",
+    "dataset_2_train.json"
+  ],
+  "posts": 1507,
+  "requests_with_body": 0,
+  "per_file": {
+    "dataset_1_train.json": {
+      "records": 4282,
+      "benign": 2018,
+      "attack": 2264,
+      "benign_share_pct": 47.13,
+      "distinct_paths": 40,
+      "benign_paths": 21,
+      "attack_classes": [
+        "Cookie Injection",
+        "Directory Traversal",
+        "LOG4J",
+        "Log Forging",
+        "RCE",
+        "SQL Injection"
+      ],
+      "attack_on_benign_invisible_path": 1987,
+      "attack_on_benign_invisible_path_pct": 87.8,
+      "path_only_majority_accuracy_pct": 93.53,
+      "class_pure_paths": 19
+    },
+    "dataset_2_train.json": {
+      "records": 127500,
+      "benign": 117914,
+      "attack": 9586,
+      "benign_share_pct": 92.48,
+      "distinct_paths": 40,
+      "benign_paths": 21,
+      "attack_classes": [
+        "Cookie Injection",
+        "Directory Traversal",
+        "LOG4J",
+        "Log Forging",
+        "RCE",
+        "SQL Injection"
+      ],
+      "attack_on_benign_invisible_path": 8302,
+      "attack_on_benign_invisible_path_pct": 86.6,
+      "path_only_majority_accuracy_pct": 98.99,
+      "class_pure_paths": 19
+    }
+  },
+  "combined": {
+    "records": 131782,
+    "benign": 119932,
+    "attack": 11850,
+    "benign_share_pct": 91.01,
+    "distinct_paths": 40,
+    "benign_paths": 21,
+    "attack_classes": [
+      "Cookie Injection",
+      "Directory Traversal",
+      "LOG4J",
+      "Log Forging",
+      "RCE",
+      "SQL Injection"
+    ],
+    "attack_on_benign_invisible_path": 10289,
+    "attack_on_benign_invisible_path_pct": 86.8,
+    "path_only_majority_accuracy_pct": 98.82,
+    "class_pure_paths": 19
+  }
+}

@@ -17,8 +17,8 @@ authors:
   - family-names: Ambawade
     given-names: D. D.
     affiliation: "Department of Computer Science and Engineering, Sardar Patel Institute of Technology, Mumbai 400058, India"
-version: "1.0.8"
-date-released: "2026-11-26"
+version: "1.0.9"
+date-released: "2026-11-27"
 doi: "10.5281/zenodo.24435601"
 keywords:
   - web application firewall
